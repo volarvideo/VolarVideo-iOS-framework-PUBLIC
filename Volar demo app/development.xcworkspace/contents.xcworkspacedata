@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:../VVMoviePlayerFramework/VVMoviePlayer.xcodeproj">
+      location = "group:../../VolarVideo-iOS-framework-PRIVATE/VVMoviePlayer.xcodeproj">
    </FileRef>
    <FileRef
       location = "container:mobileapidev.xcodeproj">
