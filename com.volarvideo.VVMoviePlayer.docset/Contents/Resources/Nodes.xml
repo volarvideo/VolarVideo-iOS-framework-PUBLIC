@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DocSetNodes version="1.0">
+    <TOC>
+        <Node type="folder">
+            <Name>VVMoviePlayer</Name>
+            <Path>index.html</Path>
+			<Subnodes>
+                
+				
+				<Node type="folder">
+					<Name>Classes</Name>
+					<Path>index.html</Path>
+					<Subnodes>
+						<NodeRef refid="1"/>
+						<NodeRef refid="2"/>
+						<NodeRef refid="3"/>
+						<NodeRef refid="4"/>
+						
+					</Subnodes>
+				</Node>
+				
+				
+				<Node type="folder">
+					<Name>Categories</Name>
+					<Path>index.html</Path>
+					<Subnodes>
+						<NodeRef refid="5"/>
+						
+					</Subnodes>
+				</Node>
+				
+				
+				<Node type="folder">
+					<Name>Protocols</Name>
+					<Path>index.html</Path>
+					<Subnodes>
+						<NodeRef refid="6"/>
+						
+					</Subnodes>
+				</Node>
+				
+			</Subnodes>
+        </Node>
+    </TOC>
+	<Library>
+		
+		<Node id="1">
+			<Name>VVCMSAPI</Name>
+			<Path>Classes/VVCMSAPI.html</Path>
+		</Node>
+		<Node id="2">
+			<Name>VVCMSBroadcast</Name>
+			<Path>Classes/VVCMSBroadcast.html</Path>
+		</Node>
+		<Node id="3">
+			<Name>VVMoviePlayerController</Name>
+			<Path>Classes/VVMoviePlayerController.html</Path>
+		</Node>
+		<Node id="4">
+			<Name>VVMoviePlayerViewController</Name>
+			<Path>Classes/VVMoviePlayerViewController.html</Path>
+		</Node>
+		
+		<Node id="5">
+			<Name>UIViewController(VVMoviePlayerViewController)</Name>
+			<Path>Categories/UIViewController+VVMoviePlayerViewController.html</Path>
+		</Node>
+		
+		<Node id="6">
+			<Name>VVCMSAPIDelegate</Name>
+			<Path>Protocols/VVCMSAPIDelegate.html</Path>
+		</Node>
+		
+	</Library>
+</DocSetNodes>
