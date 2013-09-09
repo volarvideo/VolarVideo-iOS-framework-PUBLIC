@@ -4,13 +4,17 @@ VolarVideo-iOS-framework-PUBLIC
 VolarVideo iOS framework to query CMS and present content
 
 ## Required frameworks to build the demonstration apps:
+- CoreLocation.framework/
+- Security.framework/
+- CFNetwork.framework/
+- libicucore.lib/
+- VVMoviePlayer.embeddedframework/VVMoviePlayer.framework/
 - MapKit.framework/
 - libxml2.dylib
-- CoreMedia.framework/
-- EventKit.framework/
 - EventKitUI.framework/
+- EventKit.framework/
+- CoreMedia.framework/
 - AVFoundation.framework/
-- CoreGraphics.framework/
 - libz.dylib
 - SystemConfiguration.framework/
 - MediaPlayer.framework/
@@ -19,8 +23,9 @@ VolarVideo iOS framework to query CMS and present content
 - QuartzCore.framework/
 - UIKit.framework/
 - Foundation.framework/
+- CoreGraphics.framework/
+- SenTestingKit.framework/
 - TestFlight/libTestFlight.a
-- VVMoviePlayer.embeddedframework/VVMoviePlayer.framework/
 
 ## To include the VVMoviePlayer.framework:
 Download the contents of the VVMoviePlayer.embeddedframework directory.  From finder,
