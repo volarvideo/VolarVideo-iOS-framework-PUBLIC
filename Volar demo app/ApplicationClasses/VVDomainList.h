@@ -7,26 +7,28 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@protocol VVDomainListDelegate
-
--(void) setDomain:(NSString*)s;
--(void) setUserName:(NSString*)s;
--(void) setPassword:(NSString*)p;
+#import <VVMoviePlayer/VVCMSAPI.h>
+#import "iToast.h"
+#import "VVSiteListViewController.h"
 
 
-@end
-
-@interface VVDomainList : UIViewController <UITableViewDataSource,UITableViewDelegate, UITextFieldDelegate> {
+@interface VVDomainList : UIViewController <UITableViewDataSource,UITableViewDelegate, UITextFieldDelegate,VVCMSAPIDelegate,VVSiteListViewControllerDelegate> {
     IBOutlet UITableView *tv;
     NSMutableArray *domains;
     NSString *domain;
     UIAlertView *loginAlertView;
     UITextField *passwordTV;
+    VVCMSAPI *api;
+    iToast *toast;
+    VVSiteListViewController *sitesListController;
 }
 
 -(IBAction)addButtonPress:(id)sender;
 
-@property(nonatomic,weak) id<VVDomainListDelegate>delegate;
+//@property(nonatomic,weak) id<VVDomainListDelegate>delegate;
+
+
+-(id) initWithApi:(VVCMSAPI*)api;
+
 
 @end

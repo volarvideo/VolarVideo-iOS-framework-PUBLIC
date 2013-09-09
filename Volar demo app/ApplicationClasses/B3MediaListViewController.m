@@ -23,6 +23,7 @@
 #import "MBProgressHUD.h"
 #import "NSArray+Reverse.h"
 
+
 #define kRowHeight 110.0
 #define kNoResultsRowHeight 424.0
 
@@ -40,17 +41,38 @@ BOOL _B3MediaListViewFreshLoad=YES;
 
 @implementation B3MediaListViewController
 
-@synthesize settingsDictionary, listItems,filteredListItems, moviePlayer, photoItems,toolbar;
+@synthesize settingsDictionary, listItems,filteredListItems, moviePlayer, photoItems,toolbar,svpovc,dpcovc;
 
 - (id)initWithApi:(VVCMSAPI*)x {
     self = [super initWithNibName:NSStringFromClass(self.class) bundle:nil];
     if (self) {
         api = x;
-        api.delegate = self;
-        _B3MediaListViewFreshLoad=YES;
-        lastSelectedIndex=-1;
+        [self commonInit];
+        [self refreshDataSource];
     }
     return self;
+}
+
+- (id)initWithSiteSlug:(NSString *)siteSlug {
+    self = [super initWithNibName:NSStringFromClass(self.class) bundle:nil];
+    if (self) {
+        api = [VVCMSAPI vvCMSAPI];
+        [self commonInit];
+        [api authenticationRequestForDomain:@"vcloud.volarvideo.com" siteSlug:siteSlug username:nil andPassword:nil];
+    }
+    return self;
+}
+
+-(void) commonInit {
+    virginloading = YES;
+    loading = YES;
+    appearing = YES;
+    api.delegate = self;
+    _B3MediaListViewFreshLoad=YES;
+    lastSelectedIndex=-1;
+    appDelegate = (BBBAppDelegate*)[[UIApplication sharedApplication] delegate];
+    backgroundQueue = dispatch_queue_create("com.ihigh.b3medialistviewcontroller", NULL);
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setVideoReachability) name:@"reachabilityTested" object:nil];
 }
 
 -(void)VVCMSAPI:(VVCMSAPI *)vvCmsApi authenticationRequestDidFinishWithError:(NSError *)error {
@@ -62,6 +84,31 @@ BOOL _B3MediaListViewFreshLoad=YES;
         }
         [self refreshDataSource];
     }
+}
+
+-(void)VVCMSAPI:(VVCMSAPI *)vvCmsApi requestForSectionsPage:(int)page resultsPerPage:(int)resultsPerPage didFinishWithArray:(NSArray *)results error:(NSError *)error {
+    if (vvCmsApi==api) {
+        if (error) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could get sections" message:error.localizedDescription delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
+    }
+    sections = results;
+    [segCtrl setTitle:@"Sport" forSegmentAtIndex:2];
+    api.section_id = 0;
+}
+
+-(void)VVCMSAPI:(VVCMSAPI *)vvCmsApi requestForPlaylistsPage:(int)page resultsPerPage:(int)resultsPerPage didFinishWithArray:(NSArray *)results error:(NSError *)error {
+    if (vvCmsApi==api) {
+        if (error) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could get playlists" message:error.localizedDescription delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
+    }
+    playlists = results;
+    api.playlist_id = 0;
 }
 
 +(void) initialize {
@@ -87,12 +134,8 @@ BOOL _B3MediaListViewFreshLoad=YES;
 
 - (void)viewDidLoad
 {
-    
     [super viewDidLoad];
     loadingCells = [[NSMutableDictionary alloc] initWithCapacity:100];
-    backgroundQueue = dispatch_queue_create("com.ihigh.b3medialistviewcontroller", NULL);
-    
-    appDelegate = (BBBAppDelegate*)[[UIApplication sharedApplication] delegate];
     
     // Do any additional setup after loading the view from its nib.
     tv.rowHeight = kRowHeight;
@@ -106,9 +149,6 @@ BOOL _B3MediaListViewFreshLoad=YES;
     
     [self makeRefreshButton];
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contextDidSave:) name:NSManagedObjectContextDidSaveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setVideoReachability) name:@"reachabilityTested" object:nil];
-    [self reload];
     searchBar.barStyle = UIBarStyleBlackTranslucent;
     searchBar.customButtonTitle=@"Change Domain";
 #if defined(DEMO_APP)
@@ -128,6 +168,7 @@ BOOL _B3MediaListViewFreshLoad=YES;
     schedImage = [UIImage imageNamed:@"scheduledBroadcast"];
     liveImage = [UIImage imageNamed:@"iconLiveBroadcast"];
     archImage = [UIImage imageNamed:@"iconGenericVideo"];
+    
 }
 
 -(void) useEnhancedBackButton {
@@ -193,12 +234,21 @@ BOOL _B3MediaListViewControllerWaitingForReachabilityResult;
 dispatch_queue_t _B3MediaListViewControllerBackgroundQueue;
 
 - (void) viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    myTimer = [NSTimer scheduledTimerWithTimeInterval: 30.0 target: self selector: @selector(testAndReload) userInfo: nil repeats: YES];
-    //NSLog(@"%f %f %f %f",searchBar.frame.origin.x, searchBar.frame.origin.y, searchBar.frame.size.width, searchBar.frame.size.height);
-//    [self setBackButtonOrientation:self.parentViewController.interfaceOrientation];
-//    [self setBackButtonOrientation:self.interfaceOrientation];
-//    [B3SchoolBannerView setOrientation:self.interfaceOrientation];
+    //[super viewWillAppear:animated];
+    //myTimer = [NSTimer scheduledTimerWithTimeInterval: 30.0 target: self selector: @selector(testAndReload) userInfo: nil repeats: YES];
+    if (!appearing) {
+        api.delegate = self;
+        loading=YES;
+        lastSelectedIndex=-1;
+        live=0;
+        upcoming=0;
+        archived=0;
+        scheduledBroadcasts = [NSMutableArray arrayWithCapacity:5];
+        streamingBroadcasts = [NSMutableArray arrayWithCapacity:5];
+        archivedBroadcasts  = [NSMutableArray arrayWithCapacity:5];
+        [self refreshDataSource];
+    }
+    appearing = YES;
 }
 
 BOOL _B3MediaListViewControllerSearchToast=NO;
@@ -206,22 +256,11 @@ BOOL _B3MediaListViewControllerSearchToast=NO;
 -(void) viewDidAppear:(BOOL)animated {
     if (moviePlayer.moviePlayer.errorLog)
         NSLog(@"movie.errorLog: %@",moviePlayer.moviePlayer.errorLog);
-//    [banner redraw];
     visible=YES;
-    lastSelectedIndex=-1;
-    live=0;
-    upcoming=0;
-    archived=0;
-    scheduledBroadcasts = [NSMutableArray arrayWithCapacity:5];
-    streamingBroadcasts = [NSMutableArray arrayWithCapacity:5];
-    notStreamingBroadcasts = [NSMutableArray arrayWithCapacity:5];
-    archivedBroadcasts  = [NSMutableArray arrayWithCapacity:5];
-
 
     if (!_B3MediaListViewControllerSearchToast) {
         [self performSelector:@selector(searchToast) withObject:nil afterDelay:1.0];
     }
-    //NSLog(@"%f %f %f %f",searchBar.frame.origin.x, searchBar.frame.origin.y, searchBar.frame.size.width, searchBar.frame.size.height);
     if (_B3MediaListViewFreshLoad)
         tv.contentOffset = CGPointMake(0, 44);
     _B3MediaListViewFreshLoad=NO;
@@ -251,7 +290,8 @@ BOOL _B3MediaListViewControllerSearchToast=NO;
     }
 
     self.navigationItem.title = self.siteName;
-    [self refreshDataSource];
+    appearing = NO;
+    [self dataSourceRefreshComplete];
 }
 
 -(void) dealloc {
@@ -285,17 +325,17 @@ BOOL _B3MediaListViewControllerSearchToast=NO;
 
 
 -(void) testAndReload {
-    if (!_B3MediaListViewControllerBackgroundQueue)
-        _B3MediaListViewControllerBackgroundQueue = dispatch_queue_create("com.ihigh.B3MainViewController", NULL);
-    if (!_B3MediaListViewControllerWaitingForReachabilityResult) {
-        dispatch_async(_B3MediaListViewControllerBackgroundQueue, ^(void) {
+    //if (!_B3MediaListViewControllerBackgroundQueue)
+    //    _B3MediaListViewControllerBackgroundQueue = dispatch_queue_create("com.ihigh.B3MainViewController", NULL);
+    //if (!_B3MediaListViewControllerWaitingForReachabilityResult) {
+        //dispatch_async(_B3MediaListViewControllerBackgroundQueue, ^(void) {
             //[api isReachable];
             //_B3MediaListViewControllerWaitingForReachabilityResult=NO;
             //NSLog(@"reachability=%@",[api latestReachabilityResult]?@"YES":@"NO");
             //[self refreshDataSource];
-        });
-        _B3MediaListViewControllerWaitingForReachabilityResult=YES;
-    }
+        //});
+        //_B3MediaListViewControllerWaitingForReachabilityResult=YES;
+    //}
 }
 
 -(void) setVideoReachability {
@@ -364,7 +404,35 @@ CGPoint _B3MediaListViewControllerPointBeforeRotate;
 -(void) refreshDataSource {
     self.siteName = [api siteName];
     self.navigationItem.title = self.siteName;
-    [api requestBroadcastsWithStatus:VVCMSBroadcastStatusAll page:1 resultsPerPage:200];
+    if (loading) {
+        api.sortDir = vvCMSAPISortAscending;
+        api.sortBy = vvCMSAPISortByDate;
+        [api requestBroadcastsWithStatus:VVCMSBroadcastStatusAll page:1 resultsPerPage:200];
+        [api requestSectionsPage:1 resultsPerPage:25];
+        [api requestPlaylistsPage:1 resultsPerPage:25];
+    } else {
+        switch (segCtrl.selectedSegmentIndex) {
+            case 0: // upcoming (scheduled)
+                api.sortDir = vvCMSAPISortAscending;
+                api.sortBy = vvCMSAPISortByDate;
+                [api requestBroadcastsWithStatus:VVCMSBroadcastStatusScheduled page:1 resultsPerPage:200];
+                break;
+            case 1: // live
+                api.sortDir = vvCMSAPISortAscending;
+                api.sortBy = vvCMSAPISortByDate;
+                [api requestBroadcastsWithStatus:VVCMSBroadcastStatusStreaming page:1 resultsPerPage:200];
+                break;
+            case 2: // archived
+                api.sortDir = vvCMSAPISortDescending;
+                [api requestBroadcastsWithStatus:VVCMSBroadcastStatusArchived page:1 resultsPerPage:200];
+                break;
+            default:
+                api.sortDir = vvCMSAPISortAscending;
+                api.sortBy = vvCMSAPISortByDate;
+                [api requestBroadcastsWithStatus:VVCMSBroadcastStatusAll page:1 resultsPerPage:200];
+                break;
+        }
+    }
 }
 
 -(void) VVCMSAPI:(VVCMSAPI *)vvCmsApi requestForBroadcastsOfStatus:(VVCMSBroadcastStatus)status didFinishWithArray:(NSArray *)events error:(NSError *)error {
@@ -375,7 +443,6 @@ CGPoint _B3MediaListViewControllerPointBeforeRotate;
                 upcoming=0; live=0; archived=0;
                 scheduledBroadcasts = [NSMutableArray arrayWithCapacity:5];
                 streamingBroadcasts = [NSMutableArray arrayWithCapacity:5];
-                notStreamingBroadcasts = [NSMutableArray arrayWithCapacity:5];
                 archivedBroadcasts  = [NSMutableArray arrayWithCapacity:5];
                 break;
             case VVCMSBroadcastStatusScheduled:
@@ -386,7 +453,6 @@ CGPoint _B3MediaListViewControllerPointBeforeRotate;
                 live=0;
                 notStreaming = 0;
                 streamingBroadcasts = [NSMutableArray arrayWithCapacity:5];
-                notStreamingBroadcasts = [NSMutableArray arrayWithCapacity:5];
                 break;
             case VVCMSBroadcastStatusArchived:
                 archived=0;
@@ -405,13 +471,8 @@ CGPoint _B3MediaListViewControllerPointBeforeRotate;
                     upcoming++;
                     break;
                 case VVCMSBroadcastStatusStreaming:
-                    if (b.isStreaming) {
-                        live++;
-                        [streamingBroadcasts addObject:b];
-                    } else  {
-                        notStreaming++;
-                        [notStreamingBroadcasts addObject:b];
-                    }
+                    live++;
+                    [streamingBroadcasts addObject:b];
                     break;
                 case VVCMSBroadcastStatusArchived:
                     archived++;
@@ -419,8 +480,6 @@ CGPoint _B3MediaListViewControllerPointBeforeRotate;
                     break;
             }
         }
-        upcoming += notStreaming;
-        [scheduledBroadcasts addObjectsFromArray:notStreamingBroadcasts];
         BOOL oldState = (archiveSet && streamingSet && scheduledSet);
         switch (status) {
             case VVCMSBroadcastStatusAll:
@@ -449,21 +508,27 @@ CGPoint _B3MediaListViewControllerPointBeforeRotate;
             else
                 segCtrl.selectedSegmentIndex=0;
         }
-        [archivedBroadcasts reverse];
-        if (status==VVCMSBroadcastStatusAll || status==VVCMSBroadcastStatusScheduled)
-            [self dataSourceRefreshComplete];
+        if (loading) {
+            loading=NO;
+            [archivedBroadcasts reverse];
+            if (appDelegate && virginloading) [appDelegate finishedLoadingBroadcastsWithError:error];
+            virginloading=NO;
+        }
     } else {
-        upcoming=0; live=0; archived=0; notStreaming=0;
+        upcoming=0; live=0; archived=0;
         scheduledBroadcasts=nil;
         streamingBroadcasts=nil;
-        notStreamingBroadcasts=nil;
         archivedBroadcasts=nil;
-        [self dataSourceRefreshComplete];
     }
+    [self dataSourceRefreshComplete];
 }
 
 -(void) dataSourceRefreshComplete {
     toolbar.hidden=NO;
+    
+    if (appearing || loading)
+        return;
+    
     
     if (segCtrl.selectedSegmentIndex==0) {
         listItems = scheduledBroadcasts; // upcoming (incomplete)
@@ -472,18 +537,18 @@ CGPoint _B3MediaListViewControllerPointBeforeRotate;
     } else if (segCtrl.selectedSegmentIndex==2) {
         listItems = archivedBroadcasts; // archived (complete)
     }
-    [segCtrl setEnabled:(upcoming>0) forSegmentAtIndex:0];
-    [segCtrl setEnabled:(live>0) forSegmentAtIndex:1];
-    [segCtrl setEnabled:(archived>0) forSegmentAtIndex:2];
+    //[segCtrl setEnabled:(upcoming>0) forSegmentAtIndex:0];
+    //[segCtrl setEnabled:(live>0) forSegmentAtIndex:1];
+    //[segCtrl setEnabled:(archived>0) forSegmentAtIndex:2];
     [segCtrl setTitle:[NSString stringWithFormat:@"Upcoming (%d)",upcoming] forSegmentAtIndex:0];
     [segCtrl setTitle:[NSString stringWithFormat:@"Live (%d)",live] forSegmentAtIndex:1];
     [segCtrl setTitle:[NSString stringWithFormat:@"Archived (%d)",archived] forSegmentAtIndex:2];
     
     int index = [segCtrl selectedSegmentIndex];
     
-//    NSLog(@"index=[%d]",index);
     if ((index==0 && !upcoming) || (index==1 && !live) || (index==2 && !archived) )
         lastSelectedIndex=-1;
+    /*
     if (lastSelectedIndex==-1) {
         if (live)
             [segCtrl setSelectedSegmentIndex:1];
@@ -495,7 +560,7 @@ CGPoint _B3MediaListViewControllerPointBeforeRotate;
     }
     if (!live && !archived && !upcoming)
         lastSelectedIndex = -1;
-    
+    */
 
     
     filteredListItems = [NSMutableArray array];
@@ -509,7 +574,6 @@ CGPoint _B3MediaListViewControllerPointBeforeRotate;
 -(void) segCtrlChanged:(UISegmentedControl *)sc {
     NSLog(@"selectedIndex=[%d]",sc.selectedSegmentIndex);
     [self refreshDataSource];
-    [tv reloadData];
 }
 
 
@@ -663,13 +727,7 @@ VVCMSBroadcast *_B3MediaListViewSelectedBroadcast;
 
 - (void)presentEventEditViewControllerWithEventStore:(EKEventStore*)eventStore
 {
-    //EKEventStore *eventStore=[[EKEventStore alloc] init];
     EKEvent *addEvent=[EKEvent eventWithEventStore:eventStore];
-//    addEvent.title=_B3MediaListViewEventName;
-//    addEvent.startDate=_B3MediaListViewEventDate;
-//    addEvent.title = [_B3MediaListViewSelectedBroadcast valueForKey:@"title"];
-//    addEvent.startDate = [_B3MediaListViewSelectedBroadcast valueForKey:@"itemDate"];
-//    addEvent.endDate=[addEvent.startDate dateByAddingTimeInterval:3600];
     addEvent.title = _B3MediaListViewSelectedBroadcast.title;
     addEvent.startDate = _B3MediaListViewSelectedBroadcast.startDate;
     [addEvent setCalendar:[eventStore defaultCalendarForNewEvents]];
@@ -782,8 +840,8 @@ BOOL   _B3MediaPlayerSkipLockout=NO;
 
 -(void) customButtonPressedInSearchBar:(B3SearchBar *)searchBar {    
     VVDomainList *domainListView;
-    domainListView = [[VVDomainList alloc] initWithNibName:nil bundle:nil];
-    domainListView.delegate=self;
+    domainListView = [[VVDomainList alloc] initWithApi:api];
+//    domainListView.delegate=self;
     if (self.navigationController)
         [self.navigationController pushViewController:domainListView animated:YES];
     else
@@ -892,6 +950,12 @@ MBProgressHUD *progressHUD;
 
 -(void) setDomain:(NSString *)domain {
     [api authenticationRequestForDomain:domain username:userName andPassword:password];
+    
+    
+    // need to replace below logic with an asynchronous wait for the results from the authentication to be used to determine if we're ready to leave the domain switching screen.
+    
+    api.searchTitle=nil;
+    [filterSegmentControl setTitle:@"Sport" forSegmentAtIndex:2];
 }
 
 -(void) setUserName:(NSString*) s {
@@ -901,4 +965,221 @@ MBProgressHUD *progressHUD;
 -(void) setPassword:(NSString *) s {
     password = s;
 }
+
+-(IBAction) filterSegmentValueChanged:(id)sender {
+    if (sender==filterSegmentControl) {
+        switch(filterSegmentControl.selectedSegmentIndex) {
+            case 0: // From Date
+            case 1: // To Date
+                [self displayDatePicker];
+                break;
+            case 2: // Sport
+                NSLog(@"sport");
+                [self displaySportPicker];
+                break;
+        }
+    }
+}
+
+-(void) doneWithVVPickerViewController:(VVPickerViewController *)vvPCV {
+    if (vvPCV==svc) {
+        if ([svc.selectedValue isEqualToString:@"0"]) {
+            [filterSegmentControl setTitle:@"Sport" forSegmentAtIndex:2];
+        } else
+            [filterSegmentControl setTitle:svc.selectedTitle forSegmentAtIndex:2];
+        api.section_id = svc.selectedValue;
+        [self refreshDataSource];
+        filterSegmentControl.selectedSegmentIndex=-1;
+        [self retractSportPicker];
+    }
+}
+
+-(void) displaySportPicker {
+	CGRect keypadFrame;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        keypadFrame = CGRectMake(0, 0, 320, 260);
+        if (svc==nil) {
+            svc = [[VVPickerViewController alloc] initWithNibName:nil bundle:nil];
+            svc.contentSizeForViewInPopover = keypadFrame.size;
+        }
+        if (svpovc==nil) {
+            svpovc = [[UIPopoverController alloc] initWithContentViewController:svc];
+            if (svpovc)
+                svpovc.delegate = self;
+        }
+    } else {
+        //      keypadFrame = CGRectMake(0, Global_windowHeight,        320, 260);
+        keypadFrame = CGRectMake(0, self.view.frame.size.height,320, 260);
+        if (svc==nil) {
+            svc = [[VVPickerViewController alloc] initWithNibName:nil bundle:nil];
+            [self.view.window addSubview:svc.view];
+        }
+    }
+    svc.titleKey=@"title";
+    svc.valueKey=@"id";
+    NSDictionary *sportDict = [NSDictionary dictionaryWithObjectsAndKeys:@"- none -",@"title",@"0",@"id", nil];
+    NSArray *baseArray = [NSArray arrayWithObject:sportDict];
+    svc.dataDictionaries = [baseArray arrayByAddingObjectsFromArray:sections];
+    svc.viewDelegate = self;
+    [svc.pv reloadAllComponents];
+    
+    svc.view.hidden = NO;
+	svc.view.frame = keypadFrame;
+	
+#ifndef TEST
+	[UIView beginAnimations:@"PresentKeypad" context:nil];
+#endif
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        svpovc.passthroughViews = nil;
+        CGRect rect = [self popOverFrame];
+        UIPopoverArrowDirection dir = UIPopoverArrowDirectionDown | UIPopoverArrowDirectionUp;
+        [svpovc presentPopoverFromRect:rect inView:self.view permittedArrowDirections:dir animated:YES];
+    } else {
+        keypadFrame = CGRectMake(0, self.view.window.frame.size.height-260, 320, 260);
+        svc.view.frame = keypadFrame;
+        tv.contentInset = UIEdgeInsetsMake(0, 0, 224, 0);
+    }
+#ifndef TEST
+	[UIView commitAnimations];
+#endif
+}
+
+-(void) retractSportPicker {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        [svpovc dismissPopoverAnimated:YES];
+    } else {
+#ifndef TEST
+        [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+#endif
+        CGRect keypadFrame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 260);
+        svc.view.frame = keypadFrame;
+        tv.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+#ifndef TEST
+        [UIView commitAnimations];
+#endif
+    }
+	svc.view.hidden = YES;
+}
+
+-(void) displayDatePicker {
+    CGRect keypadFrame;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        keypadFrame = CGRectMake(0, 0, 320, 260);
+        if (dpc==nil) {
+            dpc = [[VVDatePickerViewController alloc] initWithNibName:nil bundle:nil];
+            dpc.contentSizeForViewInPopover = keypadFrame.size;
+        }
+        if (dpcovc==nil) {
+            dpcovc = [[UIPopoverController alloc] initWithContentViewController:dpc];
+            if (dpcovc) dpcovc.delegate = self;
+        }
+    } else {
+        keypadFrame = CGRectMake(0, self.view.frame.size.height,320, 260);
+        if (dpc==nil) {
+            dpc = [[VVDatePickerViewController alloc] initWithNibName:nil bundle:nil];
+            [self.view.window addSubview:dpc.view];
+        }
+    }
+    dpc.view.hidden=NO;
+    dpc.delegate=self;
+    dpc.view.frame=keypadFrame;
+    NSDate *date;
+    if (filterSegmentControl.selectedSegmentIndex==0)
+        date = api.afterDate;
+    else
+        date = api.beforeDate;
+    if (!date)
+        date = [NSDate date];
+    dpc.dp.date = date;
+
+#ifndef TEST
+	[UIView beginAnimations:@"PresentKeypad" context:nil];
+#endif
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        dpcovc.passthroughViews = nil;
+        CGRect rect = [self popOverFrame];
+        UIPopoverArrowDirection dir = UIPopoverArrowDirectionDown | UIPopoverArrowDirectionUp;
+        [dpcovc presentPopoverFromRect:rect inView:self.view permittedArrowDirections:dir animated:YES];
+    } else {
+        keypadFrame = CGRectMake(0, self.view.window.frame.size.height-260, 320, 260);
+        dpc.view.frame = keypadFrame;
+        tv.contentInset = UIEdgeInsetsMake(0, 0, 224, 0);
+    }
+#ifndef TEST
+	[UIView commitAnimations];
+#endif
+
+}
+
+-(CGRect) popOverFrame {
+    float x = filterSegmentControl.frame.origin.x+filterSegmentControl.frame.size.width*((float)filterSegmentControl.selectedSegmentIndex)/((float)filterSegmentControl.numberOfSegments);
+    float y = filterSegmentControl.frame.origin.y;
+    float w = filterSegmentControl.frame.size.width/((float)filterSegmentControl.numberOfSegments);
+    float h = filterSegmentControl.frame.size.height;
+    CGRect rect;
+    //if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
+    //    rect = CGRectMake(y, x, h, w);
+    //else
+        rect = CGRectMake(x, y, w, h);
+    return rect;
+    
+}
+
+-(void) doneWithVVDatePicker:(VVDatePickerViewController *)dpvc {
+    if (dpc==dpvc) {
+        NSString *dateString = [self stringFromDate:dpc.dp.date withFormat:@"MM/dd/yy"];
+        if (filterSegmentControl.selectedSegmentIndex==0) {
+            api.afterDate=dpc.dp.date;
+            [filterSegmentControl setTitle:dateString forSegmentAtIndex:0];
+        } else {
+            api.beforeDate=dpc.dp.date;
+            [filterSegmentControl setTitle:dateString forSegmentAtIndex:1];
+        }
+        [self refreshDataSource];
+        filterSegmentControl.selectedSegmentIndex=-1;
+        [self retractDatePicker];
+    }
+}
+
+-(void) clearCalledFromVVDatePicker:(VVDatePickerViewController*)dpvc {
+    if (dpc==dpvc) {
+        if (filterSegmentControl.selectedSegmentIndex==0) {
+            api.afterDate=nil;
+            [filterSegmentControl setTitle:@"From Date" forSegmentAtIndex:0];
+        } else {
+            api.beforeDate=nil;
+            [filterSegmentControl setTitle:@"To Date" forSegmentAtIndex:1];
+        }
+        [self refreshDataSource];
+        filterSegmentControl.selectedSegmentIndex=-1;
+        [self retractDatePicker];
+    }
+}
+
+-(void) retractDatePicker {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        [dpcovc dismissPopoverAnimated:YES];
+    } else {
+#ifndef TEST
+        [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+#endif
+        CGRect keypadFrame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 260);
+        dpc.view.frame = keypadFrame;
+        tv.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+#ifndef TEST
+        [UIView commitAnimations];
+#endif
+    }
+	dpc.view.hidden = YES;
+}
+
+- (NSString *)stringFromDate:(NSDate *)date withFormat:(NSString *)format {
+	NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+	[outputFormatter setDateFormat:format];
+	[outputFormatter setTimeZone:[NSTimeZone localTimeZone]];			//display time in local time zone
+	NSString *timestamp_str = [outputFormatter stringFromDate:date];
+	return timestamp_str;
+}
+
+
 @end

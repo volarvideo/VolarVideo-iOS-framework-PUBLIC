@@ -20,7 +20,7 @@
 #if defined DEMO_APP
 #define kSite nil
 #elif defined MWC_APP
-#define kSite @"vcloud.volarvideo.com/The Mountain-West Conference"
+#define kSite @"themwc"
 #endif
 
 @implementation BBBAppDelegate
@@ -67,9 +67,8 @@
     [self.window makeKeyAndVisible];
     // Override point for customization after application launch.
     
-    VVCMSAPI *api = [VVCMSAPI vvCMSAPI];
-    api.delegate = self;
-    [api authenticationRequestForDomain:kSite username:nil andPassword:nil];
+    listViewController = [[B3MediaListViewController alloc] initWithSiteSlug:kSite];
+    
     return YES;
 }
 
@@ -93,7 +92,7 @@
 }
 
 
-- (void) VVCMSAPI:(VVCMSAPI *)vvCmsApi authenticationRequestDidFinishWithError:(NSError *)error {
+- (void) finishedLoadingBroadcastsWithError:(NSError *)error {
     if (error) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not connect" message:error.localizedDescription delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil];
         [alert show];
@@ -101,8 +100,6 @@
     }
     
 #if !defined VOLAR_PLAYER
-    listViewController = [[B3MediaListViewController alloc] initWithApi:vvCmsApi];
-    listViewController.siteName = [vvCmsApi siteName];
     self.navigationController = [[B3NavigationController alloc]initWithRootViewController:(UIViewController*)listViewController];
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     self.window.rootViewController = self.navigationController;

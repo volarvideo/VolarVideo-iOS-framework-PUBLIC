@@ -10,6 +10,7 @@
 #import <VVMoviePlayer/VVMoviePlayerViewController.h>
 #import "TestFlight.h"
 
+
 @class B3MediaListViewController;
 
 @interface BBBAppDelegate : UIResponder <UIApplicationDelegate,VVCMSAPIDelegate> {
@@ -27,5 +28,6 @@
 @property (strong, nonatomic) UINavigationController *navigationController;
 @property (nonatomic, strong) VVMoviePlayerViewController *moviePlayer;
 
+-(void) finishedLoadingBroadcastsWithError:(NSError *)error;
 
 @end

@@ -14,10 +14,10 @@
 
 @implementation VVDomainList
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+- (id) initWithApi:(VVCMSAPI *)parentApi {
+    self = [super initWithNibName:nil bundle:nil];
     if (self) {
+        api = parentApi;
         // Custom initialization
         [self loadDomains];
     }
@@ -109,9 +109,13 @@
 // tableviewDelegate calls
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     domain = [domains objectAtIndex:indexPath.row];
-    [self.delegate setDomain:domain];
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    api.delegate = self;
+    [api authenticationRequestForDomain:domain username:nil andPassword:nil];
+    [[iToast makeText:@"loading sites ..."]show];
+    //[self.delegate setDomain:domain];
+    //[self.navigationController popToRootViewControllerAnimated:YES];
 
+    
     /*
 	loginAlertView = [[UIAlertView alloc] initWithTitle:@"Login"
                                                     message:@"\n\n"
@@ -152,6 +156,26 @@
     */
 }
 
+
+-(void) VVCMSAPI:(VVCMSAPI *)vvCmsApi authenticationRequestDidFinishWithError:(NSError *)error {
+    if (vvCmsApi==api) {
+        if (error) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not authenticate" message:error.localizedDescription delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
+    }
+    sitesListController = [[VVSiteListViewController alloc] initWithApi:api];
+    sitesListController.delegate = self;
+    [self.navigationController pushViewController:sitesListController animated:YES];
+}
+
+-(void) doneWithVVSiteListViewController:(id)slvc {
+    if (slvc==sitesListController) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     NSLog(@"textFieldShouldReturn:");
     if (textField.tag == 1) {
@@ -170,6 +194,7 @@
 	//[alert resignFirstResponder];
 }
 
+/*
 -(void) passwordTextFieldFinished:(id) sender {
 	//NSLog(@"textFieldFinished");
 //	[sender resignFirstResponder];
@@ -182,6 +207,7 @@
 	[sender resignFirstResponder];
 	//[alert resignFirstResponder];
 }
+*/
 
 -(IBAction)addButtonPress:(id)sender {
     [self store];
@@ -217,6 +243,7 @@
 	// use "buttonIndex" to decide your action
 	//NSLog(@"alertView didDismissWithButtonIn  dex:%d",buttonIndex);
     if (localActionSheet == loginAlertView) {
+        /*
         if(buttonIndex > 0) {
             NSString *userName = [(UITextField*) [localActionSheet viewWithTag:888] text];
             NSString *password = [(UITextField*) [localActionSheet viewWithTag:999] text];
@@ -230,6 +257,7 @@
             [self.delegate setDomain:domain];
             [self.navigationController popToRootViewControllerAnimated:YES];
         }
+         */
     } else {
         UITextField *domainTextField = (UITextField *) [localActionSheet viewWithTag: 777];
         if (domainTextField) {

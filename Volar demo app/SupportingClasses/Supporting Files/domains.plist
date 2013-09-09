@@ -3,11 +3,7 @@
 <plist version="1.0">
 <array>
 	<string>vcloud.volarvideo.com</string>
-	<string>vcloud.volarvideo.com/The Mountain-West Conference</string>
-	<string>vcloud.volarvideo.com/HLS City</string>
 	<string>staging.platypusgranola.com</string>
-	<string>staging.platypusgranola.com/HLS City</string>
 	<string>master.platypusgranola.com</string>
-	<string>master.platypusgranola.com/HLS City</string>
 </array>
 </plist>

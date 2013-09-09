@@ -18,13 +18,19 @@
 #import "VVDomainList.h"
 
 #import <VVMoviePlayer/VVMoviePlayerViewController.h>
+#import "VVPickerViewController.h"
+#import "VVDatePickerDelegate.h"
+#import "VVDatePickerViewController.h"
 
 
-@interface B3MediaListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchDisplayDelegate, UINavigationBarDelegate, B3SearchBarDelegate, UIAlertViewDelegate, VVCMSAPIDelegate, VVDomainListDelegate> {
+@interface B3MediaListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchDisplayDelegate, UINavigationBarDelegate, B3SearchBarDelegate, UIAlertViewDelegate, VVCMSAPIDelegate, \
+//VVDomainListDelegate, 
+VVPickerViewDelegate,UIPopoverControllerDelegate,VVDatePickerDelegate> {
     
     IBOutlet UITableView *tv;
     IBOutlet UISearchDisplayController *searchDisplayController;
     IBOutlet B3SearchBar *searchBar;
+    IBOutlet UISegmentedControl *filterSegmentControl;
     BBBAppDelegate *appDelegate;
     NSMutableDictionary *loadingCells;
     dispatch_queue_t backgroundQueue;
@@ -37,11 +43,18 @@
     
     VVCMSAPI *api;
     
-    NSMutableArray *archivedBroadcasts,*scheduledBroadcasts, *streamingBroadcasts, *notStreamingBroadcasts;
+    NSMutableArray *archivedBroadcasts,*scheduledBroadcasts, *streamingBroadcasts;//,*notStreamingBroadcasts;
     
     UIImage *audioImage,*schedImage,*liveImage,*archImage;
         
     NSString *userName,*password;
+    
+    VVPickerViewController *svc;
+    NSArray *sections,*playlists;
+    
+    BOOL virginloading,loading,appearing;
+    
+    VVDatePickerViewController *dpc;
 }
 
 //@property(nonatomic, unsafe_unretained) IBOutlet B3SchoolBannerView *banner;        //for iOS 4.3 support
@@ -54,6 +67,9 @@
 @property (nonatomic, strong) NSMutableArray *photoItems;
 @property (nonatomic, strong) VVMoviePlayerViewController *moviePlayer;
 @property (nonatomic, strong) IBOutlet UIToolbar *toolbar;
+@property(nonatomic, strong) UIPopoverController *svpovc, *dpcovc;
+
+ -(IBAction) filterSegmentValueChanged:(id)sender;
 
 
 //- (IBAction)cellButtonFavoriteTouched:(id)sender;
@@ -61,6 +77,7 @@
 
 //- (id)initWithSchool:(School*)theSchool andSettingsDictionary:(NSDictionary*)settingsDict;
 - (id)initWithApi:(VVCMSAPI*)api;
+- (id)initWithSiteSlug:(NSString*)site;
 
 -(void) startVMAP:(NSString *)vmapString;
 
