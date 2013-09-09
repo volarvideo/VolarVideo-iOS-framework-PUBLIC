@@ -1059,6 +1059,7 @@
 				B5E9F8D317625DC900E4C60B /* Supporting Files */,
 				07A3CE8F164FE83A007594AA /* mobileclientTests */,
 				B57D333515FF8A55000CB73B /* Frameworks */,
+				B5E9F9061762661F00E4C60B /* VVMoviePlayer.embeddedframework */,
 				B57D333315FF8A55000CB73B /* Products */,
 				B57141821761406E009E99B4 /* com.volarvideo.VVMoviePlayer.docset */,
 			);
@@ -1082,7 +1083,6 @@
 				B53F6C7A17DDB3D7009EF72B /* Security.framework */,
 				B53F6C7817DDB3CF009EF72B /* CFNetwork.framework */,
 				B53F6C7617DDB3C8009EF72B /* libicucore.dylib */,
-				B5E9F9061762661F00E4C60B /* VVMoviePlayer.embeddedframework */,
 				B525148617555ECE00172A01 /* MapKit.framework */,
 				B562BFC617556372009024C8 /* libxml2.dylib */,
 				B51F1E28164319F600FFB847 /* EventKitUI.framework */,
