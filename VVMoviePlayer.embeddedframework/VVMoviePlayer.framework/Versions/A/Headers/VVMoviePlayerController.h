@@ -52,7 +52,7 @@
  */
 
 
-@interface VVMoviePlayerController : UIViewController <MPMediaPlayback,VVVmapPlayerDelgate> {
+@interface VVMoviePlayerController : UIViewController <MPMediaPlayback,VVVmapPlayerDelegate> {
     //AVPlayerLayer *contentLayer,*adLayer;
     IBOutlet UIView *controlsView;
     IBOutlet VVPlayerView *contentPlayerView;

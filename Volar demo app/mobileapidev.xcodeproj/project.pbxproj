@@ -243,6 +243,18 @@
 		B51F1E2A164319F600FFB847 /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B51F1E28164319F600FFB847 /* EventKitUI.framework */; };
 		B525148717555ECE00172A01 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B525148617555ECE00172A01 /* MapKit.framework */; };
 		B52B3D01163ADBBD00956DB9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B57D333A15FF8A55000CB73B /* CoreGraphics.framework */; };
+		B53F6C7717DDB3C8009EF72B /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B53F6C7617DDB3C8009EF72B /* libicucore.dylib */; };
+		B53F6C7917DDB3CF009EF72B /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53F6C7817DDB3CF009EF72B /* CFNetwork.framework */; };
+		B53F6C7B17DDB3D7009EF72B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53F6C7A17DDB3D7009EF72B /* Security.framework */; };
+		B53F6C7C17DDB40A009EF72B /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B53F6C7617DDB3C8009EF72B /* libicucore.dylib */; };
+		B53F6C7D17DDB412009EF72B /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53F6C7817DDB3CF009EF72B /* CFNetwork.framework */; };
+		B53F6C7E17DDB417009EF72B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53F6C7A17DDB3D7009EF72B /* Security.framework */; };
+		B53F6C7F17DDB432009EF72B /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B53F6C7617DDB3C8009EF72B /* libicucore.dylib */; };
+		B53F6C8017DDB437009EF72B /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53F6C7817DDB3CF009EF72B /* CFNetwork.framework */; };
+		B53F6C8117DDB43D009EF72B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53F6C7A17DDB3D7009EF72B /* Security.framework */; };
+		B53F6C8317DDB47A009EF72B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53F6C8217DDB47A009EF72B /* CoreLocation.framework */; };
+		B53F6C8417DDB47F009EF72B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53F6C8217DDB47A009EF72B /* CoreLocation.framework */; };
+		B53F6C8517DDB483009EF72B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53F6C8217DDB47A009EF72B /* CoreLocation.framework */; };
 		B549C11217DCDB8900A181A1 /* VVPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B549C11117DCDB8900A181A1 /* VVPickerViewController.xib */; };
 		B549C11317DCDB8900A181A1 /* VVPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B549C11117DCDB8900A181A1 /* VVPickerViewController.xib */; };
 		B549C11417DCDB8900A181A1 /* VVPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B549C11117DCDB8900A181A1 /* VVPickerViewController.xib */; };
@@ -297,9 +309,6 @@
 		B5E9F77A176257DC00E4C60B /* iToast.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E9F779176257DC00E4C60B /* iToast.m */; };
 		B5E9F77B176257DC00E4C60B /* iToast.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E9F779176257DC00E4C60B /* iToast.m */; };
 		B5E9F77C176257DC00E4C60B /* iToast.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E9F779176257DC00E4C60B /* iToast.m */; };
-		B5E9F781176257F200E4C60B /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E9F780176257F200E4C60B /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		B5E9F782176257F200E4C60B /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E9F780176257F200E4C60B /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		B5E9F783176257F200E4C60B /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E9F780176257F200E4C60B /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		B5E9F84C1762582B00E4C60B /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E9F8381762582B00E4C60B /* MKAnnotationView+WebCache.m */; };
 		B5E9F84D1762582B00E4C60B /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E9F8381762582B00E4C60B /* MKAnnotationView+WebCache.m */; };
 		B5E9F84E1762582B00E4C60B /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E9F8381762582B00E4C60B /* MKAnnotationView+WebCache.m */; };
@@ -659,6 +668,10 @@
 		B51F1E27164319F600FFB847 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		B51F1E28164319F600FFB847 /* EventKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKitUI.framework; path = System/Library/Frameworks/EventKitUI.framework; sourceTree = SDKROOT; };
 		B525148617555ECE00172A01 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		B53F6C7617DDB3C8009EF72B /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		B53F6C7817DDB3CF009EF72B /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		B53F6C7A17DDB3D7009EF72B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		B53F6C8217DDB47A009EF72B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		B549C11117DCDB8900A181A1 /* VVPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VVPickerViewController.xib; sourceTree = "<group>"; };
 		B549C11517DCDB9B00A181A1 /* VVPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VVPickerViewController.h; sourceTree = "<group>"; };
 		B549C11617DCDB9B00A181A1 /* VVPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VVPickerViewController.m; sourceTree = "<group>"; };
@@ -687,7 +700,6 @@
 		B5E9F778176257DC00E4C60B /* iToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iToast.h; sourceTree = "<group>"; };
 		B5E9F779176257DC00E4C60B /* iToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iToast.m; sourceTree = "<group>"; };
 		B5E9F77F176257F200E4C60B /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
-		B5E9F780176257F200E4C60B /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		B5E9F8371762582B00E4C60B /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
 		B5E9F8381762582B00E4C60B /* MKAnnotationView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKAnnotationView+WebCache.m"; sourceTree = "<group>"; };
 		B5E9F8391762582B00E4C60B /* SDImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDImageCache.h; sourceTree = "<group>"; };
@@ -819,6 +831,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B53F6C8517DDB483009EF72B /* CoreLocation.framework in Frameworks */,
+				B5D7136816193C8D00734C76 /* SystemConfiguration.framework in Frameworks */,
+				B57D333915FF8A55000CB73B /* Foundation.framework in Frameworks */,
+				B53F6C7E17DDB417009EF72B /* Security.framework in Frameworks */,
+				B53F6C7D17DDB412009EF72B /* CFNetwork.framework in Frameworks */,
+				B53F6C7C17DDB40A009EF72B /* libicucore.dylib in Frameworks */,
 				B51E4B97175571BD00CAC080 /* MapKit.framework in Frameworks */,
 				B51E492D175568B000CAC080 /* libxml2.dylib in Frameworks */,
 				B5B705091690BF3D005E7698 /* CoreMedia.framework in Frameworks */,
@@ -827,14 +845,12 @@
 				B5EBCE0A163D9C5300F261DD /* AVFoundation.framework in Frameworks */,
 				B52B3D01163ADBBD00956DB9 /* CoreGraphics.framework in Frameworks */,
 				B51BBA481635883C00648DF8 /* libz.dylib in Frameworks */,
-				B5D7136816193C8D00734C76 /* SystemConfiguration.framework in Frameworks */,
 				B5FCB11C1616512A0035FC89 /* MediaPlayer.framework in Frameworks */,
 				B5FCB11A161651170035FC89 /* CoreData.framework in Frameworks */,
 				B5543684161235C900582E30 /* ImageIO.framework in Frameworks */,
 				B5543682161235C000582E30 /* MessageUI.framework in Frameworks */,
 				B56EA8B61603AC8A00849E4B /* QuartzCore.framework in Frameworks */,
 				B57D333715FF8A55000CB73B /* UIKit.framework in Frameworks */,
-				B57D333915FF8A55000CB73B /* Foundation.framework in Frameworks */,
 				B5E9F8F417625F3A00E4C60B /* libTestFlight.a in Frameworks */,
 				B5E9F9C11762661F00E4C60B /* VVMoviePlayer.framework in Frameworks */,
 			);
@@ -844,6 +860,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B53F6C8317DDB47A009EF72B /* CoreLocation.framework in Frameworks */,
+				B58D3F43172DDD3600A07BF7 /* SystemConfiguration.framework in Frameworks */,
+				B58D3F4A172DDD3600A07BF7 /* Foundation.framework in Frameworks */,
+				B53F6C8117DDB43D009EF72B /* Security.framework in Frameworks */,
+				B53F6C8017DDB437009EF72B /* CFNetwork.framework in Frameworks */,
+				B53F6C7F17DDB432009EF72B /* libicucore.dylib in Frameworks */,
 				B562BFC717556372009024C8 /* libxml2.dylib in Frameworks */,
 				B58D3F44172DDD3600A07BF7 /* MediaPlayer.framework in Frameworks */,
 				B58D3F46172DDD3600A07BF7 /* ImageIO.framework in Frameworks */,
@@ -854,12 +876,10 @@
 				B58D3F40172DDD3600A07BF7 /* AVFoundation.framework in Frameworks */,
 				B58D3F41172DDD3600A07BF7 /* CoreGraphics.framework in Frameworks */,
 				B58D3F42172DDD3600A07BF7 /* libz.dylib in Frameworks */,
-				B58D3F43172DDD3600A07BF7 /* SystemConfiguration.framework in Frameworks */,
 				B58D3F45172DDD3600A07BF7 /* CoreData.framework in Frameworks */,
 				B58D3F47172DDD3600A07BF7 /* MessageUI.framework in Frameworks */,
 				B58D3F48172DDD3600A07BF7 /* QuartzCore.framework in Frameworks */,
 				B58D3F49172DDD3600A07BF7 /* UIKit.framework in Frameworks */,
-				B58D3F4A172DDD3600A07BF7 /* Foundation.framework in Frameworks */,
 				B5E9F8F517625F3A00E4C60B /* libTestFlight.a in Frameworks */,
 				B5E9F9C21762661F00E4C60B /* VVMoviePlayer.framework in Frameworks */,
 			);
@@ -869,6 +889,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B53F6C8417DDB47F009EF72B /* CoreLocation.framework in Frameworks */,
+				B5C76F34174BCD5400183E5D /* SystemConfiguration.framework in Frameworks */,
+				B5C76F3B174BCD5400183E5D /* Foundation.framework in Frameworks */,
+				B53F6C7B17DDB3D7009EF72B /* Security.framework in Frameworks */,
+				B53F6C7917DDB3CF009EF72B /* CFNetwork.framework in Frameworks */,
+				B53F6C7717DDB3C8009EF72B /* libicucore.dylib in Frameworks */,
 				B5E9F9C617627A9A00E4C60B /* MapKit.framework in Frameworks */,
 				B51E492C175568A700CAC080 /* libxml2.dylib in Frameworks */,
 				B5C76F2D174BCD5400183E5D /* CoreMedia.framework in Frameworks */,
@@ -877,13 +903,11 @@
 				B5C76F31174BCD5400183E5D /* AVFoundation.framework in Frameworks */,
 				B5C76F32174BCD5400183E5D /* CoreGraphics.framework in Frameworks */,
 				B5C76F33174BCD5400183E5D /* libz.dylib in Frameworks */,
-				B5C76F34174BCD5400183E5D /* SystemConfiguration.framework in Frameworks */,
 				B5C76F35174BCD5400183E5D /* MediaPlayer.framework in Frameworks */,
 				B5C76F37174BCD5400183E5D /* ImageIO.framework in Frameworks */,
 				B5C76F38174BCD5400183E5D /* MessageUI.framework in Frameworks */,
 				B5C76F39174BCD5400183E5D /* QuartzCore.framework in Frameworks */,
 				B5C76F3A174BCD5400183E5D /* UIKit.framework in Frameworks */,
-				B5C76F3B174BCD5400183E5D /* Foundation.framework in Frameworks */,
 				B5E9F8F617625F3A00E4C60B /* libTestFlight.a in Frameworks */,
 				B5E9F9C31762661F00E4C60B /* VVMoviePlayer.framework in Frameworks */,
 			);
@@ -1054,6 +1078,10 @@
 		B57D333515FF8A55000CB73B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B53F6C8217DDB47A009EF72B /* CoreLocation.framework */,
+				B53F6C7A17DDB3D7009EF72B /* Security.framework */,
+				B53F6C7817DDB3CF009EF72B /* CFNetwork.framework */,
+				B53F6C7617DDB3C8009EF72B /* libicucore.dylib */,
 				B5E9F9061762661F00E4C60B /* VVMoviePlayer.embeddedframework */,
 				B525148617555ECE00172A01 /* MapKit.framework */,
 				B562BFC617556372009024C8 /* libxml2.dylib */,
@@ -1090,7 +1118,6 @@
 			isa = PBXGroup;
 			children = (
 				B5E9F77F176257F200E4C60B /* Reachability.h */,
-				B5E9F780176257F200E4C60B /* Reachability.m */,
 			);
 			name = Reachability;
 			path = "ThirdParty Libraries/Reachability";
@@ -1889,7 +1916,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5E9F77A176257DC00E4C60B /* iToast.m in Sources */,
-				B5E9F781176257F200E4C60B /* Reachability.m in Sources */,
 				B5E9F84C1762582B00E4C60B /* MKAnnotationView+WebCache.m in Sources */,
 				B5E9F84F1762582B00E4C60B /* SDImageCache.m in Sources */,
 				B5E9F8521762582B00E4C60B /* SDWebImageCompat.m in Sources */,
@@ -1926,7 +1952,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5E9F77B176257DC00E4C60B /* iToast.m in Sources */,
-				B5E9F782176257F200E4C60B /* Reachability.m in Sources */,
 				B5E9F84D1762582B00E4C60B /* MKAnnotationView+WebCache.m in Sources */,
 				B5E9F8501762582B00E4C60B /* SDImageCache.m in Sources */,
 				B5E9F8531762582B00E4C60B /* SDWebImageCompat.m in Sources */,
@@ -1963,7 +1988,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5E9F77C176257DC00E4C60B /* iToast.m in Sources */,
-				B5E9F783176257F200E4C60B /* Reachability.m in Sources */,
 				B5E9F84E1762582B00E4C60B /* MKAnnotationView+WebCache.m in Sources */,
 				B5E9F8511762582B00E4C60B /* SDImageCache.m in Sources */,
 				B5E9F8541762582B00E4C60B /* SDWebImageCompat.m in Sources */,
