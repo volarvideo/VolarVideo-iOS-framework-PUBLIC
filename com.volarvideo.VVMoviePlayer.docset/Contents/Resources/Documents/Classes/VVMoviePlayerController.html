@@ -655,7 +655,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>A Boolean that indicates whether the first video frame of the movie is ready to be displayed.</p><p>The default value of this property is NO. This property returns YES if the first video frame is ready to be displayed and returns NO if there are no video tracks associated. When the value of this property changes to YES, a MPMoviePlayerReadyForDisplayDidChangeNotification is sent.</p>
+		<p>The default value of this property is NO. This property returns YES if the first video frame is ready to be displayed and returns NO if there are no video tracks associated. When the value of this property changes to YES, a MPMoviePlayerReadyForDisplayDidChangeNotification is sent.</p>
 
 <p>@availability Available in iOS 6.0 and later.</p>
 	</div>
@@ -698,7 +698,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>A snapshot of the network playback log for the movie player if it is playing a network stream.</p><p>Can be nil. For information about movie access logs, refer to MPMovieAccessLog Class Reference.</p>
+		<p>Can be nil. For information about movie access logs, refer to MPMovieAccessLog Class Reference.</p>
 
 <p>@availability NOT ACTIVE AT THIS TIME.</p>
 	</div>
@@ -741,7 +741,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Indicates whether the movie player is currently playing video via AirPlay.</p><p>You can query this property after receiving an MPMoviePlayerIsAirPlayVideoActiveDidChangeNotification notification to find out whether the AirPlay video started or stopped.</p>
+		<p>You can query this property after receiving an MPMoviePlayerIsAirPlayVideoActiveDidChangeNotification notification to find out whether the AirPlay video started or stopped.</p>
 
 <p>@availability NOT ACTIVE AT THIS TIME.</p>
 	</div>
@@ -784,7 +784,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Specifies whether the movie player allows AirPlay movie playback.</p><p>A movie player supports wireless movie playback to AirPlay-enabled hardware. By default, this property’s value is YES.</p>
+		<p>A movie player supports wireless movie playback to AirPlay-enabled hardware. By default, this property’s value is YES.</p>
 
 <p>To disable AirPlay movie playback, set this property’s value to NO. The movie player then presents a control that allows the user to choose AirPlay-enabled hardware for playback when such hardware is in range.</p>
 
@@ -829,7 +829,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>A customizable view that is displayed behind the movie content. (read-only)</p><p>This view provides the backing content, on top of which the movie content is displayed. You can add subviews to the background view if you want to display custom background content.</p>
+		<p>This view provides the backing content, on top of which the movie content is displayed. You can add subviews to the background view if you want to display custom background content.</p>
 
 <p>This view is part of the view hierarchy returned by the view property.</p>
 
@@ -874,7 +874,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>The URL that points to the raw HLS form of the VolarVideo movie file.</p><p>This is for application programmers benefit. Properties that not yet provided by VVMoviePlayerController but are provided by MPMoviePlayerController can be obtained using this as the contentURL for an instance of MPMoviePlayerController.</p>
+		<p>This is for application programmers benefit. Properties that not yet provided by VVMoviePlayerController but are provided by MPMoviePlayerController can be obtained using this as the contentURL for an instance of MPMoviePlayerController.</p>
 
 <p>@availability Available in iOS 5.0 and later.</p>
 	</div>
@@ -917,7 +917,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>The style of the playback controls.</p><p>The default value of this property is MPMovieControlStyleDefault. You can change the value of this property to change the style of the controls or to hide the controls altogether. For a list of available control styles, see “MPMovieControlStyle.”</p>
+		<p>The default value of this property is MPMovieControlStyleDefault. You can change the value of this property to change the style of the controls or to hide the controls altogether. For a list of available control styles, see “MPMovieControlStyle.”</p>
 
 <p>@availability NOT ACTIVE AT THIS TIME.</p>
 	</div>
@@ -960,7 +960,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>The duration of the movie, measured in seconds. (read-only)</p><p>If the duration of the movie is not known, the value in this property is 0.0. If the duration is subsequently determined, this property is updated and a MPMovieDurationAvailableNotification notification is posted.</p>
+		<p>If the duration of the movie is not known, the value in this property is 0.0. If the duration is subsequently determined, this property is updated and a MPMovieDurationAvailableNotification notification is posted.</p>
 
 <p>@availability Available in iOS 5.0 and later.</p>
 	</div>
@@ -1003,7 +1003,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>The end time (measured in seconds) for playback of the movie.</p><p>The default value of this property is -1, which indicates the natural end time of the movie. This property is not applicable for streamed content.</p>
+		<p>The default value of this property is -1, which indicates the natural end time of the movie. This property is not applicable for streamed content.</p>
 
 <p>@availability NOT ACTIVE AT THIS TIME.</p>
 	</div>
@@ -1046,7 +1046,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>A snapshot of the playback failure error log for the movie player if it is playing a network stream.</p><p>Can be nil. For information about movie error logs, refer to MPMovieErrorLog Class Reference.</p>
+		<p>Can be nil. For information about movie error logs, refer to MPMovieErrorLog Class Reference.</p>
 
 <p>@availability Available in iOS 5.0 and later.</p>
 	</div>
@@ -1137,7 +1137,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>A Boolean that indicates whether the movie player is in full-screen mode.</p><p>The default value of this property is NO. Changing the value of this property causes the movie player to enter or exit full-screen mode immediately. If you want to animate the transition to full-screen mode, use the <a href="#//api/name/setFullscreen:animated:">setFullscreen:animated:</a> method instead.</p>
+		<p>The default value of this property is NO. Changing the value of this property causes the movie player to enter or exit full-screen mode immediately. If you want to animate the transition to full-screen mode, use the <a href="#//api/name/setFullscreen:animated:">setFullscreen:animated:</a> method instead.</p>
 
 <p>Whenever the movie player enters or exits full-screen mode, it posts appropriate notifications to reflect the change. For example, upon entering full-screen mode, it posts MPMoviePlayerWillEnterFullscreenNotification and MPMoviePlayerDidEnterFullscreenNotification notifications. Upon exiting from full-screen mode, it posts MPMoviePlayerWillExitFullscreenNotification and MPMoviePlayerDidExitFullscreenNotification notifications.</p>
 
@@ -1184,7 +1184,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>The time, specified in seconds within the video timeline, when playback should start.</p><p>For progressively downloaded content, playback starts at the closest key frame prior to the provided time. For video-on-demand content, playback starts at the nearest segment boundary to the provided time. For live video streams, the playback start time is measured from the start of the current playlist and is rounded to the nearest segment boundary.</p>
+		<p>For progressively downloaded content, playback starts at the closest key frame prior to the provided time. For video-on-demand content, playback starts at the nearest segment boundary to the provided time. For live video streams, the playback start time is measured from the start of the current playlist and is rounded to the nearest segment boundary.</p>
 
 <p>The default value of this property is -1, which indicates the natural start time of the movie.</p>
 
@@ -1227,11 +1227,6 @@
 	
 	
 	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>DO NOT MODIFY THIS PROPERTY.</p>
-	</div>
-	
 	
 	
 	
@@ -1270,9 +1265,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Debug display of remaining time in an ad break.</p>
-
-<p>@availability Available in iOS 5.0 and later.</p>
+		<p>@availability Available in iOS 5.0 and later.</p>
 	</div>
 	
 	
@@ -1313,7 +1306,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>The network load state of the movie player. (read-only)</p><p>See the “MPMovieLoadState” enumeration for possible values of this property. To be notified of changes to the load state of a movie player, register for the MPMoviePlayerLoadStateDidChangeNotification notification.</p>
+		<p>See the “MPMovieLoadState” enumeration for possible values of this property. To be notified of changes to the load state of a movie player, register for the MPMoviePlayerLoadStateDidChangeNotification notification.</p>
 
 <p>@availability Available in iOS 5.0 and later.</p>
 	</div>
@@ -1356,7 +1349,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>The currently displayed message used to indicate an special playing circumstance, such as Audio Only or No Ads Available.</p><p>The label is used to communicate special playback circumstances, for which the viewer may need additional information.</p>
+		<p>The label is used to communicate special playback circumstances, for which the viewer may need additional information.</p>
 
 <p>@availability Available in iOS 5.0 and later.</p>
 	</div>
@@ -1399,7 +1392,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>The types of media available in the movie. (read-only)</p><p>Movies can contain a combination of audio, video, or a combination of the two. The default value of this property is MPMovieMediaTypeMaskNone. See the “MPMovieMediaTypeMask” enumeration for possible values of this property.</p>
+		<p>Movies can contain a combination of audio, video, or a combination of the two. The default value of this property is MPMovieMediaTypeMaskNone. See the “MPMovieMediaTypeMask” enumeration for possible values of this property.</p>
 
 <p>@availability NOT ACTIVE AT THIS TIME.</p>
 	</div>
@@ -1442,7 +1435,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>The playback type of the movie.</p><p>The default value of this property is MPMovieSourceTypeUnknown. This property provides a clue to the playback system as to how it should download and buffer the movie content. If you know the source type of the movie, setting the value of this property before playback begins can improve the load times for the movie content. If you do not set the source type explicitly before playback, the movie player controller must gather this information, which might delay playback.</p>
+		<p>The default value of this property is MPMovieSourceTypeUnknown. This property provides a clue to the playback system as to how it should download and buffer the movie content. If you know the source type of the movie, setting the value of this property before playback begins can improve the load times for the movie content. If you do not set the source type explicitly before playback, the movie player controller must gather this information, which might delay playback.</p>
 
 <p>@availability NOT ACTIVE AT THIS TIME.</p>
 	</div>
@@ -1485,7 +1478,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>The width and height of the movie frame. (read-only)</p><p>This property reports the clean aperture of the video in square pixels. Thus, the reported dimensions take into account anamorphic content and aperture modes.</p>
+		<p>This property reports the clean aperture of the video in square pixels. Thus, the reported dimensions take into account anamorphic content and aperture modes.</p>
 
 <p>It is possible for the natural size of a movie to change during playback. This typically happens when the bit-rate of streaming content changes or when playback toggles between audio-only and a combination of audio and video.</p>
 
@@ -1530,7 +1523,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>The amount of currently playable content. (read-only)</p><p>For progressively downloaded network content, this property reflects the amount of content that can be played now.</p>
+		<p>For progressively downloaded network content, this property reflects the amount of content that can be played now.</p>
 
 <p>@availability NOT ACTIVE AT THIS TIME.</p>
 	</div>
@@ -1573,7 +1566,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>The current playback state of the movie player. (read-only)</p><p>The playback state is affected by programmatic calls to play, pause, or stop the movie player. It can also be affected by user interactions or by the network, in cases where streaming content cannot be buffered fast enough.</p>
+		<p>The playback state is affected by programmatic calls to play, pause, or stop the movie player. It can also be affected by user interactions or by the network, in cases where streaming content cannot be buffered fast enough.</p>
 
 <p>See the “MPMoviePlaybackState” enumeration for possible values of this property. To be notified of changes to the playback state of a movie player, register for the MPMoviePlayerPlaybackStateDidChangeNotification notification.</p>
 
@@ -1618,7 +1611,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Determines how the movie player repeats the playback of the movie.</p><p>The default value of this property is MPMovieRepeatModeNone. For a list of available repeat modes, see “MPMovieRepeatMode.”</p>
+		<p>The default value of this property is MPMovieRepeatModeNone. For a list of available repeat modes, see “MPMovieRepeatMode.”</p>
 
 <p>@availability NOT ACTIVE AT THIS TIME.</p>
 	</div>
@@ -1661,7 +1654,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>The scaling mode to use when displaying the movie.</p><p>Changing this property while the movie player is visible causes the current movie to animate to the new scaling mode.</p>
+		<p>Changing this property while the movie player is visible causes the current movie to animate to the new scaling mode.</p>
 
 <p>The default value of this property is MPMovieScalingModeAspectFit. For a list of available scaling modes, see “MPMovieScalingMode.”</p>
 
@@ -1706,7 +1699,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>A Boolean that indicates whether a movie should begin playback automatically.</p><p>The default value of this property is YES. This property determines whether the playback of network-based content begins automatically when there is enough buffered data to ensure uninterrupted playback.</p>
+		<p>The default value of this property is YES. This property determines whether the playback of network-based content begins automatically when there is enough buffered data to ensure uninterrupted playback.</p>
 
 <p>@availability Available in iOS 5.0 and later.</p>
 	</div>
@@ -1759,7 +1752,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Cancels all pending asynchronous thumbnail image requests.</p><p>This method cancels only requests made using the <a href="#//api/name/requestThumbnailImagesAtTimes:timeOption:">requestThumbnailImagesAtTimes:timeOption:</a> method. It does not cancel requests made synchronously using the <a href="#//api/name/thumbnailImageAtTime:timeOption:">thumbnailImageAtTime:timeOption:</a> method.</p>
+		<p>This method cancels only requests made using the <a href="#//api/name/requestThumbnailImagesAtTimes:timeOption:">requestThumbnailImagesAtTimes:timeOption:</a> method. It does not cancel requests made synchronously using the <a href="#//api/name/thumbnailImageAtTime:timeOption:">thumbnailImageAtTime:timeOption:</a> method.</p>
 
 <p>@availability Available in iOS 5.0 and later.</p>
 	</div>
@@ -1802,9 +1795,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Clear the special playback circumstance message.</p>
-
-<p>@availability Available in iOS 5.0 and later.</p>
+		<p>@availability Available in iOS 5.0 and later.</p>
 	</div>
 	
 	
@@ -1855,7 +1846,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Display a special playback circumstance message.</p><p>The label is used to communicate special playback circumstances, for which the viewer may need additional information.</p>
+		<p>The label is used to communicate special playback circumstances, for which the viewer may need additional information.</p>
 
 <p>@availability Available in iOS 5.0 and later.</p>
 	</div>
@@ -1913,7 +1904,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Returns and starts playing a VVMoviePlayerController object initialized with the VolarVideo movie at the specified NSString representation of a URL.</p><p>This method initializes a VolarVideo movie player, prepares for playback, and starts playing.</p>
+		<p>This method initializes a VolarVideo movie player, prepares for playback, and starts playing.</p>
 
 <p>To be notified when a new movie player is ready to play, register for the MPMoviePlayerLoadStateDidChangeNotification notification. You can then check load state by accessing the <a href="#//api/name/loadState">loadState</a> property.</p>
 
@@ -2037,7 +2028,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Captures one or more thumbnail images asynchronously from the current movie.</p><p>This method processes each thumbnail request separately and asynchronously. When the results for a single image arrive, the movie player posts a MPMoviePlayerThumbnailImageRequestDidFinishNotification notification with the results for that image. Notifications are posted regardless of whether the image capture was successful or failed. You should register for this notification prior to calling this method.</p>
+		<p>This method processes each thumbnail request separately and asynchronously. When the results for a single image arrive, the movie player posts a MPMoviePlayerThumbnailImageRequestDidFinishNotification notification with the results for that image. Notifications are posted regardless of whether the image capture was successful or failed. You should register for this notification prior to calling this method.</p>
 
 <p>@availability Available in iOS 5.0 and later.</p>
 	</div>
@@ -2095,11 +2086,6 @@
 	
 	
 	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>Causes the movie player to enter or exit full-screen mode.</p>
-	</div>
-	
 	
 	
 	
@@ -2148,7 +2134,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Starts playing a previously initialized VVMoviePlayerController object with the VolarVideo movie at the specified NSString representation of a URL.</p><p>This method re-initializes a VolarVideo movie player, prepares for playback, and starts playing.</p>
+		<p>This method re-initializes a VolarVideo movie player, prepares for playback, and starts playing.</p>
 
 <p>To be notified when a the movie player is ready to play, register for the MPMoviePlayerLoadStateDidChangeNotification notification. You can then check load state by accessing the <a href="#//api/name/loadState">loadState</a> property.</p>
 
@@ -2215,7 +2201,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Captures and returns a thumbnail image from the current movie.</p><p>This method captures the thumbnail image synchronously from the current movie (which is accessible from the MPMovieSourceTypeUnknown property).</p>
+		<p>This method captures the thumbnail image synchronously from the current movie (which is accessible from the MPMovieSourceTypeUnknown property).</p>
 
 <p>@availability Available in iOS 5.0 and later.</p>
 	</div>
@@ -2263,11 +2249,6 @@
 	
 	
 	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>Obtains the most recent time-based metadata provided by the streamed movie.</p>
-	</div>
-	
 	
 	
 	
@@ -2295,7 +2276,7 @@
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2013 VolarVideo. All rights reserved. (Last updated: 2013-06-07)</span><br />
+						<p><span class="copyright">&copy; 2013 VolarVideo. All rights reserved. (Last updated: 2013-09-05)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.1 (build 858)</a>.</span></p>
 						

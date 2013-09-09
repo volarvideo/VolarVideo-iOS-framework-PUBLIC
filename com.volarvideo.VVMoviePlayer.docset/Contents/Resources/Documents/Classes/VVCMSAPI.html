@@ -63,7 +63,11 @@
 	
 	<option value="//api/name/logout">&nbsp;&nbsp;&nbsp;&nbsp;- logout</option>
 	
+	<option value="//api/name/requestBroadcastsWithStatus:andSection_id:page:resultsPerPage:">&nbsp;&nbsp;&nbsp;&nbsp;- requestBroadcastsWithStatus:andSection_id:page:resultsPerPage:</option>
+	
 	<option value="//api/name/requestBroadcastsWithStatus:page:resultsPerPage:">&nbsp;&nbsp;&nbsp;&nbsp;- requestBroadcastsWithStatus:page:resultsPerPage:</option>
+	
+	<option value="//api/name/requestSectionsPage:resultsPerPage:">&nbsp;&nbsp;&nbsp;&nbsp;- requestSectionsPage:resultsPerPage:</option>
 	
 	<option value="//api/name/setDelegate:error:">&nbsp;&nbsp;&nbsp;&nbsp;- setDelegate:error:</option>
 	
@@ -92,6 +96,10 @@
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Authentication">Authentication</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Queary for broadcasts objects">Queary for broadcasts objects</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Filtered Queary for broadcasts objects">Filtered Queary for broadcasts objects</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Enumerate the available site sections">Enumerate the available site sections</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Logout">Logout</a></span></li>
 	
@@ -131,7 +139,11 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/logout">logout</a></span></li>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/requestBroadcastsWithStatus:andSection_id:page:resultsPerPage:">requestBroadcastsWithStatus:andSection_id:page:resultsPerPage:</a></span></li>
+	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/requestBroadcastsWithStatus:page:resultsPerPage:">requestBroadcastsWithStatus:page:resultsPerPage:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/requestSectionsPage:resultsPerPage:">requestSectionsPage:resultsPerPage:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setDelegate:error:">setDelegate:error:</a></span></li>
 	
@@ -269,6 +281,36 @@
 						</ul>
 						
 						
+						<a title="Filtered Queary for broadcasts objects" name="task_Filtered Queary for broadcasts objects"></a>
+						<h3 class="subsubtitle task-title">Filtered Queary for broadcasts objects</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/requestBroadcastsWithStatus:andSection_id:page:resultsPerPage:">&ndash;&nbsp;requestBroadcastsWithStatus:andSection_id:page:resultsPerPage:</a></code>
+		<span class="tooltip"><p>Request <a href="../Classes/VVCMSBroadcast.html">VVCMSBroadcast</a> objects in a specific section for the current domain, site, and user.</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Enumerate the available site sections" name="task_Enumerate the available site sections"></a>
+						<h3 class="subsubtitle task-title">Enumerate the available site sections</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/requestSectionsPage:resultsPerPage:">&ndash;&nbsp;requestSectionsPage:resultsPerPage:</a></code>
+		<span class="tooltip"><p>Request an array of all the sections available for the current site</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
 						<a title="Logout" name="task_Logout"></a>
 						<h3 class="subsubtitle task-title">Logout</h3>
 
@@ -344,11 +386,6 @@
 	
 	
 	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>A string representing the domain for the current site and user.  nil will default to vcloud.volarvide.com.</p>
-	</div>
-	
 	
 	
 	
@@ -384,11 +421,6 @@
 	
 	
 	
-	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>The delegate upon which the completion methods will be called.</p>
-	</div>
 	
 	
 	
@@ -433,11 +465,6 @@
 	
 	
 	
-	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>Factory method used to create a new VVCMSAPI singlton.</p>
-	</div>
 	
 	
 	
@@ -505,7 +532,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Authenticates with username and password and initiates VVCMSAPI</p><p>This method retrieves the broadcast metadata endpoints is to be used after setting the domain and site and is required before requesting broadcast information.</p>
+		<p>This method retrieves the broadcast metadata endpoints is to be used after setting the domain and site and is required before requesting broadcast information.</p>
 	</div>
 	
 	
@@ -544,11 +571,6 @@
 	
 	
 	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>Reachability status of VolarVideo CMS domain and site</p>
-	</div>
-	
 	
 	
 	
@@ -584,11 +606,6 @@
 	
 	
 	
-	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>Last known reachability result</p>
-	</div>
 	
 	
 	
@@ -626,10 +643,72 @@
 	
 	
 	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>End authenticated session</p>
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">VVCMSAPI.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/requestBroadcastsWithStatus:andSection_id:page:resultsPerPage:" title="requestBroadcastsWithStatus:andSection_id:page:resultsPerPage:"></a>
+	<h3 class="subsubtitle method-title">requestBroadcastsWithStatus:andSection_id:page:resultsPerPage:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Request <a href="../Classes/VVCMSBroadcast.html">VVCMSBroadcast</a> objects in a specific section for the current domain, site, and user.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)requestBroadcastsWithStatus:(VVCMSBroadcastStatus)<em>status</em> andSection_id:(int)<em>section_id</em> page:(int)<em>page</em> resultsPerPage:(int)<em>items</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>status</em></dt>
+			<dd><p>Used to filter results by the broadcast status.  One of the following VVCMSBroadcastsStatus values:</p>
+
+<p>VVCMSBroadcastStatusUnknown,
+VVCMSBroadcastStatusScheduled,
+VVCMSBroadcastStatusStreaming,
+VVCMSBroadcastStatusArchived,
+VVCMSBroadcastStatusAll</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>section_id</em></dt>
+			<dd><p>Used to filter results by the site section.  Site sections are available in the <a href="#//api/name/requestSectionsPage:resultsPerPage:">requestSectionsPage:resultsPerPage:</a> method.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>page</em></dt>
+			<dd><p>The pagenation page</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>items</em></dt>
+			<dd><p>The number of results per page (for pagenation)</p></dd>
+		</dl>
+		
 	</div>
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -694,10 +773,56 @@ VVCMSBroadcastStatusAll
 	
 	
 	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>Request <a href="../Classes/VVCMSBroadcast.html">VVCMSBroadcast</a> objects for the current domain, site, and user.</p>
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">VVCMSAPI.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/requestSectionsPage:resultsPerPage:" title="requestSectionsPage:resultsPerPage:"></a>
+	<h3 class="subsubtitle method-title">requestSectionsPage:resultsPerPage:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Request an array of all the sections available for the current site</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)requestSectionsPage:(int)<em>page</em> resultsPerPage:(int)<em>items</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>page</em></dt>
+			<dd><p>The pagenation page</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>items</em></dt>
+			<dd><p>The number of results per page (for pagenation)</p></dd>
+		</dl>
+		
 	</div>
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -750,11 +875,6 @@ VVCMSBroadcastStatusAll
 	
 	
 	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>Set Delegate</p>
-	</div>
-	
 	
 	
 	
@@ -791,11 +911,6 @@ VVCMSBroadcastStatusAll
 	
 	
 	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>Longform of sitename, useful if multiple sites are to be managed.</p>
-	</div>
-	
 	
 	
 	
@@ -823,7 +938,7 @@ VVCMSBroadcastStatusAll
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2013 VolarVideo. All rights reserved. (Last updated: 2013-06-07)</span><br />
+						<p><span class="copyright">&copy; 2013 VolarVideo. All rights reserved. (Last updated: 2013-09-05)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.1 (build 858)</a>.</span></p>
 						

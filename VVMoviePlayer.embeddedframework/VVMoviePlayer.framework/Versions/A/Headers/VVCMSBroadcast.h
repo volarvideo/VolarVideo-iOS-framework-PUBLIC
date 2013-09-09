@@ -43,11 +43,6 @@ typedef enum {
  Description of broadcast
  */
 @property(nonatomic,strong) NSString *description;
-/*!
- The content creator / owner.
- */
-@property(nonatomic,strong) NSString *authorName;
-
 
 /*!
  @name Stream Status
@@ -64,28 +59,16 @@ typedef enum {
  
  */
 @property(nonatomic,assign) VVCMSBroadcastStatus status;
-/*!
- YES if broadcast is only available as an audio stream.
- */
-@property(nonatomic,assign) BOOL audioOnly;
-/*!
- YES if the broadcast is live streaming.
- */
-@property(nonatomic,assign) BOOL isStreaming;
-
-
-/*!
- @name Endpoints for content
- */
-/*!
- String representing URL of VolarExtended VMAP of broadcast.  Pass this string to [VVMoviePlayerViewController initWithExtendedVMAPURIString:], [VVMoviePlayerViewController initAndStartWithExtendedVMAPURIString:], [VVMoviePlayerController initWithExtendedVMAPURIString:], or [VVMoviePlayerController initAndStartWithExtendedVMAPURIString:] to initialize a VolarVideo broadcast for playback as a movie.
- */
-@property(nonatomic,strong) NSString *vmapURL;
 
 /*!
  String representation of URL where a thumbnail version of the broadcast's Poster can be found.
  */
 @property(nonatomic,strong) NSString *thumbnailURL;
+
+/*!
+ Date at which the broadcast is (was) scheduled to start.
+ */
+@property(nonatomic,strong) NSDate *startDate;
 
 /*!
  @name Touch times
@@ -96,27 +79,20 @@ typedef enum {
 @property(nonatomic,strong) NSDate *editDate;
 
 /*!
- Date at which the broadcast is (was) scheduled to start.
+ @name Broadcast rating
  */
-@property(nonatomic,strong) NSDate *startDate;
+/*!
+ Average rating of this broadcast
+ 
+ #### Availability
+ NOT YET AVAILABLE
+ */
+@property(nonatomic,assign) double rating;
 
 /*!
- @name Reviews
+ YES if broadcast is only available as an audio stream.
  */
-/*!
- Number of reviews for the broadcast.
- */
-@property(nonatomic,assign) int numberOfReviews;
-
-/*!
- Average review for the broadcast.
- */
-@property(nonatomic,assign) double averageReview;
-
-/*!
- Review of the broadcast given by the user currently authenticated to the VolarVideo CMS
- */
-@property(nonatomic,assign) double userReview;
+@property(nonatomic,assign) BOOL audioOnly;
 
 /*!
  @name Viewer metrics
@@ -128,5 +104,24 @@ typedef enum {
  NOT YET AVAILABLE
  */
 @property(nonatomic,assign) double progress;
+
+/*!
+ The content creator / owner.
+ */
+@property(nonatomic,strong) NSString *authorName;
+
+/*!
+ YES if the broadcast is live streaming.
+ */
+@property(nonatomic,assign) BOOL isStreaming;
+
+/*!
+ @name Endpoints for content
+ */
+/*!
+ String representing URL of VolarExtended VMAP of broadcast.  Pass this string to [VVMoviePlayerViewController initWithExtendedVMAPURIString:], [VVMoviePlayerViewController initAndStartWithExtendedVMAPURIString:], [VVMoviePlayerController initWithExtendedVMAPURIString:], or [VVMoviePlayerController initAndStartWithExtendedVMAPURIString:] to initialize a VolarVideo broadcast for playback as a movie.
+ */
+@property(nonatomic,strong) NSString *vmapURL;
+
 
 @end
