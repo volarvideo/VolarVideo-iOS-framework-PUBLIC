@@ -31,3 +31,4 @@ VolarVideo iOS framework to query CMS and present content
 Download the contents of the VVMoviePlayer.embeddedframework directory.  From finder,
 drag the VVMoviePlayer.embeddedframework directory into your XCode project navigator.
 
+NOTE: Reachability is embedded in VVMoviePlayer.framework.   If you want to use Reachability in your project, just include Reachbility.h (not Reachbility.m).
