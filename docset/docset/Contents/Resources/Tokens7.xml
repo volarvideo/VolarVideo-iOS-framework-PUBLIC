@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Constants/VVCMSAPISortBy.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/VVCMSAPISortBy</TokenIdentifier>
+			<Abstract type="html">VVCMSAPI is used to authenticate and query a VolarVideo site for the current broadcasts (additional document types will be added over time).  The following outlines the squence of usage:</Abstract>
+			<DeclaredIn>VVCMSAPI.h</DeclaredIn>
+            
+			
+			<NodeRef refid="7"/>
+		</Token>
+		
+		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/VVCMSAPISortByNone</TokenIdentifier>
+            <Abstract type="html">Specified the how the results of requestSectionsPage:resultsPerPage:,requestBroadcastsWithStatus:page:resultsPerPage:, and requestPlaylistsPage:resultsPerPage: methods are sorted.</Abstract>
+            <Declaration>VVCMSAPISortByNone</Declaration>
+            
+            <DeclaredIn>VVCMSAPI.h</DeclaredIn>
+            
+            <NodeRef refid="7"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/VVCMSAPISortByDate</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>VVCMSAPISortByDate</Declaration>
+            
+            <DeclaredIn>VVCMSAPI.h</DeclaredIn>
+            
+            <NodeRef refid="7"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/VVCMSAPISortByStatus</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>VVCMSAPISortByStatus</Declaration>
+            
+            <DeclaredIn>VVCMSAPI.h</DeclaredIn>
+            
+            <NodeRef refid="7"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/VVCMSAPISortById</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>VVCMSAPISortById</Declaration>
+            
+            <DeclaredIn>VVCMSAPI.h</DeclaredIn>
+            
+            <NodeRef refid="7"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/VVCMSAPISortByTitle</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>VVCMSAPISortByTitle</Declaration>
+            
+            <DeclaredIn>VVCMSAPI.h</DeclaredIn>
+            
+            <NodeRef refid="7"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/VVCMSAPISortByDescription</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>VVCMSAPISortByDescription</Declaration>
+            
+            <DeclaredIn>VVCMSAPI.h</DeclaredIn>
+            
+            <NodeRef refid="7"/>
+        </Token>
+        
+	</File>
+</Tokens>

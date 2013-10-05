@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Categories/UIViewController+VVMoviePlayerViewController.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cat/UIViewController(VVMoviePlayerViewController)</TokenIdentifier>
+			<Abstract type="html">This category adds methods to the UIViewController class for presenting and dismissing a VolarVideo movie player using a specific set of animations. The transitions used by these methods are the same ones used by the YouTube and iPod applications to display video content.</Abstract>
+			<DeclaredIn>UIViewController+VVMoviePlayerViewController.h</DeclaredIn>
+            
+			
+			<NodeRef refid="5"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIViewController/presentVolarMoviePlayerViewControllerAnimated:</TokenIdentifier>
+			<Abstract type="html">Presents the movie player view controller using the standard movie player transition.</Abstract>
+			<DeclaredIn>UIViewController+VVMoviePlayerViewController.h</DeclaredIn>
+			
+			<Declaration>- (void)presentVolarMoviePlayerViewControllerAnimated:(VVMoviePlayerViewController *)player</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>player</Name>
+					<Abstract type="html">The VolarVideo movie player view controller to present.
+
+
+@availability
+Available in iOS 5.0 or later.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/presentVolarMoviePlayerViewControllerAnimated:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIViewController/dismissVolarMoviePlayerViewControllerAnimated</TokenIdentifier>
+			<Abstract type="html">Dismisses a VolarVideo movie player view controller using the standard movie player transition.</Abstract>
+			<DeclaredIn>UIViewController+VVMoviePlayerViewController.h</DeclaredIn>
+			
+			<Declaration>- (void)dismissVolarMoviePlayerViewControllerAnimated</Declaration>
+			
+			
+			<Anchor>//api/name/dismissVolarMoviePlayerViewControllerAnimated</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+        
+	</File>
+</Tokens>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Protocols/VVCMSAPIDelegate.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/VVCMSAPIDelegate</TokenIdentifier>
+			<Abstract type="html">Completion handlers for asynchronous VVCMSAPI calls.</Abstract>
+			<DeclaredIn>VVCMSAPIDelegate.h</DeclaredIn>
+            
+			
+			<NodeRef refid="6"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/VVCMSAPIDelegate/VVCMSAPI:domainRequestCompleteWithError:</TokenIdentifier>
+			<Abstract type="html">Completion method for initiateDomain</Abstract>
+			<DeclaredIn>VVCMSAPIDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)VVCMSAPI:(VVCMSAPI *)vvCmsApi domainRequestCompleteWithError:(NSError *)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>vvCmsApi</Name>
+					<Abstract type="html">The VVCMSAPI instance used in the initialDomain: call.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">An error detailing what went wrong (or nil if no error).</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/VVCMSAPI:domainRequestCompleteWithError:</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/VVCMSAPIDelegate/VVCMSAPI:authenticationRequestDidFinishWithError:</TokenIdentifier>
+			<Abstract type="html">Completion method for authenticateWithUsername:Password:</Abstract>
+			<DeclaredIn>VVCMSAPIDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)VVCMSAPI:(VVCMSAPI *)vvCmsApi authenticationRequestDidFinishWithError:(NSError *)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>vvCmsApi</Name>
+					<Abstract type="html">The instance of the VVAPI used in the authenticateWithUsername:Password: call.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">An error detailing what went wrong (or nil if no error)</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/VVCMSAPI:authenticationRequestDidFinishWithError:</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/VVCMSAPIDelegate/VVCMSAPI:logoutRequestDidFinishWithError:</TokenIdentifier>
+			<Abstract type="html">Completion method for logout</Abstract>
+			<DeclaredIn>VVCMSAPIDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)VVCMSAPI:(VVCMSAPI *)vvCmsApi logoutRequestDidFinishWithError:(NSError *)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>vvCmsApi</Name>
+					<Abstract type="html">The instance of the VVAPI used in the logoutRequestDidFinishWithError: call.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">An error detailing what went wrong (or nil if no error)</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/VVCMSAPI:logoutRequestDidFinishWithError:</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/VVCMSAPIDelegate/VVCMSAPI:requestForUserNameComplete:withError:</TokenIdentifier>
+			<Abstract type="html">Completion method for requestUserName:</Abstract>
+			<DeclaredIn>VVCMSAPIDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)VVCMSAPI:(VVCMSAPI *)vvCmsApi requestForUserNameComplete:(NSString *)userName withError:(NSError *)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>vvCmsApi</Name>
+					<Abstract type="html">The instance of the VVAPI used in the requestForUserNameComplete:withError: call.</Abstract>
+				</Parameter><Parameter>
+					<Name>userName</Name>
+					<Abstract type="html">The user name.  nil will be return in non-authenticated sessions.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">An error detailing what went wrong (or nil if no error)</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/VVCMSAPI:requestForUserNameComplete:withError:</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/VVCMSAPIDelegate/VVCMSAPI:requestForSectionsPage:resultsPerPage:didFinishWithArray:error:</TokenIdentifier>
+			<Abstract type="html">Completion method for requestSectionsPage:resultsPerPage:didFinishWithArray:error:</Abstract>
+			<DeclaredIn>VVCMSAPIDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)VVCMSAPI:(VVCMSAPI *)vvCmsApi requestForSectionsPage:(int)page resultsPerPage:(int)resultsPerPage didFinishWithArray:(NSArray *)results error:(NSError *)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>vvCmsApi</Name>
+					<Abstract type="html">The instance of the VVAPI used in the requestForUserNameComplete:withError: call.</Abstract>
+				</Parameter><Parameter>
+					<Name>page</Name>
+					<Abstract type="html">The page index returned.  Note that this may be a different value than requested.</Abstract>
+				</Parameter><Parameter>
+					<Name>resultsPerPage</Name>
+					<Abstract type="html">The pagenation control parameter.  Note that this may be a different value than requested.</Abstract>
+				</Parameter><Parameter>
+					<Name>results</Name>
+					<Abstract type="html">An array of NSDictionaries, each dictionary having:
+
+    - id: the section_id, used in the setSectionIdFilter: and requestSectionsPage:resultsPerPage: methods
+    - title: the title of the section
+    - description: a detailed description (if any) for the section</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">An error detailing what went wrong (or nil if no error)</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/VVCMSAPI:requestForSectionsPage:resultsPerPage:didFinishWithArray:error:</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/VVCMSAPIDelegate/VVCMSAPI:requestForPlaylistsPage:resultsPerPage:didFinishWithArray:error:</TokenIdentifier>
+			<Abstract type="html">Completion method for requestPlaylistsPage:resultsPerPage:didFinishWithArray:error:</Abstract>
+			<DeclaredIn>VVCMSAPIDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)VVCMSAPI:(VVCMSAPI *)vvCmsApi requestForPlaylistsPage:(int)page resultsPerPage:(int)resultsPerPage didFinishWithArray:(NSArray *)results error:(NSError *)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>vvCmsApi</Name>
+					<Abstract type="html">The instance of the VVAPI used in the requestForUserNameComplete:withError: call.</Abstract>
+				</Parameter><Parameter>
+					<Name>page</Name>
+					<Abstract type="html">The page index returned.  Note that this may be a different value than requested.</Abstract>
+				</Parameter><Parameter>
+					<Name>resultsPerPage</Name>
+					<Abstract type="html">The pagenation control parameter.  Note that this may be a different value than requested.</Abstract>
+				</Parameter><Parameter>
+					<Name>results</Name>
+					<Abstract type="html">An array of NSDictionaries, each dictionary having:
+
+    - id: the playlist_id, used in the setPlaylistIdFilter: and requestPlaylistsPage:resultsPerPage: methods
+    - title: the title of the playlist
+    - section_id: id of section that playlist is assigned to
+    - description: a detailed description (if any) for the playlist</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">An error detailing what went wrong (or nil if no error)</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/VVCMSAPI:requestForPlaylistsPage:resultsPerPage:didFinishWithArray:error:</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/VVCMSAPIDelegate/VVCMSAPI:requestForBroadcastsOfStatus:didFinishWithArray:error:</TokenIdentifier>
+			<Abstract type="html">Completion Method for broadcasts list requests</Abstract>
+			<DeclaredIn>VVCMSAPIDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)VVCMSAPI:(VVCMSAPI *)vvapi requestForBroadcastsOfStatus:(VVCMSBroadcastStatus)status didFinishWithArray:(NSArray *)events error:(NSError *)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>vvapi</Name>
+					<Abstract type="html">The instance of the VVAPI used in the</Abstract>
+				</Parameter><Parameter>
+					<Name>status</Name>
+					<Abstract type="html">The status of the broadcasts contained in the didFinishWithArray: parameter.</Abstract>
+				</Parameter><Parameter>
+					<Name>events</Name>
+					<Abstract type="html">An array of scheduled streaming events</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">An error detailing what went wrong (or nil if no error)</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/VVCMSAPI:requestForBroadcastsOfStatus:didFinishWithArray:error:</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+        
+	</File>
+</Tokens>

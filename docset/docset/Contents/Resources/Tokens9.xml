@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Constants/VVCMSBroadcastStatus.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/VVCMSBroadcastStatus</TokenIdentifier>
+			<Abstract type="html">Properties of a VolarVideo broadcast.</Abstract>
+			<DeclaredIn>VVCMSBroadcast.h</DeclaredIn>
+            
+			
+			<NodeRef refid="9"/>
+		</Token>
+		
+		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/VVCMSBroadcastStatusUnknown</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>VVCMSBroadcastStatusUnknown</Declaration>
+            
+            <DeclaredIn>VVCMSBroadcast.h</DeclaredIn>
+            
+            <NodeRef refid="9"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/VVCMSBroadcastStatusScheduled</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>VVCMSBroadcastStatusScheduled</Declaration>
+            
+            <DeclaredIn>VVCMSBroadcast.h</DeclaredIn>
+            
+            <NodeRef refid="9"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/VVCMSBroadcastStatusStreaming</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>VVCMSBroadcastStatusStreaming</Declaration>
+            
+            <DeclaredIn>VVCMSBroadcast.h</DeclaredIn>
+            
+            <NodeRef refid="9"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/VVCMSBroadcastStatusArchived</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>VVCMSBroadcastStatusArchived</Declaration>
+            
+            <DeclaredIn>VVCMSBroadcast.h</DeclaredIn>
+            
+            <NodeRef refid="9"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/VVCMSBroadcastStatusAll</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>VVCMSBroadcastStatusAll</Declaration>
+            
+            <DeclaredIn>VVCMSBroadcast.h</DeclaredIn>
+            
+            <NodeRef refid="9"/>
+        </Token>
+        
+	</File>
+</Tokens>

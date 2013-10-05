@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Constants/vvCMSAPIError.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/vvCMSAPIError</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>VVCMSAPI.h</DeclaredIn>
+            
+			
+			<NodeRef refid="10"/>
+		</Token>
+		
+		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/vvCMSAPIErrorInvalidDelegate</TokenIdentifier>
+            <Abstract type="html">Errors returned by VVCMSAPI authenticationRequestForDomain:username:andPassword:
+     </Abstract>
+            <Declaration>vvCMSAPIErrorInvalidDelegate</Declaration>
+            
+            <DeclaredIn>VVCMSAPI.h</DeclaredIn>
+            
+            <NodeRef refid="10"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/vvCMSAPIErrorNoDomainURL</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>vvCMSAPIErrorNoDomainURL</Declaration>
+            
+            <DeclaredIn>VVCMSAPI.h</DeclaredIn>
+            
+            <NodeRef refid="10"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/vvCMSAPIErrorDomainUnreachable</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>vvCMSAPIErrorDomainUnreachable</Declaration>
+            
+            <DeclaredIn>VVCMSAPI.h</DeclaredIn>
+            
+            <NodeRef refid="10"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/vvCMSAPIErrorInvalidDomainURL</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>vvCMSAPIErrorInvalidDomainURL</Declaration>
+            
+            <DeclaredIn>VVCMSAPI.h</DeclaredIn>
+            
+            <NodeRef refid="10"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/vvCMSAPIErrorNotLoggedIn</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>vvCMSAPIErrorNotLoggedIn</Declaration>
+            
+            <DeclaredIn>VVCMSAPI.h</DeclaredIn>
+            
+            <NodeRef refid="10"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/vvCMSAPIErrorUnknownEndpoint</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>vvCMSAPIErrorUnknownEndpoint</Declaration>
+            
+            <DeclaredIn>VVCMSAPI.h</DeclaredIn>
+            
+            <NodeRef refid="10"/>
+        </Token>
+        
+	</File>
+</Tokens>
