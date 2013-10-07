@@ -409,9 +409,12 @@ CGPoint _VVMediaListViewControllerPointBeforeRotate;
     if (loading) {
         api.sortDir = vvCMSAPISortAscending;
         api.sortBy = VVCMSAPISortByDate;
-        [api requestBroadcastsWithStatus:VVCMSBroadcastStatusAll page:1 resultsPerPage:200];
-        [api requestSectionsPage:1 resultsPerPage:25];
-        [api requestPlaylistsPage:1 resultsPerPage:25];
+        [api requestBroadcastsWithStatus:VVCMSBroadcastStatusScheduled page:1 resultsPerPage:200];
+        [api requestBroadcastsWithStatus:VVCMSBroadcastStatusStreaming page:1 resultsPerPage:200];
+        api.sortDir = vvCMSAPISortDescending;
+        [api requestBroadcastsWithStatus:VVCMSBroadcastStatusArchived page:1 resultsPerPage:200];
+        [api requestSectionsPage:1 resultsPerPage:50];
+        [api requestPlaylistsPage:1 resultsPerPage:50];
     } else {
         switch (segCtrl.selectedSegmentIndex) {
             case 0: // upcoming (scheduled)
@@ -431,7 +434,10 @@ CGPoint _VVMediaListViewControllerPointBeforeRotate;
             default:
                 api.sortDir = vvCMSAPISortAscending;
                 api.sortBy = VVCMSAPISortByDate;
-                [api requestBroadcastsWithStatus:VVCMSBroadcastStatusAll page:1 resultsPerPage:200];
+                [api requestBroadcastsWithStatus:VVCMSBroadcastStatusScheduled page:1 resultsPerPage:200];
+                [api requestBroadcastsWithStatus:VVCMSBroadcastStatusStreaming page:1 resultsPerPage:200];
+                api.sortDir = vvCMSAPISortAscending;
+                [api requestBroadcastsWithStatus:VVCMSBroadcastStatusArchived page:1 resultsPerPage:200];
                 break;
         }
     }
