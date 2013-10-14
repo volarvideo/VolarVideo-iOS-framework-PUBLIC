@@ -1,1 +1,0 @@
-../VVMoviePlayer.framework/Resources/readme.markdown
