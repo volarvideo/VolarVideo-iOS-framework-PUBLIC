@@ -20,7 +20,7 @@
 #if defined MWC_APP
 #define kSite @"themwc"
 #else
-#define kSite nil
+#define kSite @"volar"
 #endif
 
 @implementation VVAppDelegate
