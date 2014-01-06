@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B04DB824187B373500CE8BD1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5CE3830180B326A00084C3A /* AVFoundation.framework */; };
+		B04DB826187B373D00CE8BD1 /* VVMoviePlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B04DB825187B373D00CE8BD1 /* VVMoviePlayer.framework */; };
+		B04DB827187B3AFC00CE8BD1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5CE3830180B326A00084C3A /* AVFoundation.framework */; };
 		B504E8E7180BD71000D3FAB1 /* audioOnly.png in Resources */ = {isa = PBXBuildFile; fileRef = B504E8B9180BD71000D3FAB1 /* audioOnly.png */; };
 		B504E8E8180BD71000D3FAB1 /* audioOnly@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B504E8BA180BD71000D3FAB1 /* audioOnly@2x.png */; };
 		B504E8E9180BD71000D3FAB1 /* inline-pause.png in Resources */ = {isa = PBXBuildFile; fileRef = B504E8BB180BD71000D3FAB1 /* inline-pause.png */; };
@@ -324,8 +327,8 @@
 		B5CE36D7180B2EC100084C3A /* VVDatePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5CE36A2180B2EC100084C3A /* VVDatePickerViewController.xib */; };
 		B5CE36D8180B2EC100084C3A /* VVDatePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5CE36A2180B2EC100084C3A /* VVDatePickerViewController.xib */; };
 		B5CE36E2180B309100084C3A /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = B5CE36E1180B309100084C3A /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		B5CE36E3180B309100084C3A /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = B5CE36E1180B309100084C3A /* JSONKit.m */; };
-		B5CE36E4180B309100084C3A /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = B5CE36E1180B309100084C3A /* JSONKit.m */; };
+		B5CE36E3180B309100084C3A /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = B5CE36E1180B309100084C3A /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		B5CE36E4180B309100084C3A /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = B5CE36E1180B309100084C3A /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		B5CE36E7180B30A300084C3A /* PRPAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = B5CE36E6180B30A300084C3A /* PRPAlertView.m */; };
 		B5CE36E8180B30A300084C3A /* PRPAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = B5CE36E6180B30A300084C3A /* PRPAlertView.m */; };
 		B5CE36E9180B30A300084C3A /* PRPAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = B5CE36E6180B30A300084C3A /* PRPAlertView.m */; };
@@ -437,11 +440,10 @@
 		B5CE3862180B330F00084C3A /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5CE3826180B324100084C3A /* MessageUI.framework */; };
 		B5CE3863180B331300084C3A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5CE3824180B323900084C3A /* QuartzCore.framework */; };
 		B5CE3864180B331300084C3A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5CE3824180B323900084C3A /* QuartzCore.framework */; };
-		B5CE3865180B331900084C3A /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5CE3820180B31FD00084C3A /* SenTestingKit.framework */; };
-		B5CE3866180B331A00084C3A /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5CE3820180B31FD00084C3A /* SenTestingKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B04DB825187B373D00CE8BD1 /* VVMoviePlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VVMoviePlayer.framework; path = "../../Library/Developer/Xcode/DerivedData/VolarVideo-iOS-framework-avbvokvtzfuwhyfmmtvduivaezts/Build/Products/Debug-iphoneos/VVMoviePlayer.framework"; sourceTree = "<group>"; };
 		B504E8B9180BD71000D3FAB1 /* audioOnly.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = audioOnly.png; sourceTree = "<group>"; };
 		B504E8BA180BD71000D3FAB1 /* audioOnly@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "audioOnly@2x.png"; sourceTree = "<group>"; };
 		B504E8BB180BD71000D3FAB1 /* inline-pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "inline-pause.png"; sourceTree = "<group>"; };
@@ -728,6 +730,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B04DB826187B373D00CE8BD1 /* VVMoviePlayer.framework in Frameworks */,
+				B04DB824187B373500CE8BD1 /* AVFoundation.framework in Frameworks */,
 				B5CE34EE180B2D5300084C3A /* UIKit.framework in Frameworks */,
 				B5CE34EF180B2D5300084C3A /* Foundation.framework in Frameworks */,
 				B5CE34F0180B2D5300084C3A /* CoreGraphics.framework in Frameworks */,
@@ -746,7 +750,6 @@
 				B5CE385F180B330B00084C3A /* ImageIO.framework in Frameworks */,
 				B5CE3861180B330F00084C3A /* MessageUI.framework in Frameworks */,
 				B5CE3863180B331300084C3A /* QuartzCore.framework in Frameworks */,
-				B5CE3865180B331900084C3A /* SenTestingKit.framework in Frameworks */,
 				B5846C05180B8620002134D1 /* libPusher-combined.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -755,6 +758,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B04DB827187B3AFC00CE8BD1 /* AVFoundation.framework in Frameworks */,
 				B5CE350B180B2D6600084C3A /* UIKit.framework in Frameworks */,
 				B5CE350C180B2D6600084C3A /* Foundation.framework in Frameworks */,
 				B5CE350D180B2D6600084C3A /* CoreGraphics.framework in Frameworks */,
@@ -773,7 +777,6 @@
 				B5CE3860180B330C00084C3A /* ImageIO.framework in Frameworks */,
 				B5CE3862180B330F00084C3A /* MessageUI.framework in Frameworks */,
 				B5CE3864180B331300084C3A /* QuartzCore.framework in Frameworks */,
-				B5CE3866180B331A00084C3A /* SenTestingKit.framework in Frameworks */,
 				B5846C06180B8620002134D1 /* libPusher-combined.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -873,6 +876,7 @@
 		B5CE34AE180B2C4900084C3A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B04DB825187B373D00CE8BD1 /* VVMoviePlayer.framework */,
 				B5CE3842180B32B000084C3A /* CoreLocation.framework */,
 				B5CE3840180B32AA00084C3A /* Security.framework */,
 				B5CE383E180B32A200084C3A /* CFNetwork.framework */,
@@ -1893,10 +1897,9 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
-					"\\\\\\\"$(SRCROOT)/VVMoviePlayer-Private-Xcode5.embeddedframework\\\\\\\"",
-					"\\\\\\\"$(SYSTEM_APPS_DIR)/Xcode5.app/Contents/Developer/Library/Frameworks\\\\\\\"",
-					"/Users/ben/Development/iPhone/VVMoviePlayer-Public-Xcode5/VVMoviePlayer-Private-Xcode5.embeddedframework",
-					"/Users/ben/Development/iPhone/VolarVideo-iOS-framework-PUBLIC/VVMoviePlayer.embeddedframework",
+					"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks",
+					"$(SRCROOT)/VVMoviePlayer.embeddedframework",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/VolarVideo-iOS-framework-avbvokvtzfuwhyfmmtvduivaezts/Build/Products/Debug-iphoneos",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VVMoviePlayer-DemoApps/DemoApp/DemoApp-Prefix.pch";
@@ -1904,7 +1907,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					"$(SRCROOT)/VVMoviePlayer-DemoApps/Frameworks/Pusher",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -1918,10 +1922,9 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
-					"\\\\\\\"$(SRCROOT)/VVMoviePlayer-Private-Xcode5.embeddedframework\\\\\\\"",
-					"\\\\\\\"$(SYSTEM_APPS_DIR)/Xcode5.app/Contents/Developer/Library/Frameworks\\\\\\\"",
-					"/Users/ben/Development/iPhone/VVMoviePlayer-Public-Xcode5/VVMoviePlayer-Private-Xcode5.embeddedframework",
-					"/Users/ben/Development/iPhone/VolarVideo-iOS-framework-PUBLIC/VVMoviePlayer.embeddedframework",
+					"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks",
+					"$(SRCROOT)/VVMoviePlayer.embeddedframework",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/VolarVideo-iOS-framework-avbvokvtzfuwhyfmmtvduivaezts/Build/Products/Debug-iphoneos",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VVMoviePlayer-DemoApps/DemoApp/DemoApp-Prefix.pch";
@@ -1929,7 +1932,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					"$(SRCROOT)/VVMoviePlayer-DemoApps/Frameworks/Pusher",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -1943,8 +1947,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
-					"/Users/ben/Development/iPhone/VVMoviePlayer-Public-Xcode5/VVMoviePlayer-Private-Xcode5.embeddedframework",
-					"/Users/ben/Development/iPhone/VolarVideo-iOS-framework-PUBLIC/VVMoviePlayer.embeddedframework",
+					"$(SRCROOT)/VVMoviePlayer.embeddedframework",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VVMoviePlayer-DemoApps/WebPlayer/WebPlayer-Prefix.pch";
@@ -1952,7 +1956,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					"$(SRCROOT)/VVMoviePlayer-DemoApps/Frameworks/Pusher",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -1966,8 +1971,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
-					"/Users/ben/Development/iPhone/VVMoviePlayer-Public-Xcode5/VVMoviePlayer-Private-Xcode5.embeddedframework",
-					"/Users/ben/Development/iPhone/VolarVideo-iOS-framework-PUBLIC/VVMoviePlayer.embeddedframework",
+					"$(SRCROOT)/VVMoviePlayer.embeddedframework",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VVMoviePlayer-DemoApps/WebPlayer/WebPlayer-Prefix.pch";
@@ -1975,7 +1980,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					"$(SRCROOT)/VVMoviePlayer-DemoApps/Frameworks/Pusher",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

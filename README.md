@@ -39,3 +39,7 @@ Download the contents of the VVMoviePlayer.embeddedframework directory.  From fi
 - For your Application Target's Build Settings, set "Other Linker Flags" to "-objC" and "-all_load"
 
 You may wish to set "View controller-based status bar appearance" to NO in your apps info.plist,.  This will prevent the status bar from appearing over the VVMoviePlayer in some screen orientations.
+
+## Some additional notes:
+
+If you are receiving an error from JSONKit about not supporting Automatic Reference Counting, go to Build Phases, select Compile Sources, double-click on JSONKit.m, then add `-fno-objc-arc`

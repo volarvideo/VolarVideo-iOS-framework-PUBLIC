@@ -31,14 +31,13 @@
 @synthesize navigationController = _navigationController;
 @synthesize moviePlayer;
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [UIApplication sharedApplication].statusBarHidden=NO;
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    // only use during testin
+    // only use during testing
     //[TestFlight setDeviceIdentifier:[[UIDevice currentDevice] uniqueIdentifier]];
     
     CFBundleRef myBundle = CFBundleGetMainBundle ();
@@ -80,69 +79,62 @@
         vmapString=nil;
         return YES;
 #else
-        if (listViewController) {
-            [listViewController startVMAP:[url description]];
-            vmapString=nil;
-            return YES;
+    if (listViewController) {
+        [listViewController startVMAP:[url description]];
+        vmapString=nil;
+        return YES;
 #endif
-        } else {
-            NSLog(@"DOH!!!!");
-            return YES;
-        }
+    } else {
+        NSLog(@"DOH!!!!");
+        return YES;
+    }
+}
+    
+    
+- (void) finishedLoadingBroadcastsWithError:(NSError *)error {
+    if (error) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not connect" message:error.localizedDescription delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil];
+        [alert show];
+        return;
     }
     
-    
-    - (void) finishedLoadingBroadcastsWithError:(NSError *)error {
-        if (error) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not connect" message:error.localizedDescription delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil];
-            [alert show];
-            return;
-        }
-        
 #if !defined VOLAR_PLAYER
-        self.navigationController = [[B3NavigationController alloc]initWithRootViewController:(UIViewController*)listViewController];
-        self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-        self.window.rootViewController = self.navigationController;
-        [self.window makeKeyAndVisible];
-        if (vmapString) {
-            [listViewController startVMAP:vmapString];
-            vmapString=nil;
-        }
-        
+    self.navigationController = [[B3NavigationController alloc]initWithRootViewController:(UIViewController*)listViewController];
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    self.window.rootViewController = self.navigationController;
+    [self.window makeKeyAndVisible];
+    if (vmapString) {
+        [listViewController startVMAP:vmapString];
+        vmapString=nil;
+    }
+    
 #endif
-    }
+}
     
-    - (void)applicationWillResignActive:(UIApplication *)application
-    {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-    }
+- (void)applicationWillResignActive:(UIApplication *)application {
+    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+}
     
-    - (void)applicationDidEnterBackground:(UIApplication *)application
-    {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
-        //NSLog(@"Background time remaining:%f", [[UIApplication sharedApplication] backgroundTimeRemaining]);
-    }
+    //NSLog(@"Background time remaining:%f", [[UIApplication sharedApplication] backgroundTimeRemaining]);
+}
     
-    - (void)applicationWillEnterForeground:(UIApplication *)application
-    {
-    }
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+
+}
     
-    - (void)applicationDidBecomeActive:(UIApplication *)application
-    {
-        // required for VolarVideo web launch capability
-        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
-    }
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    // required for VolarVideo web launch capability
+    [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
+}
     
-    - (void)applicationWillTerminate:(UIApplication *)application
-    {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
+- (void)applicationWillTerminate:(UIApplication *)application {
+    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
     
-    
-    
-    
-    
-    @end
+
+@end
