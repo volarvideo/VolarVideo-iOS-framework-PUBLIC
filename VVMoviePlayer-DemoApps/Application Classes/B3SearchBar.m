@@ -107,13 +107,11 @@ BOOL _B3SearchBarLayingOut=NO;
     // elements within it
     // As of iOS 7.0, there is only one subview - a UIView elements - whose
     // subviews are all of the elements within the search bar
-    if ([self.subviews count]>1) {
-        // Greater than one subview? Can't be iOS 7 !
+    if([[[UIDevice currentDevice]systemVersion]floatValue]<7 && [self.subviews count]>1){
+        // Before iOS 7.0
         searchField = [self.subviews objectAtIndex:1];
     } else if ([self.subviews count]==1) {
-        // Exactly one subview? Probably iOS 7. Need a smarter way to check.
-        // I tried the following but got a run-time error:
-        // if ( [[self.subviews.firstObject subviews] isKindOfClass:[UIView class]] )
+        // After iOS 7.0
         if ( [self.subviews.firstObject subviews].count > 1 )
             searchField = [[self.subviews.firstObject subviews] objectAtIndex:1];
     }

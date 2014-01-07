@@ -179,7 +179,11 @@ int _VVMediaListViewRefreshedQueued=0;
     liveImage = [UIImage imageNamed:@"iconLiveBroadcast"];
     archImage = [UIImage imageNamed:@"iconGenericVideo"];
     
-    
+    // Thank god for Stack Overflow:
+    // http://stackoverflow.com/questions/19081697/ios-7-navigation-bar-hiding-content
+    if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) { // if iOS 7
+        self.edgesForExtendedLayout = UIRectEdgeNone; //layout adjustements
+    }
     
 }
 
@@ -953,12 +957,20 @@ BOOL   _VVMediaPlayerSkipLockout=NO;
 
 - (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
     //NSLog(@"");
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    // In iOS 7.0 (and presumably later), the UISearchBar will automatically attach
+    // itself to the navigation controller. The navigation controller will also
+    // automatically hide itself while leaving the search bar visible. Therefore we
+    // don't need to worry about this.
+    if([[[UIDevice currentDevice]systemVersion]floatValue]<7){
+        [self.navigationController setNavigationBarHidden:YES animated:YES];
+    }
 }
 
 - (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller {
     //NSLog(@"");
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    if([[[UIDevice currentDevice]systemVersion]floatValue]>=7){
+        [self.navigationController setNavigationBarHidden:NO animated:YES];
+    }
 }
 
 - (void)setupSearchResultsTableView {
