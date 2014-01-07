@@ -82,7 +82,7 @@ BOOL _B3SearchBarLayingOut=NO;
     //NSLog(@"");
     [super layoutSubviews];
     
-   if (_B3SearchBarLayingOut)
+    if (_B3SearchBarLayingOut)
         return;
     if (self.showsCancelButton)
         _B3SearchBarLayingOut=YES;
@@ -101,10 +101,24 @@ BOOL _B3SearchBarLayingOut=NO;
     
     float cancelButtonWidth = 65.0;
     
+    UITextField *searchField = nil;
     
+    // In iOS 6.1 and earlier, the subviews of a UISearchBar were all of the
+    // elements within it
+    // As of iOS 7.0, there is only one subview - a UIView elements - whose
+    // subviews are all of the elements within the search bar
     if ([self.subviews count]>1) {
-        UITextField *searchField = [self.subviews objectAtIndex:1];
-        
+        // Greater than one subview? Can't be iOS 7 !
+        searchField = [self.subviews objectAtIndex:1];
+    } else if ([self.subviews count]==1) {
+        // Exactly one subview? Probably iOS 7. Need a smarter way to check.
+        // I tried the following but got a run-time error:
+        // if ( [[self.subviews.firstObject subviews] isKindOfClass:[UIView class]] )
+        if ( [self.subviews.firstObject subviews].count > 1 )
+            searchField = [[self.subviews.firstObject subviews] objectAtIndex:1];
+    }
+    
+    if ( searchField != nil ) {
         if (self.showsCancelButton == YES) {
             [searchField setFrame:CGRectMake(0, 6, self.frame.size.width - cancelButtonWidth, height)];
             [customBtn setFrame:CGRectMake(-customButtonWidth-20, 6, customButtonWidth, height)];
