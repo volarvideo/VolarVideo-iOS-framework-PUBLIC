@@ -25,8 +25,12 @@
         // Custom initialization
         [self loadDomains];
     }
+	
+	// Fix to #5 and #7
+	// Must explicitly assign a space in memory for the variables
 	domains = [[NSMutableArray alloc] init];
-    return self;
+    
+	return self;
 }
 
 -(void) loadDomains {
