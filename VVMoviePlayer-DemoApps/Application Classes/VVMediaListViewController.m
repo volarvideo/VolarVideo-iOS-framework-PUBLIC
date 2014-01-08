@@ -986,7 +986,7 @@ BOOL   _VVMediaPlayerSkipLockout=NO;
 
 - (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller {
     //NSLog(@"");
-    if([[[UIDevice currentDevice]systemVersion]floatValue]>=7){
+    if([[[UIDevice currentDevice]systemVersion]floatValue]<7){
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
 }
