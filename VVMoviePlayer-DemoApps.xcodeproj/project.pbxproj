@@ -8,9 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		B04DB824187B373500CE8BD1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5CE3830180B326A00084C3A /* AVFoundation.framework */; };
-		B04DB826187B373D00CE8BD1 /* VVMoviePlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B04DB825187B373D00CE8BD1 /* VVMoviePlayer.framework */; };
 		B04DB827187B3AFC00CE8BD1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5CE3830180B326A00084C3A /* AVFoundation.framework */; };
 		B04DB82A187B54C200CE8BD1 /* VVAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B5CE34DE180B2D1C00084C3A /* VVAppDelegate.m */; };
+		B099B6EA187DC517008E5F24 /* VVMoviePlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B504E8E6180BD71000D3FAB1 /* VVMoviePlayer.framework */; };
+		B099B6EB187DDB94008E5F24 /* VVMoviePlayerController.nib in Resources */ = {isa = PBXBuildFile; fileRef = B504E8CE180BD71000D3FAB1 /* VVMoviePlayerController.nib */; };
 		B504E8E7180BD71000D3FAB1 /* audioOnly.png in Resources */ = {isa = PBXBuildFile; fileRef = B504E8B9180BD71000D3FAB1 /* audioOnly.png */; };
 		B504E8E8180BD71000D3FAB1 /* audioOnly@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B504E8BA180BD71000D3FAB1 /* audioOnly@2x.png */; };
 		B504E8E9180BD71000D3FAB1 /* inline-pause.png in Resources */ = {isa = PBXBuildFile; fileRef = B504E8BB180BD71000D3FAB1 /* inline-pause.png */; };
@@ -730,12 +731,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B04DB826187B373D00CE8BD1 /* VVMoviePlayer.framework in Frameworks */,
 				B04DB824187B373500CE8BD1 /* AVFoundation.framework in Frameworks */,
-				B5CE34EE180B2D5300084C3A /* UIKit.framework in Frameworks */,
-				B5CE34EF180B2D5300084C3A /* Foundation.framework in Frameworks */,
-				B5CE34F0180B2D5300084C3A /* CoreGraphics.framework in Frameworks */,
 				B5CE3844180B32C500084C3A /* CoreLocation.framework in Frameworks */,
+				B099B6EA187DC517008E5F24 /* VVMoviePlayer.framework in Frameworks */,
 				B5CE3846180B32C900084C3A /* Security.framework in Frameworks */,
 				B5CE3848180B32CE00084C3A /* CFNetwork.framework in Frameworks */,
 				B5CE384A180B32D200084C3A /* libicucore.dylib in Frameworks */,
@@ -750,6 +748,9 @@
 				B5CE385F180B330B00084C3A /* ImageIO.framework in Frameworks */,
 				B5CE3861180B330F00084C3A /* MessageUI.framework in Frameworks */,
 				B5CE3863180B331300084C3A /* QuartzCore.framework in Frameworks */,
+				B5CE34F0180B2D5300084C3A /* CoreGraphics.framework in Frameworks */,
+				B5CE34EE180B2D5300084C3A /* UIKit.framework in Frameworks */,
+				B5CE34EF180B2D5300084C3A /* Foundation.framework in Frameworks */,
 				B5846C05180B8620002134D1 /* libPusher-combined.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1469,6 +1470,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B099B6EB187DDB94008E5F24 /* VVMoviePlayerController.nib in Resources */,
 				B5CE34F6180B2D5300084C3A /* InfoPlist.strings in Resources */,
 				B5CE34FE180B2D5300084C3A /* Default.png in Resources */,
 				B5CE3500180B2D5300084C3A /* Default@2x.png in Resources */,
@@ -1787,6 +1789,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/**",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/VolarVideo-iOS-framework-avbvokvtzfuwhyfmmtvduivaezts/Build/Products/Debug-iphoneos",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1800,6 +1807,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = $SDKROOT/usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/**",
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
@@ -1825,6 +1836,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/**",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/VolarVideo-iOS-framework-avbvokvtzfuwhyfmmtvduivaezts/Build/Products/Debug-iphoneos",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1832,6 +1848,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = $SDKROOT/usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/**",
+				);
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-objC",
@@ -1847,25 +1867,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)",
-					"$(SRCROOT)/VVMoviePlayer.embeddedframework/**",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VVMoviePlayer-DemoApps/MWC_demo/MWC_demo-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
 					"$(inherited)",
 					MWC_APP,
 				);
 				INFOPLIST_FILE = "VVMoviePlayer-DemoApps/MWC_demo/MWC_demo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)",
-					"$(SRCROOT)/VVMoviePlayer-DemoApps/Frameworks/Pusher",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1875,21 +1886,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)",
-					"$(SRCROOT)/VVMoviePlayer.embeddedframework/**",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VVMoviePlayer-DemoApps/MWC_demo/MWC_demo-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = MWC_APP;
 				INFOPLIST_FILE = "VVMoviePlayer-DemoApps/MWC_demo/MWC_demo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)",
-					"$(SRCROOT)/VVMoviePlayer-DemoApps/Frameworks/Pusher",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1899,27 +1902,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)",
-					"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks",
-					"$(SRCROOT)/VVMoviePlayer.embeddedframework",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/VolarVideo-iOS-framework-avbvokvtzfuwhyfmmtvduivaezts/Build/Products/Debug-iphoneos",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VVMoviePlayer-DemoApps/DemoApp/DemoApp-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
 					"$(inherited)",
 					DEMO_APP,
 				);
 				INFOPLIST_FILE = "VVMoviePlayer-DemoApps/DemoApp/DemoApp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)",
-					"$(SRCROOT)/VVMoviePlayer-DemoApps/Frameworks/Pusher",
-				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1929,23 +1921,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)",
-					"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks",
-					"$(SRCROOT)/VVMoviePlayer.embeddedframework",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/VolarVideo-iOS-framework-avbvokvtzfuwhyfmmtvduivaezts/Build/Products/Debug-iphoneos",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VVMoviePlayer-DemoApps/DemoApp/DemoApp-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = DEMO_APP;
 				INFOPLIST_FILE = "VVMoviePlayer-DemoApps/DemoApp/DemoApp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)",
-					"$(SRCROOT)/VVMoviePlayer-DemoApps/Frameworks/Pusher",
-				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
