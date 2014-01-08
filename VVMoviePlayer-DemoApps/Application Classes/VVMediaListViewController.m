@@ -156,7 +156,7 @@ int _VVMediaListViewRefreshedQueued=0;
     [imgButton setBackgroundImage:[UIImage imageNamed:@"app_logo"] forState:UIControlStateNormal];
     UIBarButtonItem *sourceButton = [[UIBarButtonItem alloc] initWithCustomView:imgButton];
     self.navigationItem.rightBarButtonItem = sourceButton;
-    
+	 
     [self makeRefreshButton];
     
     searchBar.barStyle = UIBarStyleBlackTranslucent;
@@ -309,14 +309,22 @@ BOOL _VVMediaListViewControllerSearchToast=NO;
     appearing = NO;
     [self dataSourceRefreshComplete];
     
+	// This iOS7Code is no longer valid and will need to be refactored eventually
+	// Since the search bar is now has edgesForExtendedLayout set (iOS7 property to
+	// make is play nice with the new status bar) we don't need to manually push
+	// everything down like this.
+	
+	// We can, however, still make the status bar light instead of dark since we have
+	// a dark background and it looks pretty that way.
+	
     iOS7Code({
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
         [[UIBarButtonItem appearance] setTintColor:[UIColor whiteColor]];
         [toolbar setTranslucent:NO];
-        CGRect frame = self.view.frame;
-        frame.origin.y +=60;
-        frame.size.height -=60;
-        self.view.frame = frame;
+//        CGRect frame = self.view.frame;
+//        frame.origin.y +=60;
+//        frame.size.height -=60;
+//        self.view.frame = frame;
     }, {
         
     });
