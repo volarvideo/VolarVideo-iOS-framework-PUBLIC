@@ -26,7 +26,17 @@
 #define kRowHeight 110.0
 #define kNoResultsRowHeight 424.0
 
-#define inset -44
+// I don't understand why the inset was originally conceived, however it was the cause
+// of the second part of issue #6 (the blank space below the list of videos). The inset
+// is only used to change the height of tv.contentInset (in viewDidLoad and other places)
+
+// The documentation on UIEdgeInsetsMake was not extremely helpful. Someting about
+// subpixel resampling. It didn't sound related to our table view. So I killed it.
+
+// With fire.
+
+//#define inset -44
+#define inset 0
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000
 #define iOS7Code(code, alt) if([[[UIDevice currentDevice]systemVersion]floatValue]>=7){code;}
