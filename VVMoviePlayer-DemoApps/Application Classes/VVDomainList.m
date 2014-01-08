@@ -8,9 +8,13 @@
 
 #import "VVDomainList.h"
 
+// This interface is defined in VVDomainList.h
+// Having a second definition of the interface will just be confusing
+/*
 @interface VVDomainList ()
 
 @end
+*/
 
 @implementation VVDomainList
 
@@ -21,6 +25,7 @@
         // Custom initialization
         [self loadDomains];
     }
+	domains = [[NSMutableArray alloc] init];
     return self;
 }
 
@@ -41,7 +46,6 @@
     NSString *path = [paths objectAtIndex:0];
     path = [path stringByAppendingPathComponent:@"domains.plist"];
     [domains writeToFile:path atomically:YES];
-    
 }
 
 - (void)viewDidLoad
@@ -219,23 +223,15 @@
                                                    delegate:self cancelButtonTitle:@"Cancel"
                                           otherButtonTitles:@"OK", nil];
     
-	UITextField *utextfield = [[UITextField alloc] initWithFrame:CGRectMake(13.0, 45.0, 259.0, 25.0)];
-	utextfield.text = @"";
-	utextfield.placeholder = @"enter domain name";
-	utextfield.clearButtonMode = YES;
-	[utextfield setBackgroundColor:[UIColor whiteColor]];
-    utextfield.autocorrectionType = UITextAutocorrectionTypeNo;
-    utextfield.autocapitalizationType = UITextAutocapitalizationTypeNone;
-	utextfield.keyboardType = UIKeyboardTypeASCIICapable;
-	utextfield.tag=777;
-	[alert addSubview:utextfield];
-	utextfield.returnKeyType=UIReturnKeyDone;
-	[utextfield becomeFirstResponder];
-    //	[utextfield setDelegate:self];
-	[utextfield addTarget:self action:@selector(textFieldFinished:) forControlEvents:UIControlEventEditingDidEndOnExit];
+	// In iOS7 you can no longer modify the UIAlertView directly
+	// http://stackoverflow.com/questions/18549519/unable-to-add-uitextfield-to-uialertview-on-ios7-works-in-ios-6
+	// Fortunately this code is backwards compatible with iOS 6
+	// Note that this also changed how we access the text field in didDismissWithButtonIndex
+	
+	alert.alertViewStyle = UIAlertViewStylePlainTextInput;
 	alert.tag = 1;
+	
 	[alert show];
-    //	alert=nil;
 }
 
 - (void) alertView:(UIAlertView*)localActionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
@@ -259,19 +255,21 @@
         }
          */
     } else {
-        UITextField *domainTextField = (UITextField *) [localActionSheet viewWithTag: 777];
-        if (domainTextField) {
+		
+		// This is how we access the alert textfield in iOS7:
+		UIAlertView *alert = (UIAlertView *)[localActionSheet viewWithTag:1];
+		UITextField *domainTextField = [alert textFieldAtIndex:0];
+        
+		if (domainTextField) {
             if(buttonIndex > 0) {
-                if(localActionSheet.tag == 1) {
-                    NSString *textValue = domainTextField.text;
-                    if(textValue==nil) {
-                        //alert = nil;
-                        //return;
-                    } else {
-                        [domains addObject:domainTextField.text];
-                        [self saveDomains];
-                    }
-                }
+				NSString *textValue = domainTextField.text;
+				if(textValue==nil) {
+					//alert = nil;
+					//return;
+				} else {
+					[domains addObject:domainTextField.text];
+					[self saveDomains];
+				}
             }
             [domainTextField resignFirstResponder];
             [tv reloadData];
