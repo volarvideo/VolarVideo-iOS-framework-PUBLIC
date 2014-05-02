@@ -807,15 +807,26 @@ VVCMSBroadcast *_VVMediaListViewSelectedBroadcast;
 -(void) delayedStartVMAP:(NSString*)vmapString {
     if ([api isReachable]) {
         
+        VVMoviePlayerViewController *secondMoviePlayer;
+        
         if (moviePlayer)
             moviePlayer=nil;
         moviePlayer = [[VVMoviePlayerViewController alloc] initWithExtendedVMAPURIString:vmapString];
+        secondMoviePlayer = [[VVMoviePlayerViewController alloc] initWithExtendedVMAPURIString:vmapString];
         
         if (self.moviePlayer) {
             moviePlayer.moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
+            
             [moviePlayer.moviePlayer prepareToPlay];
             [self performSelector:@selector(prelaunchMovie:) withObject:moviePlayer afterDelay:0.1];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
+            if (secondMoviePlayer) {
+                secondMoviePlayer.moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
+                [secondMoviePlayer.moviePlayer prepareToPlay];
+                [self performSelector:@selector(prelaunchMovie:) withObject:secondMoviePlayer afterDelay:0.1];
+            } else {
+                NSLog(@"   failed to instantiate second movie player");
+            }
             return;
         } else {
             [self hideHUD];
