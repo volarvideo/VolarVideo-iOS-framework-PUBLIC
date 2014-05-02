@@ -36,7 +36,6 @@ Download the contents of the VVMoviePlayer.embeddedframework directory.  From fi
 - Check "Copy items into destination group's folder (if needed)" 
 - Select "Create groups for any added folders"
 - Check all your target applications
-
-NOTE: Reachability is embedded in VVMoviePlayer.framework.   If you want to use Reachability in your project, just include Reachbility.h (not Reachbility.m).
+- For your Application Target's Build Settings, set "Other Linker Flags" to "-objC" and "-all_load"
 
 You may wish to set "View controller-based status bar appearance" to NO in your apps info.plist,.  This will prevent the status bar from appearing over the VVMoviePlayer in some screen orientations.

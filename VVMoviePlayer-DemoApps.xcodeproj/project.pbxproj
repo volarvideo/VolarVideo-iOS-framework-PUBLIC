@@ -1852,8 +1852,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
-					"\\\"$(SRCROOT)/VVMoviePlayer.embeddedframework/\\\"/**",
-					"/Users/ben/Development/iPhone/VolarVideo-iOS-framework-PUBLIC/VVMoviePlayer.embeddedframework",
+					"$(SRCROOT)/VVMoviePlayer.embeddedframework/**",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VVMoviePlayer-DemoApps/MWC_demo/MWC_demo-Prefix.pch";
@@ -1867,7 +1866,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
-					"/Users/ben/Development/iPhone/VolarVideo-iOS-framework-PUBLIC/VVMoviePlayer-DemoApps/Frameworks/Pusher",
+					"$(SRCROOT)/VVMoviePlayer-DemoApps/Frameworks/Pusher",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -1881,8 +1880,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
-					"\\\"$(SRCROOT)/VVMoviePlayer.embeddedframework/\\\"/**",
-					"/Users/ben/Development/iPhone/VolarVideo-iOS-framework-PUBLIC/VVMoviePlayer.embeddedframework",
+					"$(SRCROOT)/VVMoviePlayer.embeddedframework/**",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VVMoviePlayer-DemoApps/MWC_demo/MWC_demo-Prefix.pch";
@@ -1892,7 +1890,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
-					"/Users/ben/Development/iPhone/VolarVideo-iOS-framework-PUBLIC/VVMoviePlayer-DemoApps/Frameworks/Pusher",
+					"$(SRCROOT)/VVMoviePlayer-DemoApps/Frameworks/Pusher",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
