@@ -1,6 +1,6 @@
 //
 //  main.m
-//  DemoApp
+//  MWC_demo
 //
 //  Created by Benjamin Askren on 10/13/13.
 //  Copyright (c) 2013 VolarVideo. All rights reserved.
