@@ -18,6 +18,11 @@
 
 @implementation VVDomainList
 
+static NSString *VCLOUD = @"vcloud.volarvideo.com";
+static NSString *IHIGH = @"ihigh.volarvideo.com";
+static NSString *STAGING = @"staging.platypusgranola.com";
+static NSString *MASTER = @"master.platypusgranola.com";
+
 - (id) initWithApi:(VVCMSAPI *)parentApi {
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
@@ -25,10 +30,6 @@
         // Custom initialization
         [self loadDomains];
     }
-	
-	// Fix to #5 and #7
-	// Must explicitly assign a space in memory for the variables
-	domains = [[NSMutableArray alloc] init];
     
 	return self;
 }
@@ -38,10 +39,10 @@
 	NSString *path = [paths objectAtIndex:0];
 	path = [path stringByAppendingPathComponent:@"domains.plist"];
 	domains = [NSMutableArray arrayWithContentsOfFile:path];
+    
     if (!domains || ![domains count]) {
-        path = [[NSBundle mainBundle] bundlePath];
-        path = [path stringByAppendingPathComponent:@"domains.plist"];
-        domains = [NSMutableArray arrayWithContentsOfFile:path];
+        domains = [NSMutableArray arrayWithObjects: VCLOUD, IHIGH, STAGING, MASTER, nil];
+        [self saveDomains];
     }
 }
 
@@ -122,53 +123,13 @@
     [[iToast makeText:@"loading sites ..."]show];
     //[self.delegate setDomain:domain];
     //[self.navigationController popToRootViewControllerAnimated:YES];
-
-    
-    /*
-	loginAlertView = [[UIAlertView alloc] initWithTitle:@"Login"
-                                                    message:@"\n\n"
-                                                   delegate:self cancelButtonTitle:@"Cancel"
-                                          otherButtonTitles:@"OK", nil];
-    
-    
-    
-	UITextField *utextfield = [[UITextField alloc] initWithFrame:CGRectMake(13.0, 40.0, 259.0, 25.0)];
-	utextfield.text = @"";
-	utextfield.placeholder = @"username";
-	utextfield.clearButtonMode = YES;
-	[utextfield setBackgroundColor:[UIColor whiteColor]];
-	utextfield.keyboardType = UIKeyboardTypeASCIICapable;
-	utextfield.tag=888;
-	[loginAlertView addSubview:utextfield];
-	utextfield.returnKeyType=UIReturnKeyNext;
-    utextfield.autocorrectionType = UITextAutocorrectionTypeNo;
-    utextfield.autocapitalizationType = UITextAutocapitalizationTypeNone;
-	[utextfield becomeFirstResponder];
-//    [utextfield setDelegate:self];
-	[utextfield addTarget:self action:@selector(userNameTextFieldFinished:) forControlEvents:UIControlEventEditingDidEndOnExit];
-
-	passwordTV = [[UITextField alloc] initWithFrame:CGRectMake(13.0, 60.0, 259.0, 25.0)];
-	passwordTV.text = @"";
-	passwordTV.placeholder = @"password";
-	passwordTV.clearButtonMode = YES;
-	[passwordTV setBackgroundColor:[UIColor whiteColor]];
-	passwordTV.keyboardType = UIKeyboardTypeASCIICapable;
-	passwordTV.tag=999;
-	[loginAlertView addSubview:passwordTV];
-	passwordTV.returnKeyType=UIReturnKeyDone;
-    passwordTV.secureTextEntry=YES;
-//    [passwordTV setDelegate:self];
-	[passwordTV addTarget:self action:@selector(passwordTextFieldFinished:) forControlEvents:UIControlEventEditingDidEndOnExit];
-	
-    [loginAlertView show];
-    */
 }
 
 
 -(void) VVCMSAPI:(VVCMSAPI *)vvCmsApi authenticationRequestDidFinishWithError:(NSError *)error {
     if (vvCmsApi==api) {
         if (error) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not authenticate" message:error.localizedDescription delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not authenticate" message:error.localizedDescription delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
             [alert show];
             return;
         }
