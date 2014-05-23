@@ -9,12 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <MediaPlayer/MPMoviePlayerController.h>
 #import <AVFoundation/AVFoundation.h>
-#import "VVVmapPlayerDelegate.h"
+#import "VVMoviePlayerDelegate.h"
 
+#define VVVmapPlayerDidChangeNotification @"com.volarvideo.notification.vmapPlayerChanged"
 
 @class VVPlayerView;
 @class VVVmap;
-@class VVVolarPlayerMasterController;
+@class VVMasterController;
 @class VVBasicPlayer;
 @class VVMoviePlayerViewController;
 
@@ -52,18 +53,19 @@
  */
 
 
-@interface VVMoviePlayerController : UIViewController <MPMediaPlayback,VVVmapPlayerDelegate> {
+@interface VVMoviePlayerController : UIViewController <MPMediaPlayback,VVMoviePlayerDelegate> {
 }
 
 /*!
  @name Creating and Initializing the Object
  */
 
-
 /*!
  @abstract Returns a VVMoviePlayerController object initialized with the VolarVideo movie at the specified NSString representation of a URL.
  
- @param extendedUriString The location of the VolarVideo movie file. This file must be located either in your app directory or on a remote server.
+ @param vmapURI The location of the VolarVideo movie file. This file must be located either in your app directory or on a remote server.
+ 
+ @param pvc The parent view controller.  The movie player will dismiss this view controller when the 'done' button is pressed.
  
  @return The VolarVideo movie player object.
  
@@ -74,19 +76,22 @@
  To check for errors in URL loading, register for the MPMoviePlayerPlaybackDidFinishNotification notification. On error, this notification contains an NSError object available using the @"error" key in the notification’s userInfo dictionary.
  
  @availability Available in iOS 5.0 and later.
-
  
  */
-- (id)initWithExtendedVMAPURIString:(NSString*)extendedUriString;
+-(id) initWithExtendedVMAPURIString:(NSString *)vmapURI andParentViewController:(id) pvc;
 
 /*!
- Returns and starts playing a VVMoviePlayerController object initialized with the VolarVideo movie at the specified NSString representation of a URL.
+ @abstract Returns a VVMoviePlayerController object initialized with the VolarVideo movie at the specified NSString representation of a URL.
  
- @param extendedUriString The location of the VolarVideo movie file. This file must be located either in your app directory or on a remote server.
+ @param vmapURI The location of the VolarVideo movie file. This file must be located either in your app directory or on a remote server.
+ 
+ @param ap Specifies whether the player should automatically play once loaded.
+ 
+ @param pvc The parent view controller.  The movie player will dismiss this view controller when the 'done' button is pressed.
  
  @return The VolarVideo movie player object.
  
- @discussion This method initializes a VolarVideo movie player, prepares for playback, and starts playing.
+ @discussion This method initializes a VolarVideo movie player, and prepares it for playback.
  
  To be notified when a new movie player is ready to play, register for the MPMoviePlayerLoadStateDidChangeNotification notification. You can then check load state by accessing the loadState property.
  
@@ -95,12 +100,12 @@
  @availability Available in iOS 5.0 and later.
  
  */
-- (id)initAndStartWithExtendedVMAPURIString:(NSString*)extendedUriString;
+- (id)initWithExtendedVMAPURIString:(NSString*)vmapURI autoPlay:(BOOL)ap andParentViewController:(id) pvc;
 
 /*!
  Starts playing a previously initialized VVMoviePlayerController object with the VolarVideo movie at the specified NSString representation of a URL.
  
- @param vmapString The location of the VolarVideo movie file. This file must be located either in your app directory or on a remote server.
+ @param vmapURI The location of the VolarVideo movie file. This file must be located either in your app directory or on a remote server.
  
  @discussion This method re-initializes a VolarVideo movie player, prepares for playback, and starts playing.
  
@@ -111,7 +116,7 @@
  @availability Available in iOS 5.0 and later.
  
  */
--(void) startVMAP:(NSString *)vmapString;
+-(void) startVMAP:(NSString *)vmapURI;
 
 
 
@@ -460,7 +465,7 @@
  @availability Available in iOS 5.0 and later.
  
  */
--(void) clearMessage;
+-(void) hideMessages;
 /*!
  Debug display of remaining time in an ad break.
  
@@ -468,11 +473,5 @@
  
  */
 @property(nonatomic,strong) IBOutlet UILabel *lblCount;
-
-/*!
- DO NOT MODIFY THIS PROPERTY.
- */
-@property(nonatomic,assign) BOOL keepPlayingContent;
-
 
 @end

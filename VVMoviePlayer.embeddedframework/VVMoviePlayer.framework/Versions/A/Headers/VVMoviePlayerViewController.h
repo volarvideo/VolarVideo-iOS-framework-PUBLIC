@@ -33,16 +33,6 @@
 -(id) initWithExtendedVMAPURIString:(NSString*)extendedVMAPURL;
 
 /**
- Returns and starts to play a VolarVideo movie player view controller initialized with the specified movie.
- 
- @param extendedVMAPURL The string representation of the URL that points to the content to be played.
- 
- @return
- A VolarVideo movie player view controller initialized with the specified string represenation of the VolarVMAP URL.
- */
--(id) initAndStartWithExtendedVMAPURIString:(NSString*)extendedVMAPURL;
-
-/**
  Starts playing a previously initialized VVMoviePlayerController object with the VolarVideo movie at the specified NSString representation of a URL.
  
  @param vmapString The location of the VolarVideo movie file. This file must be located either in your app directory or on a remote server.

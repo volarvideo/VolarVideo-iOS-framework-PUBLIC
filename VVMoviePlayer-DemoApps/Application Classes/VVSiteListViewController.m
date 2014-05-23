@@ -7,6 +7,7 @@
 //
 
 #import "VVSiteListViewController.h"
+#import "VVDomainList.h"
 
 @interface VVSiteListViewController ()
 

@@ -14,6 +14,7 @@
 #import "VVAppDelegate.h"
 #import "B3SearchBar.h"
 #import "VVDomainList.h"
+#import "VVSiteListViewController.h"
 
 #import <VVMoviePlayer/VVMoviePlayerViewController.h>
 #import "VVPickerViewController.h"
@@ -21,9 +22,11 @@
 #import "VVDatePickerViewController.h"
 
 
-@interface VVMediaListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchDisplayDelegate, UINavigationBarDelegate, B3SearchBarDelegate, UIAlertViewDelegate, VVCMSAPIDelegate, \
-//VVDomainListDelegate, 
-VVPickerViewDelegate,UIPopoverControllerDelegate,VVDatePickerDelegate> {
+@interface VVMediaListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate,
+    UISearchDisplayDelegate, UINavigationBarDelegate, B3SearchBarDelegate, \
+    UIAlertViewDelegate, VVCMSAPIDelegate, VVSiteListViewControllerDelegate, \
+    VVDomainListDelegate, VVPickerViewDelegate, UIPopoverControllerDelegate,
+    VVDatePickerDelegate> {
     
     IBOutlet UITableView *tv;
     IBOutlet UISearchDisplayController *searchDisplayController;
@@ -50,7 +53,7 @@ VVPickerViewDelegate,UIPopoverControllerDelegate,VVDatePickerDelegate> {
     VVPickerViewController *svc;
     NSArray *sections,*playlists;
     
-    BOOL virginloading,loading,appearing;
+    BOOL virginloading,loading;
     
     VVDatePickerViewController *dpc;
 }

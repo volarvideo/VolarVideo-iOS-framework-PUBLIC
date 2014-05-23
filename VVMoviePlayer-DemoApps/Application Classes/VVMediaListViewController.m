@@ -44,12 +44,11 @@
 #define iOS7Code(code, alt) alt
 #endif
 
-
-NSDictionary *mediaType;
 iToast *_VVMediaListViewControllerToast=nil;
 CGRect _VVMediaListViewControllerHeaderFrame;
 BOOL _VVMediaListViewFreshLoad=YES;
 int _VVMediaListViewRefreshedQueued=0;
+UIView *navBarTapView;
 
 @interface VVMediaListViewController ()
 
@@ -66,7 +65,7 @@ int _VVMediaListViewRefreshedQueued=0;
     if (self) {
         api = x;
         [self commonInit];
-        [self refreshDataSource];
+        [self refreshDataSource:true];
     }
     return self;
 }
@@ -76,7 +75,12 @@ int _VVMediaListViewRefreshedQueued=0;
     if (self) {
         api = [VVCMSAPI vvCMSAPI];
         [self commonInit];
-        [api authenticationRequestForDomain:@"vcloud.volarvideo.com" siteSlug:siteSlug username:nil andPassword:nil];
+        NSString *domain = @"vcloud.volarvideo.com";
+#if defined(DEMO_APP)
+        domain = [VVDomainList getCurrDomain];
+        NSLog(@"domain: %@", domain);
+#endif
+        [api authenticationRequestForDomain:domain siteSlug:siteSlug username:nil andPassword:nil];
         if ([siteSlug isEqualToString:@"themwc"])
             api.siteSlugs = [NSArray arrayWithObjects:@"AFA",@"BOSU",@"CSU",@"Fresno",@"Nevada",@"UNM",@"SDSU",@"SJSU",@"UNLV",@"USU",@"UWYO", nil];
     }
@@ -86,7 +90,6 @@ int _VVMediaListViewRefreshedQueued=0;
 -(void) commonInit {
     virginloading = YES;
     loading = YES;
-    appearing = YES;
     api.delegate = self;
     _VVMediaListViewFreshLoad=YES;
     lastSelectedIndex=-1;
@@ -102,7 +105,7 @@ int _VVMediaListViewRefreshedQueued=0;
             [alert show];
             return;
         }
-        [self refreshDataSource];
+        [self refreshDataSource:true];
     }
 }
 
@@ -131,27 +134,6 @@ int _VVMediaListViewRefreshedQueued=0;
     api.playlist_id = 0;
 }
 
-+(void) initialize {
-    mediaType = [NSDictionary dictionaryWithObjectsAndKeys:
-                 [NSNumber numberWithInt:VVMediaCellTypeAudio],@"audio",
-                 [NSNumber numberWithInt:VVMediaCellTypeDOC],@"doc",
-                 [NSNumber numberWithInt:VVMediaCellTypeDocument],@"document",
-                 [NSNumber numberWithInt:VVMediaCellTypeGallery],@"gallery",
-                 [NSNumber numberWithInt:VVMediaCellTypeHTML],@"html",
-                 [NSNumber numberWithInt:VVMediaCellTypePDF],@"pdf",
-                 [NSNumber numberWithInt:VVMediaCellTypePhoto],@"photo",
-                 [NSNumber numberWithInt:VVMediaCellTypeRTF],@"rtf",
-                 [NSNumber numberWithInt:VVMediaCellTypeTXT],@"txt",
-                 [NSNumber numberWithInt:VVMediaCellTypeVideo],@"video",
-                 [NSNumber numberWithInt:VVMediaCellTypeBroadcast],@"broadcast",
-                 [NSNumber numberWithInt:VVMediaCellTypeXLS],@"xls",
-                 [NSNumber numberWithInt:VVMediaCellTypeArticle],@"article",
-                 [NSNumber numberWithInt:VVMediaCellTypeFutureBroadcast],@"futureBroadcast",
-                 [NSNumber numberWithInt:VVMediaCellTypeLiveBroadcast],@"liveBroadcast",
-                 [NSNumber numberWithInt:VVMediaCellTypeScheduledBroadcast],@"scheduledBroadcast",
-                 nil];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -168,6 +150,7 @@ int _VVMediaListViewRefreshedQueued=0;
     self.navigationItem.rightBarButtonItem = sourceButton;
 	 
     [self makeRefreshButton];
+    [self setupNavbarGestureRecognizer];
     
     searchBar.barStyle = UIBarStyleBlackTranslucent;
     searchBar.customButtonTitle=@"Change Domain";
@@ -195,6 +178,30 @@ int _VVMediaListViewRefreshedQueued=0;
         self.edgesForExtendedLayout = UIRectEdgeNone; //layout adjustements
     }
     
+    [self refreshDataSource:true];
+}
+
+- (void) setupNavbarGestureRecognizer {
+    // recognise taps on navigation bar
+    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chooseSite)];
+    [gestureRecognizer setNumberOfTapsRequired:1];
+    [gestureRecognizer setNumberOfTouchesRequired:1];
+    
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    UIInterfaceOrientation orientation = self.interfaceOrientation;
+    int size = UIInterfaceOrientationIsLandscape(orientation)?screenRect.size.height:screenRect.size.width;
+    CGRect frame = CGRectMake(70, 0, size-140, 44);
+    if(!navBarTapView) {
+        navBarTapView = [[UIView alloc] initWithFrame:frame];
+        navBarTapView.backgroundColor = [UIColor clearColor];
+        [navBarTapView setUserInteractionEnabled:YES];
+        [navBarTapView addGestureRecognizer:gestureRecognizer];
+        
+        [self.navigationController.navigationBar addSubview:navBarTapView];
+    }
+    else {
+        navBarTapView.frame = frame;
+    }
 }
 
 -(void) useEnhancedBackButton {
@@ -222,7 +229,7 @@ int _VVMediaListViewRefreshedQueued=0;
 }
 
 -(void) refreshButtonPress {
-    [self refreshDataSource];
+    [self refreshDataSource:false];
 }
 
 -(void) makeRefreshButton {
@@ -260,21 +267,7 @@ BOOL _VVMediaListViewControllerWaitingForReachabilityResult;
 dispatch_queue_t _VVMediaListViewControllerBackgroundQueue;
 
 - (void) viewWillAppear:(BOOL)animated {
-    //[super viewWillAppear:animated];
-    //myTimer = [NSTimer scheduledTimerWithTimeInterval: 30.0 target: self selector: @selector(testAndReload) userInfo: nil repeats: YES];
-    if (!appearing) {
-        api.delegate = self;
-        loading=YES;
-        lastSelectedIndex=-1;
-        live=0;
-        upcoming=0;
-        archived=0;
-        scheduledBroadcasts = [NSMutableArray arrayWithCapacity:5];
-        streamingBroadcasts = [NSMutableArray arrayWithCapacity:5];
-        archivedBroadcasts  = [NSMutableArray arrayWithCapacity:5];
-        [self refreshDataSource];
-    }
-    appearing = YES;
+//    [super viewWillAppear:animated];
 }
 
 BOOL _VVMediaListViewControllerSearchToast=NO;
@@ -316,8 +309,6 @@ BOOL _VVMediaListViewControllerSearchToast=NO;
     }
 
     self.navigationItem.title = self.siteName;
-    appearing = NO;
-    [self dataSourceRefreshComplete];
     
 	// This iOS7Code is no longer valid and will need to be refactored eventually
 	// Since the search bar is now has edgesForExtendedLayout set (iOS7 property to
@@ -449,13 +440,36 @@ CGPoint _VVMediaListViewControllerPointBeforeRotate;
     searchBar.hidden=NO;
     [self reload];
     [self makeRefreshButton];
+    [self setupNavbarGestureRecognizer];
 }
 
+-(void) chooseSite {
+    VVSiteListViewController *slc = [[VVSiteListViewController alloc] initWithApi:api];
+    slc.delegate = self;
+    [self.navigationController pushViewController:slc animated:YES];
+}
 
--(void) refreshDataSource {
+-(void) doneWithVVSiteListViewController:(id)slvc {
+    [self refreshDataSource:true];
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+-(void) refreshDataSource:(BOOL) cleanSlate {
     _VVMediaListViewRefreshedQueued++;
     self.spinner.hidden=NO;
     [self.spinner startAnimating];
+    
+    if (cleanSlate) {
+        api.delegate = self;
+        loading=YES;
+        lastSelectedIndex=-1;
+        live=0;
+        upcoming=0;
+        archived=0;
+        scheduledBroadcasts = [NSMutableArray arrayWithCapacity:5];
+        streamingBroadcasts = [NSMutableArray arrayWithCapacity:5];
+        archivedBroadcasts  = [NSMutableArray arrayWithCapacity:5];
+    }
     
     self.siteName = [api siteName];
     self.navigationItem.title = self.siteName;
@@ -592,7 +606,7 @@ CGPoint _VVMediaListViewControllerPointBeforeRotate;
 -(void) dataSourceRefreshComplete {
     toolbar.hidden=NO;
     
-    if (appearing || loading)
+    if (loading)
         return;
     
     
@@ -639,12 +653,12 @@ CGPoint _VVMediaListViewControllerPointBeforeRotate;
 
 -(void) segCtrlChanged:(UISegmentedControl *)sc {
     NSLog(@"selectedIndex=[%d]",sc.selectedSegmentIndex);
-    [self refreshDataSource];
+    [self refreshDataSource:false];
 }
 
 
 - (void) reload {
-    [self refreshDataSource];
+    [self refreshDataSource:false];
     [tv reloadData];
 //    [banner redraw];
 }
@@ -720,7 +734,7 @@ BOOL _VVMediaListDragging=NO;
     cell.disabled=NO;
         cell.disabled = ![api latestReachabilityResult];
     cell.tag = indexPath.row;
-    cell.type = [[mediaType objectForKey:@"broadcast"] intValue];
+    cell.type = VVMediaCellTypeBroadcast;
     
     if (broadcast.title && ![broadcast.title isKindOfClass:[NSNull class]])
         cell.title = broadcast.title;
@@ -738,11 +752,7 @@ BOOL _VVMediaListDragging=NO;
     else
         cell.meta1 = nil;
     
-//    NSNumber *nViews = [theObject valueForKey:@"numberOfViews"];
-//    if (nViews && nViews.intValue>0)
-//        cell.meta2 = [NSString stringWithFormat:@"%@ views",[nViews stringValue]];
-//    else
-        cell.meta2 = nil;
+    cell.meta2 = nil;
 
     UIImage *placeholder;;
     if (broadcast.audioOnly)
@@ -829,26 +839,16 @@ VVCMSBroadcast *_VVMediaListViewSelectedBroadcast;
 -(void) delayedStartVMAP:(NSString*)vmapString {
     if ([api isReachable]) {
         
-        VVMoviePlayerViewController *secondMoviePlayer;
-        
         if (moviePlayer)
             moviePlayer=nil;
         moviePlayer = [[VVMoviePlayerViewController alloc] initWithExtendedVMAPURIString:vmapString];
-        secondMoviePlayer = [[VVMoviePlayerViewController alloc] initWithExtendedVMAPURIString:vmapString];
         
         if (self.moviePlayer) {
             moviePlayer.moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
             
             [moviePlayer.moviePlayer prepareToPlay];
-            [self performSelector:@selector(prelaunchMovie:) withObject:moviePlayer afterDelay:0.1];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerDidChange:) name:VVVmapPlayerDidChangeNotification object:nil];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
-            if (secondMoviePlayer) {
-                secondMoviePlayer.moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
-                [secondMoviePlayer.moviePlayer prepareToPlay];
-                [self performSelector:@selector(prelaunchMovie:) withObject:secondMoviePlayer afterDelay:0.1];
-            } else {
-                NSLog(@"   failed to instantiate second movie player");
-            }
             return;
         } else {
             [self hideHUD];
@@ -880,27 +880,32 @@ VVCMSBroadcast *_VVMediaListViewSelectedBroadcast;
     [self delayedStartVMAP:bcast.vmapURL];
 }
 
+-(void) playerDidChange:(NSNotification*)notification {
+    NSLog(@"playerDidChange");
+    if ([moviePlayer.moviePlayer loadState] == MPMovieLoadStatePlayable)
+        [self launchMovie:moviePlayer];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:VVVmapPlayerDidChangeNotification object:nil];
+}
+
 -(void) playbackFinished:(NSNotification*)notification {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
 }
 
-
-- (void) prelaunchMovie:(MPMoviePlayerViewController *) mpvc {
-    if ([[mpvc moviePlayer] loadState] == MPMovieLoadStateUnknown) { // before you wreck yourself
-        [self performSelector:@selector(prelaunchMovie:) withObject:mpvc afterDelay:0.1];
-    } else if ([[mpvc moviePlayer] loadState]== MPMovieLoadStateStalled) {
-        [self hideHUD];
-    } else {
-        [self hideHUD];
-        [self performSelector:@selector(launchMovie:) withObject:mpvc afterDelay:0.05];
-    }
-}
+//- (void) prelaunchMovie:(MPMoviePlayerViewController *) mpvc {
+//    if ([[mpvc moviePlayer] loadState] == MPMovieLoadStateUnknown) { // before you wreck yourself
+//        [self performSelector:@selector(prelaunchMovie:) withObject:mpvc afterDelay:0.1];
+//    } else if ([[mpvc moviePlayer] loadState]== MPMovieLoadStateStalled) {
+//        [self hideHUD];
+//    } else {
+//        [self hideHUD];
+//        [self performSelector:@selector(launchMovie:) withObject:mpvc afterDelay:0.05];
+//    }
+//}
 
 -(void) launchMovie:(VVMoviePlayerViewController *)mpvc {
+    [self hideHUD];
     [appDelegate.navigationController presentVolarMoviePlayerViewControllerAnimated:mpvc];
 }
-
-
 
 double _VVMediaPlayerRestartSkip=0;
 BOOL   _VVMediaPlayerSkipLockout=NO;
@@ -918,14 +923,16 @@ BOOL   _VVMediaPlayerSkipLockout=NO;
 -(void) customButtonPressedInSearchBar:(B3SearchBar *)searchBar {    
     VVDomainList *domainListView;
     domainListView = [[VVDomainList alloc] initWithApi:api];
-//    domainListView.delegate=self;
+    domainListView.delegate = self;
     if (self.navigationController)
         [self.navigationController pushViewController:domainListView animated:YES];
     else
         [self presentModalViewController:domainListView animated:YES];
 }
 
-
+-(void) domainDidChange:(id)dl {
+    [self refreshDataSource:true];
+}
 
 
 #pragma mark -
@@ -1073,7 +1080,7 @@ MBProgressHUD *progressHUD;
         } else
             [filterSegmentControl setTitle:svc.selectedTitle forSegmentAtIndex:2];
         api.section_id = svc.selectedValue;
-        [self refreshDataSource];
+        [self refreshDataSource:true];
         filterSegmentControl.selectedSegmentIndex=-1;
         [self retractSportPicker];
     }
@@ -1220,7 +1227,7 @@ MBProgressHUD *progressHUD;
             api.beforeDate=dpc.dp.date;
             [filterSegmentControl setTitle:dateString forSegmentAtIndex:1];
         }
-        [self refreshDataSource];
+        [self refreshDataSource:true];
         filterSegmentControl.selectedSegmentIndex=-1;
         [self retractDatePicker];
     }
@@ -1235,7 +1242,7 @@ MBProgressHUD *progressHUD;
             api.beforeDate=nil;
             [filterSegmentControl setTitle:@"To Date" forSegmentAtIndex:1];
         }
-        [self refreshDataSource];
+        [self refreshDataSource:true];
         filterSegmentControl.selectedSegmentIndex=-1;
         [self retractDatePicker];
     }

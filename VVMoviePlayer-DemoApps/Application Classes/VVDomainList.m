@@ -23,34 +23,63 @@ static NSString *IHIGH = @"ihigh.volarvideo.com";
 static NSString *STAGING = @"staging.platypusgranola.com";
 static NSString *MASTER = @"master.platypusgranola.com";
 
+static NSString *DOMAINS = @"domains";
+static NSString *CURR_DOMAIN = @"curr_domain";
+
 - (id) initWithApi:(VVCMSAPI *)parentApi {
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
         api = parentApi;
         // Custom initialization
-        [self loadDomains];
+        domains = [VVDomainList getDomains];
     }
     
 	return self;
 }
 
--(void) loadDomains {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	NSString *path = [paths objectAtIndex:0];
-	path = [path stringByAppendingPathComponent:@"domains.plist"];
-	domains = [NSMutableArray arrayWithContentsOfFile:path];
++(NSMutableArray*) getDomains {
+    NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
+    NSString *domains = [prefs stringForKey:DOMAINS];
     
-    if (!domains || ![domains count]) {
-        domains = [NSMutableArray arrayWithObjects: VCLOUD, IHIGH, STAGING, MASTER, nil];
-        [self saveDomains];
+    NSMutableArray *domainList = [NSMutableArray arrayWithCapacity:5];
+    if (domains) {
+        domainList = [[domains componentsSeparatedByString:@";"] mutableCopy];
+        [self saveDomains:domainList];
     }
+    else {
+        domainList = [NSMutableArray arrayWithObjects: VCLOUD, IHIGH, STAGING, MASTER, nil];
+    }
+    
+    return domainList;
 }
 
--(void) saveDomains {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *path = [paths objectAtIndex:0];
-    path = [path stringByAppendingPathComponent:@"domains.plist"];
-    [domains writeToFile:path atomically:YES];
++(void) saveDomains:(NSArray*)domainList {
+    NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
+    
+    NSString *domains = [domainList componentsJoinedByString:@";"];
+    
+    [prefs setObject:domains forKey:DOMAINS];
+    [prefs synchronize];
+}
+
++(NSString*) getCurrDomain {
+    NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
+    NSString *domain = [prefs stringForKey:CURR_DOMAIN];
+    
+    if (!domain) {
+        NSLog(@"couldn't find seeting STAGIG");
+        domain = STAGING;
+        [VVDomainList saveCurrDomain:domain];
+    }
+    
+    return domain;
+}
+
++(void) saveCurrDomain:(NSString*)domain {
+    NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
+    
+    [prefs setObject:domain forKey:CURR_DOMAIN];
+    [prefs synchronize];
 }
 
 - (void)viewDidLoad
@@ -96,7 +125,7 @@ static NSString *MASTER = @"master.platypusgranola.com";
         case UITableViewCellEditingStyleDelete:
             [domains removeObjectAtIndex:indexPath.row];
             [tableView reloadData];
-            [self saveDomains];
+            [VVDomainList saveDomains:domains];
             break;
         case UITableViewCellEditingStyleInsert:
             [domains insertObject:@"" atIndex:indexPath.row];
@@ -112,12 +141,12 @@ static NSString *MASTER = @"master.platypusgranola.com";
     NSString *local_domain = [domains objectAtIndex:fromIndexPath.row];
     [domains insertObject:local_domain atIndex:toIndexPath.row];
     [domains removeObjectAtIndex:fromIndexPath.row];
-    [self saveDomains];
+    [VVDomainList saveDomains:domains];
 }
 
 // tableviewDelegate calls
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    domain = [domains objectAtIndex:indexPath.row];
+    NSString *domain = [domains objectAtIndex:indexPath.row];
     api.delegate = self;
     [api authenticationRequestForDomain:domain username:nil andPassword:nil];
     [[iToast makeText:@"loading sites ..."]show];
@@ -141,6 +170,8 @@ static NSString *MASTER = @"master.platypusgranola.com";
 
 -(void) doneWithVVSiteListViewController:(id)slvc {
     if (slvc==sitesListController) {
+        [VVDomainList saveCurrDomain:[api domain]];
+        [_delegate domainDidChange:self];
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
 }
@@ -233,7 +264,7 @@ static NSString *MASTER = @"master.platypusgranola.com";
 					//return;
 				} else {
 					[domains addObject:domainTextField.text];
-					[self saveDomains];
+					[VVDomainList saveDomains:domains];
 				}
             }
             [domainTextField resignFirstResponder];

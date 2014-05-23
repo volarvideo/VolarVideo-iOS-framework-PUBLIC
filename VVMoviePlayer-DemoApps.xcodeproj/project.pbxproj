@@ -1,4 +1,3 @@
-
 // !$*UTF8*$!
 {
 	archiveVersion = 1;
@@ -473,21 +472,9 @@
 		CE921537192A53D000EEE4B0 /* zoomin_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B504E8E4180BD71000D3FAB1 /* zoomin_icon.png */; };
 		CE921538192A53D000EEE4B0 /* zoomout_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B504E8E5180BD71000D3FAB1 /* zoomout_icon.png */; };
 		CE921539192A53D000EEE4B0 /* VVMoviePlayer.framework in Resources */ = {isa = PBXBuildFile; fileRef = B504E8E6180BD71000D3FAB1 /* VVMoviePlayer.framework */; };
-		CE92153A192A53D000EEE4B0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B5CE372C180B311700084C3A /* Default-568h@2x.png */; };
-		CE92153B192A53D000EEE4B0 /* DefaultMWC-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B5CE372D180B311700084C3A /* DefaultMWC-Landscape@2x~ipad.png */; };
-		CE92153C192A53D000EEE4B0 /* DefaultMWC-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B5CE372E180B311700084C3A /* DefaultMWC-Landscape~ipad.png */; };
-		CE92153D192A53D000EEE4B0 /* DefaultMWC-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B5CE372F180B311700084C3A /* DefaultMWC-Portrait@2x~ipad.png */; };
-		CE92153E192A53D000EEE4B0 /* DefaultMWC-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B5CE3730180B311700084C3A /* DefaultMWC-Portrait~ipad.png */; };
-		CE92153F192A53D000EEE4B0 /* DefaultMWC.png in Resources */ = {isa = PBXBuildFile; fileRef = B5CE3731180B311700084C3A /* DefaultMWC.png */; };
-		CE921540192A53D000EEE4B0 /* DefaultMWC@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B5CE3732180B311700084C3A /* DefaultMWC@2x.png */; };
-		CE921541192A53D000EEE4B0 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = B5CE3733180B311700084C3A /* Icon-Small-50.png */; };
-		CE921542192A53D000EEE4B0 /* Icon-Small-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B5CE3734180B311700084C3A /* Icon-Small-50@2x.png */; };
-		CE921543192A53D000EEE4B0 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = B5CE3735180B311700084C3A /* Icon-Small.png */; };
-		CE921544192A53D000EEE4B0 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B5CE3736180B311700084C3A /* Icon-Small@2x.png */; };
-		CE921545192A53D000EEE4B0 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B5CE3737180B311700084C3A /* Icon.png */; };
-		CE921546192A53D000EEE4B0 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B5CE3738180B311700084C3A /* Icon@2x.png */; };
-		CE921547192A53D000EEE4B0 /* Icon@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B5CE3739180B311700084C3A /* Icon@2x~ipad.png */; };
-		CE921548192A53D000EEE4B0 /* Icon~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B5CE373A180B311700084C3A /* Icon~ipad.png */; };
+		CEAB79E0192BE5B4005DAC05 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B5CE374D180B312A00084C3A /* Default-568h@2x.png */; };
+		CEAB79E1192BE5BD005DAC05 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = B5CE3752180B312A00084C3A /* Default.png */; };
+		CEAB79E2192BE5C0005DAC05 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B5CE3753180B312A00084C3A /* Default@2x.png */; };
 		CED5C0841925164F00424C10 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B5CE34DA180B2D1C00084C3A /* main.m */; };
 		CED5C0851925167D00424C10 /* VVAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B5CE34DE180B2D1C00084C3A /* VVAppDelegate.m */; };
 		CED5C0861925169600424C10 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B5CE34DA180B2D1C00084C3A /* main.m */; };
@@ -1281,6 +1268,11 @@
 				CLASSPREFIX = VV;
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = VolarVideo;
+				TargetAttributes = {
+					B5CE34EC180B2D5300084C3A = {
+						DevelopmentTeam = FP5776N5J2;
+					};
+				};
 			};
 			buildConfigurationList = B5CE34A7180B2C4900084C3A /* Build configuration list for PBXProject "VVMoviePlayer-DemoApps" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1464,6 +1456,7 @@
 				CE921522192A53D000EEE4B0 /* VVInformationBtnLight@2x.png in Resources */,
 				CE921523192A53D000EEE4B0 /* VVMoviePlayerViewController.nib in Resources */,
 				CE921524192A53D000EEE4B0 /* VVPauseBtnDark.png in Resources */,
+				CEAB79E0192BE5B4005DAC05 /* Default-568h@2x.png in Resources */,
 				CE921525192A53D000EEE4B0 /* VVPauseBtnDark@2x.png in Resources */,
 				CE921526192A53D000EEE4B0 /* VVPauseBtnLight.png in Resources */,
 				CE921527192A53D000EEE4B0 /* VVPauseBtnLight@2x.png in Resources */,
@@ -1483,23 +1476,9 @@
 				CE921535192A53D000EEE4B0 /* VVScaleUpBtnLight.png in Resources */,
 				CE921536192A53D000EEE4B0 /* VVScaleUpBtnLight@2x.png in Resources */,
 				CE921537192A53D000EEE4B0 /* zoomin_icon.png in Resources */,
+				CEAB79E2192BE5C0005DAC05 /* Default@2x.png in Resources */,
 				CE921538192A53D000EEE4B0 /* zoomout_icon.png in Resources */,
 				CE921539192A53D000EEE4B0 /* VVMoviePlayer.framework in Resources */,
-				CE92153A192A53D000EEE4B0 /* Default-568h@2x.png in Resources */,
-				CE92153B192A53D000EEE4B0 /* DefaultMWC-Landscape@2x~ipad.png in Resources */,
-				CE92153C192A53D000EEE4B0 /* DefaultMWC-Landscape~ipad.png in Resources */,
-				CE92153D192A53D000EEE4B0 /* DefaultMWC-Portrait@2x~ipad.png in Resources */,
-				CE92153E192A53D000EEE4B0 /* DefaultMWC-Portrait~ipad.png in Resources */,
-				CE92153F192A53D000EEE4B0 /* DefaultMWC.png in Resources */,
-				CE921540192A53D000EEE4B0 /* DefaultMWC@2x.png in Resources */,
-				CE921541192A53D000EEE4B0 /* Icon-Small-50.png in Resources */,
-				CE921542192A53D000EEE4B0 /* Icon-Small-50@2x.png in Resources */,
-				CE921543192A53D000EEE4B0 /* Icon-Small.png in Resources */,
-				CE921544192A53D000EEE4B0 /* Icon-Small@2x.png in Resources */,
-				CE921545192A53D000EEE4B0 /* Icon.png in Resources */,
-				CE921546192A53D000EEE4B0 /* Icon@2x.png in Resources */,
-				CE921547192A53D000EEE4B0 /* Icon@2x~ipad.png in Resources */,
-				CE921548192A53D000EEE4B0 /* Icon~ipad.png in Resources */,
 				CE92150D192A53B500EEE4B0 /* VVPlayBtnDark.png in Resources */,
 				B099B6EB187DDB94008E5F24 /* VVMoviePlayerController.nib in Resources */,
 				B5CE3561180B2DBA00084C3A /* alarm.png in Resources */,
@@ -1564,6 +1543,7 @@
 				B5CE3612180B2DBA00084C3A /* UISearchBarBlackTranslucentButtonPressed@2x.png in Resources */,
 				B5CE36AA180B2EC100084C3A /* VVMediaCell.xib in Resources */,
 				B5CE36B0180B2EC100084C3A /* VVMediaListViewController.xib in Resources */,
+				CEAB79E1192BE5BD005DAC05 /* Default.png in Resources */,
 				B5CE36BF180B2EC100084C3A /* VVDomainList.xib in Resources */,
 				B5CE36C5180B2EC100084C3A /* VVSiteListViewController.xib in Resources */,
 				B5CE36CB180B2EC100084C3A /* VVSplashViewController.xib in Resources */,
@@ -1908,6 +1888,7 @@
 		B5CE3504180B2D5300084C3A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1920,6 +1901,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1927,6 +1909,7 @@
 		B5CE3505180B2D5300084C3A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1936,6 +1919,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

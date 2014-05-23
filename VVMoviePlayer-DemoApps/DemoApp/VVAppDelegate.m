@@ -57,7 +57,7 @@
 #if defined VOLAR_PLAYER
     if (moviePlayer)
         moviePlayer=nil;
-    moviePlayer = [[VVMoviePlayerViewController alloc] initAndStartWithExtendedVMAPURIString:nil];
+    moviePlayer = [[VVMoviePlayerViewController alloc] initWithExtendedVMAPURIString:nil];
     self.window.rootViewController = moviePlayer;
 #else
     VVSplashViewController *svc = [[VVSplashViewController alloc] initWithNibName:nil bundle:nil];

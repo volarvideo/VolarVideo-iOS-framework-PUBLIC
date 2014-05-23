@@ -11,24 +11,26 @@
 #import "iToast.h"
 #import "VVSiteListViewController.h"
 
+@protocol VVDomainListDelegate <NSObject>
+
+-(void) domainDidChange:(id)dl;
+
+@end
 
 @interface VVDomainList : UIViewController <UITableViewDataSource,UITableViewDelegate, UITextFieldDelegate,VVCMSAPIDelegate,VVSiteListViewControllerDelegate> {
     IBOutlet UITableView *tv;
     NSMutableArray *domains;
-    NSString *domain;
     UIAlertView *loginAlertView;
     UITextField *passwordTV;
     VVCMSAPI *api;
     iToast *toast;
     VVSiteListViewController *sitesListController;
 }
-
++(NSString*) getCurrDomain;
++(NSMutableArray*) getDomains;
 -(IBAction)addButtonPress:(id)sender;
-
-//@property(nonatomic,weak) id<VVDomainListDelegate>delegate;
-
-
 -(id) initWithApi:(VVCMSAPI*)api;
+@property(nonatomic,weak) id <VVDomainListDelegate> delegate;
 
 
 @end
