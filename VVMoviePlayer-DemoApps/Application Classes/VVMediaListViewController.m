@@ -838,17 +838,13 @@ VVCMSBroadcast *_VVMediaListViewSelectedBroadcast;
 
 -(void) delayedStartVMAP:(NSString*)vmapString {
     if ([api isReachable]) {
-        
-        if (moviePlayer)
-            moviePlayer=nil;
+        moviePlayer = nil;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerDidChange:) name:VVVmapPlayerDidChangeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
         moviePlayer = [[VVMoviePlayerViewController alloc] initWithExtendedVMAPURIString:vmapString];
-        
+        NSLog(@"moviePlayer=[%@]", moviePlayer);
         if (self.moviePlayer) {
             moviePlayer.moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
-            
-            [moviePlayer.moviePlayer prepareToPlay];
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerDidChange:) name:VVVmapPlayerDidChangeNotification object:nil];
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
             return;
         } else {
             [self hideHUD];
@@ -884,6 +880,8 @@ VVCMSBroadcast *_VVMediaListViewSelectedBroadcast;
     NSLog(@"playerDidChange");
     if ([moviePlayer.moviePlayer loadState] == MPMovieLoadStatePlayable)
         [self launchMovie:moviePlayer];
+    else
+        [self hideHUD];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:VVVmapPlayerDidChangeNotification object:nil];
 }
 
@@ -891,18 +889,8 @@ VVCMSBroadcast *_VVMediaListViewSelectedBroadcast;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
 }
 
-//- (void) prelaunchMovie:(MPMoviePlayerViewController *) mpvc {
-//    if ([[mpvc moviePlayer] loadState] == MPMovieLoadStateUnknown) { // before you wreck yourself
-//        [self performSelector:@selector(prelaunchMovie:) withObject:mpvc afterDelay:0.1];
-//    } else if ([[mpvc moviePlayer] loadState]== MPMovieLoadStateStalled) {
-//        [self hideHUD];
-//    } else {
-//        [self hideHUD];
-//        [self performSelector:@selector(launchMovie:) withObject:mpvc afterDelay:0.05];
-//    }
-//}
-
 -(void) launchMovie:(VVMoviePlayerViewController *)mpvc {
+    NSLog(@"launchMovie");
     [self hideHUD];
     [appDelegate.navigationController presentVolarMoviePlayerViewControllerAnimated:mpvc];
 }
