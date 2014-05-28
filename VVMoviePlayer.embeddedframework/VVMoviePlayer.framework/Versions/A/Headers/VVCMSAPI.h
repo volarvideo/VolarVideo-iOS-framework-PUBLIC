@@ -61,6 +61,7 @@ typedef NS_ENUM(NSInteger, vvCMSAPIError) {
 #define kVVCMSAPIKeyBroadcastStatus     @"status"
 #define kVVCMSAPIKeyBroadcastStatusScheduled    @"scheduled"
 #define kVVCMSAPIKeyBroadcastStatusStreaming    @"streaming"
+#define kVVCMSAPIKeyBroadcastStatusStopped    @"stopped"
 #define kVVCMSAPIKeyBroadcastStatusArchived @"archived"
 #define kVVCMSAPIKeyBroadcastID         @"id"
 #define kVVCMSAPIKeyBroadcastTitle      @"title"

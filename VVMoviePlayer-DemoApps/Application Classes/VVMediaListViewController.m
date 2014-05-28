@@ -531,7 +531,6 @@ CGPoint _VVMediaListViewControllerPointBeforeRotate;
                 break;
             case VVCMSBroadcastStatusStreaming:
                 live=0;
-                notStreaming = 0;
                 streamingBroadcasts = [NSMutableArray arrayWithCapacity:5];
                 break;
             case VVCMSBroadcastStatusArchived:
@@ -764,7 +763,7 @@ BOOL _VVMediaListDragging=NO;
     else if (segCtrl.selectedSegmentIndex==2)
         placeholder = archImage;
     
-    if (broadcast.thumbnailURL && ![broadcast.thumbnailURL isEqualToString:@""] ) {
+    if (broadcast.thumbnailURL && ![broadcast.thumbnailURL isEqual:[NSNull null]] && ![broadcast.thumbnailURL isEqualToString:@""] ) {
         [cell.imgThumb setImageWithURL:[NSURL URLWithString:broadcast.thumbnailURL]placeholderImage:placeholder];
     } else {
         [cell.imgThumb setImage:placeholder];

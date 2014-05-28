@@ -39,12 +39,12 @@
     NSTimer* myTimer;
     UIButton *backButton;
     UISegmentedControl *segCtrl;
-    int upcoming,live,archived,notStreaming;
+    int upcoming,live,archived;
     int lastSelectedIndex;
     
     VVCMSAPI *api;
     
-    NSMutableArray *archivedBroadcasts,*scheduledBroadcasts, *streamingBroadcasts;//,*notStreamingBroadcasts;
+    NSMutableArray *archivedBroadcasts,*scheduledBroadcasts,*streamingBroadcasts;
     
     UIImage *audioImage,*schedImage,*liveImage,*archImage;
         
