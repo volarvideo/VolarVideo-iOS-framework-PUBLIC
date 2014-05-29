@@ -467,6 +467,13 @@
  */
 -(void) hideMessages;
 /*!
+ Informs the controller that the parent view controller did load.
+ 
+ @availability Available in iOS 5.0 and later.
+ 
+ */
+-(void) parentViewDidLoad;
+/*!
  Debug display of remaining time in an ad break.
  
  @availability Available in iOS 5.0 and later.

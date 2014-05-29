@@ -33,7 +33,6 @@
 -(BOOL) adIsActive;
 -(void) displayMessage:(NSString*)message;
 -(void) hideMessages;
--(VVMasterController*) getMasterController;
 -(void) updateAdCountdownTime:(NSTimeInterval)remaining;
 -(void) showSplash:(UIImage *)image;
 -(void) hideSplash;

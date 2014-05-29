@@ -37,6 +37,8 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    
     // only use during testing
     //[TestFlight setDeviceIdentifier:[[UIDevice currentDevice] uniqueIdentifier]];
     
