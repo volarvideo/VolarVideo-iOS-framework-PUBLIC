@@ -190,7 +190,7 @@ UIView *navBarTapView;
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     UIInterfaceOrientation orientation = self.interfaceOrientation;
     int size = UIInterfaceOrientationIsLandscape(orientation)?screenRect.size.height:screenRect.size.width;
-    CGRect frame = CGRectMake(70, 0, size-140, 44);
+    CGRect frame = CGRectMake(100, 0, size-200, 44);
     if(!navBarTapView) {
         navBarTapView = [[UIView alloc] initWithFrame:frame];
         navBarTapView.backgroundColor = [UIColor clearColor];
@@ -444,9 +444,11 @@ CGPoint _VVMediaListViewControllerPointBeforeRotate;
 }
 
 -(void) chooseSite {
-    VVSiteListViewController *slc = [[VVSiteListViewController alloc] initWithApi:api];
-    slc.delegate = self;
-    [self.navigationController pushViewController:slc animated:YES];
+    if (visible) {
+        VVSiteListViewController *slc = [[VVSiteListViewController alloc] initWithApi:api];
+        slc.delegate = self;
+        [self.navigationController pushViewController:slc animated:YES];
+    }
 }
 
 -(void) doneWithVVSiteListViewController:(id)slvc {
@@ -758,8 +760,12 @@ BOOL _VVMediaListDragging=NO;
         placeholder = audioImage;
     else if (segCtrl.selectedSegmentIndex==0)
         placeholder = schedImage;
-    else if (segCtrl.selectedSegmentIndex==1)
-        placeholder = liveImage;
+    else if (segCtrl.selectedSegmentIndex==1) {
+        if (broadcast.isStreaming)
+            placeholder = liveImage;
+        else
+            placeholder = archImage;
+    }
     else if (segCtrl.selectedSegmentIndex==2)
         placeholder = archImage;
     
