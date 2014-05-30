@@ -150,7 +150,9 @@ UIView *navBarTapView;
     self.navigationItem.rightBarButtonItem = sourceButton;
 	 
     [self makeRefreshButton];
+#if defined(DEMO_APP)
     [self setupNavbarGestureRecognizer];
+#endif
     
     searchBar.barStyle = UIBarStyleBlackTranslucent;
     searchBar.customButtonTitle=@"Change Domain";
@@ -440,7 +442,9 @@ CGPoint _VVMediaListViewControllerPointBeforeRotate;
     searchBar.hidden=NO;
     [self reload];
     [self makeRefreshButton];
+#if defined(DEMO_APP)
     [self setupNavbarGestureRecognizer];
+#endif
 }
 
 -(void) chooseSite {
