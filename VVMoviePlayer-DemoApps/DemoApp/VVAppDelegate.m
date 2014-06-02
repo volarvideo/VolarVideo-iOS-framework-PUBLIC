@@ -12,6 +12,7 @@
 
 #import "VVAppDelegate.h"
 
+#import "TestFlight.h"
 #import "VVMediaListViewController.h"
 #import "B3NavigationController.h"
 #import "B3Utils.h"
@@ -39,9 +40,6 @@
     
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     
-    // only use during testing
-    //[TestFlight setDeviceIdentifier:[[UIDevice currentDevice] uniqueIdentifier]];
-    
     CFBundleRef myBundle = CFBundleGetMainBundle ();
     CFStringRef key = (CFStringRef) @"CFBundleShortVersionString";
 	NSString *versionString = (NSString *) CFBridgingRelease(CFBundleGetValueForInfoDictionaryKey( myBundle, key));
@@ -49,11 +47,7 @@
     [NSUserDefaults standardUserDefaults];
     
 #if defined DEMO_APP
-    //    [TestFlight takeOff:@"9167ed2a-8b8e-43c2-9a3b-9d0d18c10a86"];
-#elif defined MWC_APP
-    //    [TestFlight takeOff:@"f4a58e54-2340-4bba-96f9-dcd00a8263d5"];
-#else
-    //    [TestFlight takeOff:@"b25f3cfa-046e-4807-a696-5276ebc359c3"];
+    [TestFlight takeOff:@"969b7296-9022-4464-827a-a67c1892d719"];
 #endif
     
 #if defined VOLAR_PLAYER

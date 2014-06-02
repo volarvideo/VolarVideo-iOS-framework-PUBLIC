@@ -432,6 +432,7 @@
 		CE28E8EA19391AE90024B7BB /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE28E8DE19391AE10024B7BB /* Icon@2x.png */; };
 		CE28E8EB19391AE90024B7BB /* Icon@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CE28E8DF19391AE10024B7BB /* Icon@2x~ipad.png */; };
 		CE28E8EC19391AE90024B7BB /* Icon~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CE28E8E019391AE10024B7BB /* Icon~ipad.png */; };
+		CE28E8F6193CCC800024B7BB /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE28E8F5193CCC800024B7BB /* libTestFlight.a */; };
 		CE92150D192A53B500EEE4B0 /* VVPlayBtnDark.png in Resources */ = {isa = PBXBuildFile; fileRef = B504E8D4180BD71000D3FAB1 /* VVPlayBtnDark.png */; };
 		CE92150E192A53D000EEE4B0 /* audioOnly.png in Resources */ = {isa = PBXBuildFile; fileRef = B504E8B9180BD71000D3FAB1 /* audioOnly.png */; };
 		CE92150F192A53D000EEE4B0 /* audioOnly@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B504E8BA180BD71000D3FAB1 /* audioOnly@2x.png */; };
@@ -722,6 +723,11 @@
 		CE28E8DE19391AE10024B7BB /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "VVMoviePlayer-DemoApps/Volar-Resources/Icon@2x.png"; sourceTree = SOURCE_ROOT; };
 		CE28E8DF19391AE10024B7BB /* Icon@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x~ipad.png"; path = "VVMoviePlayer-DemoApps/Volar-Resources/Icon@2x~ipad.png"; sourceTree = SOURCE_ROOT; };
 		CE28E8E019391AE10024B7BB /* Icon~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon~ipad.png"; path = "VVMoviePlayer-DemoApps/Volar-Resources/Icon~ipad.png"; sourceTree = SOURCE_ROOT; };
+		CE28E8F0193CCB860024B7BB /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTestFlight.a; path = ../../../../../Downloads/TestFlightSDK3.0.2/libTestFlight.a; sourceTree = "<group>"; };
+		CE28E8F1193CCB860024B7BB /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestFlight.h; path = ../../../../../Downloads/TestFlightSDK3.0.2/TestFlight.h; sourceTree = "<group>"; };
+		CE28E8F2193CCB860024B7BB /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TestFlight+AsyncLogging.h"; path = "../../../../../Downloads/TestFlightSDK3.0.2/TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
+		CE28E8F3193CCB860024B7BB /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TestFlight+ManualSessions.h"; path = "../../../../../Downloads/TestFlightSDK3.0.2/TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
+		CE28E8F5193CCC800024B7BB /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTestFlight.a; path = "VVMoviePlayer-DemoApps/Frameworks/TestFlight/libTestFlight.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -757,6 +763,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE28E8F6193CCC800024B7BB /* libTestFlight.a in Frameworks */,
 				B04DB824187B373500CE8BD1 /* AVFoundation.framework in Frameworks */,
 				B5CE3844180B32C500084C3A /* CoreLocation.framework in Frameworks */,
 				B099B6EA187DC517008E5F24 /* VVMoviePlayer.framework in Frameworks */,
@@ -901,6 +908,7 @@
 		B5CE34AE180B2C4900084C3A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CE28E8F5193CCC800024B7BB /* libTestFlight.a */,
 				B04DB825187B373D00CE8BD1 /* VVMoviePlayer.framework */,
 				B5CE3842180B32B000084C3A /* CoreLocation.framework */,
 				B5CE3840180B32AA00084C3A /* Security.framework */,
@@ -1208,6 +1216,10 @@
 		B5CE36DF180B2F7000084C3A /* TestFlight */ = {
 			isa = PBXGroup;
 			children = (
+				CE28E8F0193CCB860024B7BB /* libTestFlight.a */,
+				CE28E8F1193CCB860024B7BB /* TestFlight.h */,
+				CE28E8F2193CCB860024B7BB /* TestFlight+AsyncLogging.h */,
+				CE28E8F3193CCB860024B7BB /* TestFlight+ManualSessions.h */,
 			);
 			path = TestFlight;
 			sourceTree = "<group>";
@@ -1922,7 +1934,11 @@
 				);
 				INFOPLIST_FILE = "VVMoviePlayer-DemoApps/DemoApp/Demo_app-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/VVMoviePlayer-DemoApps/Frameworks/TestFlight",
+					/Users/user/Downloads/TestFlightSDK3.0.2,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				VALID_ARCHS = "armv7 armv7s";
@@ -1941,7 +1957,11 @@
 				GCC_PREPROCESSOR_DEFINITIONS = DEMO_APP;
 				INFOPLIST_FILE = "VVMoviePlayer-DemoApps/DemoApp/Demo_app-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/VVMoviePlayer-DemoApps/Frameworks/TestFlight",
+					/Users/user/Downloads/TestFlightSDK3.0.2,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				VALID_ARCHS = "armv7 armv7s";
