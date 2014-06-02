@@ -43,6 +43,19 @@
 	<string>1.0.21</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleURLName</key>
+			<string>com.volarvideo.Demo-App</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>volarvmap</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1.0.21</string>
 	<key>LSRequiresIPhoneOS</key>
