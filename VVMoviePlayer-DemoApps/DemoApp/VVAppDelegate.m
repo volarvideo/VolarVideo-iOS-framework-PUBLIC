@@ -8,8 +8,6 @@
 
 #define TESTING 1
 
-
-
 #import "VVAppDelegate.h"
 
 #import "TestFlight.h"

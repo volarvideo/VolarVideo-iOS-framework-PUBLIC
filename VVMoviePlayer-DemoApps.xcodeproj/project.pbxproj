@@ -484,6 +484,12 @@
 		CED5C0841925164F00424C10 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B5CE34DA180B2D1C00084C3A /* main.m */; };
 		CED5C0851925167D00424C10 /* VVAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B5CE34DE180B2D1C00084C3A /* VVAppDelegate.m */; };
 		CED5C0861925169600424C10 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B5CE34DA180B2D1C00084C3A /* main.m */; };
+		CEE88A371940F25200945269 /* 30-second-rewind-highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE88A351940F25200945269 /* 30-second-rewind-highlight.png */; };
+		CEE88A381940F25200945269 /* 30-second-rewind-highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE88A351940F25200945269 /* 30-second-rewind-highlight.png */; };
+		CEE88A391940F25200945269 /* 30-second-rewind-highlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE88A361940F25200945269 /* 30-second-rewind-highlight@2x.png */; };
+		CEE88A3A1940F25200945269 /* 30-second-rewind-highlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE88A361940F25200945269 /* 30-second-rewind-highlight@2x.png */; };
+		CEE88A3B1940F25B00945269 /* 30-second-rewind-highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE88A351940F25200945269 /* 30-second-rewind-highlight.png */; };
+		CEE88A3C1940F25E00945269 /* 30-second-rewind-highlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE88A361940F25200945269 /* 30-second-rewind-highlight@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -728,6 +734,8 @@
 		CE28E8F2193CCB860024B7BB /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TestFlight+AsyncLogging.h"; path = "../../../../../Downloads/TestFlightSDK3.0.2/TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
 		CE28E8F3193CCB860024B7BB /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TestFlight+ManualSessions.h"; path = "../../../../../Downloads/TestFlightSDK3.0.2/TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
 		CE28E8F5193CCC800024B7BB /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTestFlight.a; path = "VVMoviePlayer-DemoApps/Frameworks/TestFlight/libTestFlight.a"; sourceTree = "<group>"; };
+		CEE88A351940F25200945269 /* 30-second-rewind-highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "30-second-rewind-highlight.png"; sourceTree = "<group>"; };
+		CEE88A361940F25200945269 /* 30-second-rewind-highlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "30-second-rewind-highlight@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -959,6 +967,8 @@
 		B5CE3523180B2DA600084C3A /* Shared Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CEE88A351940F25200945269 /* 30-second-rewind-highlight.png */,
+				CEE88A361940F25200945269 /* 30-second-rewind-highlight@2x.png */,
 				B5CE3524180B2DBA00084C3A /* alarm.png */,
 				B5CE3525180B2DBA00084C3A /* alarm@2x.png */,
 				B5CE3526180B2DBA00084C3A /* alphaBanner.png */,
@@ -1437,6 +1447,7 @@
 				B504E8FD180BD71000D3FAB1 /* VVMoviePlayerViewController.nib in Resources */,
 				B5CE373C180B311700084C3A /* Default-Landscape@2x~ipad.png in Resources */,
 				B504E90F180BD71000D3FAB1 /* VVScaleUpBtnDark@2x.png in Resources */,
+				CEE88A371940F25200945269 /* 30-second-rewind-highlight.png in Resources */,
 				B5CE373D180B311700084C3A /* Default-Landscape~ipad.png in Resources */,
 				B504E8FB180BD71000D3FAB1 /* VVInformationBtnLight@2x.png in Resources */,
 				B504E901180BD71000D3FAB1 /* VVPauseBtnLight@2x.png in Resources */,
@@ -1444,6 +1455,7 @@
 				B5CE373F180B311700084C3A /* Default-Portrait~ipad.png in Resources */,
 				B5CE3740180B311700084C3A /* Default~iphone.png in Resources */,
 				B504E8F4180BD71000D3FAB1 /* VVEmptyProgressDark.png in Resources */,
+				CEE88A391940F25200945269 /* 30-second-rewind-highlight@2x.png in Resources */,
 				B5CE3741180B311700084C3A /* Default@2x~iphone.png in Resources */,
 				CE28E8D819391AC80024B7BB /* Icon@2x.png in Resources */,
 				B504E8ED180BD71000D3FAB1 /* now-playing-scrub-filled.png in Resources */,
@@ -1510,6 +1522,7 @@
 				CE921535192A53D000EEE4B0 /* VVScaleUpBtnLight.png in Resources */,
 				CE921536192A53D000EEE4B0 /* VVScaleUpBtnLight@2x.png in Resources */,
 				CE921537192A53D000EEE4B0 /* zoomin_icon.png in Resources */,
+				CEE88A3A1940F25200945269 /* 30-second-rewind-highlight@2x.png in Resources */,
 				CEAB79E2192BE5C0005DAC05 /* Default@2x.png in Resources */,
 				CE921538192A53D000EEE4B0 /* zoomout_icon.png in Resources */,
 				CE921539192A53D000EEE4B0 /* VVMoviePlayer.framework in Resources */,
@@ -1569,6 +1582,7 @@
 				B5CE35F4180B2DBA00084C3A /* UINavigationBarBlackOpaqueBack@2x.png in Resources */,
 				B5CE35F7180B2DBA00084C3A /* UINavigationBarBlackOpaqueBackPressed.png in Resources */,
 				B5CE35FA180B2DBA00084C3A /* UINavigationBarBlackOpaqueBackPressed@2x.png in Resources */,
+				CEE88A381940F25200945269 /* 30-second-rewind-highlight.png in Resources */,
 				B5CE35FD180B2DBA00084C3A /* UINavigationBarMiniBlackOpaqueBack.png in Resources */,
 				B5CE3600180B2DBA00084C3A /* UINavigationBarMiniBlackOpaqueBack@2x.png in Resources */,
 				B5CE3603180B2DBA00084C3A /* UINavigationBarMiniBlackOpaqueBackPressed.png in Resources */,
@@ -1627,6 +1641,7 @@
 				B5CE35AD180B2DBA00084C3A /* listButton@2x.png in Resources */,
 				B5CE35B0180B2DBA00084C3A /* listButton_landscape.png in Resources */,
 				B5CE35B3180B2DBA00084C3A /* listButton_landscape@2x.png in Resources */,
+				CEE88A3B1940F25B00945269 /* 30-second-rewind-highlight.png in Resources */,
 				B5CE35B6180B2DBA00084C3A /* livebroadcast.png in Resources */,
 				B5CE35B9180B2DBA00084C3A /* livebroadcast@2x.png in Resources */,
 				B5CE35BC180B2DBA00084C3A /* notificationCenter.png in Resources */,
@@ -1650,6 +1665,7 @@
 				B5CE35F2180B2DBA00084C3A /* UINavigationBarBlackOpaqueBack.png in Resources */,
 				B5CE35F5180B2DBA00084C3A /* UINavigationBarBlackOpaqueBack@2x.png in Resources */,
 				B5CE35F8180B2DBA00084C3A /* UINavigationBarBlackOpaqueBackPressed.png in Resources */,
+				CEE88A3C1940F25E00945269 /* 30-second-rewind-highlight@2x.png in Resources */,
 				B5CE35FB180B2DBA00084C3A /* UINavigationBarBlackOpaqueBackPressed@2x.png in Resources */,
 				B5CE35FE180B2DBA00084C3A /* UINavigationBarMiniBlackOpaqueBack.png in Resources */,
 				B5CE3601180B2DBA00084C3A /* UINavigationBarMiniBlackOpaqueBack@2x.png in Resources */,
