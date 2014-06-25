@@ -147,6 +147,7 @@ static NSString *CURR_DOMAIN = @"curr_domain";
 // tableviewDelegate calls
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *domain = [domains objectAtIndex:indexPath.row];
+    currDomain = indexPath.row;
     api.delegate = self;
     [api authenticationRequestForDomain:domain username:nil andPassword:nil];
     [[iToast makeText:@"loading sites ..."]show];
@@ -170,7 +171,7 @@ static NSString *CURR_DOMAIN = @"curr_domain";
 
 -(void) doneWithVVSiteListViewController:(id)slvc {
     if (slvc==sitesListController) {
-        [VVDomainList saveCurrDomain:[api domain]];
+        [VVDomainList saveCurrDomain:[domains objectAtIndex:currDomain]];
         [_delegate domainDidChange:self];
         [self.navigationController popToRootViewControllerAnimated:YES];
     }

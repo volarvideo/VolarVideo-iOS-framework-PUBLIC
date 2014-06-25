@@ -8,6 +8,7 @@
 
 #import "VVSiteListViewController.h"
 #import "VVDomainList.h"
+#import <VVMoviePlayer/VVCMSSite.h>
 
 @interface VVSiteListViewController ()
 
@@ -49,22 +50,18 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     
-    cell.textLabel.text = [[api.sites objectAtIndex:indexPath.row] objectForKey:@"title"];
+    VVCMSSite *site = [api.sites objectAtIndex:indexPath.row];
+    cell.textLabel.text = site.title;
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     api.delegate = self;
-    api.siteSlug = [[api.sites objectAtIndex:indexPath.row] objectForKey:@"slug"];
-    if (!api.siteSlug) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"invalid slug" message:@"The slug choosen was not valid" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
-    } else {
-        //[self.navigationController popViewControllerAnimated:YES];
-        if (delegate)
-            [delegate doneWithVVSiteListViewController:self];
-        
-    }
+    [api setCurrentSiteIndex:indexPath.row];
+    
+    //[self.navigationController popViewControllerAnimated:YES];
+    if (delegate)
+        [delegate doneWithVVSiteListViewController:self];
 }
 
 - (void)viewDidLoad

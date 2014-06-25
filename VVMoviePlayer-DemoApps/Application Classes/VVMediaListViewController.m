@@ -81,8 +81,8 @@ UIView *navBarTapView;
         NSLog(@"domain: %@", domain);
 #endif
         [api authenticationRequestForDomain:domain siteSlug:siteSlug username:nil andPassword:nil];
-        if ([siteSlug isEqualToString:@"themwc"])
-            api.siteSlugs = [NSArray arrayWithObjects:@"AFA",@"BOSU",@"CSU",@"Fresno",@"Nevada",@"UNM",@"SDSU",@"SJSU",@"UNLV",@"USU",@"UWYO", nil];
+//        if ([siteSlug isEqualToString:@"themwc"])
+//            api.siteSlugs = [NSArray arrayWithObjects:@"AFA",@"BOSU",@"CSU",@"Fresno",@"Nevada",@"UNM",@"SDSU",@"SJSU",@"UNLV",@"USU",@"UWYO", nil];
     }
     return self;
 }
@@ -477,7 +477,7 @@ CGPoint _VVMediaListViewControllerPointBeforeRotate;
         archivedBroadcasts  = [NSMutableArray arrayWithCapacity:5];
     }
     
-    self.siteName = [api siteName];
+    self.siteName = [api currentSite].title;
     self.navigationItem.title = self.siteName;
     if (loading) {
         api.sortDir = vvCMSAPISortAscending;

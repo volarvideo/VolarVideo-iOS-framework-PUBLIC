@@ -20,6 +20,7 @@
 @interface VVDomainList : UIViewController <UITableViewDataSource,UITableViewDelegate, UITextFieldDelegate,VVCMSAPIDelegate,VVSiteListViewControllerDelegate> {
     IBOutlet UITableView *tv;
     NSMutableArray *domains;
+    NSInteger currDomain;
     UIAlertView *loginAlertView;
     UITextField *passwordTV;
     VVCMSAPI *api;
