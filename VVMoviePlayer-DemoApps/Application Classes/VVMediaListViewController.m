@@ -402,6 +402,8 @@ CGPoint _VVMediaListViewControllerPointBeforeRotate;
     NSLog(@"doneWithVVSiteListViewController");
     [self.navigationController popToRootViewControllerAnimated:YES];
     
+    self.navigationItem.title = [api currentSite].title;
+    
     api.delegate = self;
     self.spinner.hidden=NO;
     [self.spinner startAnimating];
