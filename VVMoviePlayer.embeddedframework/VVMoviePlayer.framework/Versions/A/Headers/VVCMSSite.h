@@ -11,6 +11,7 @@
 @interface VVCMSSite : NSObject
 
 @property(nonatomic,strong,readonly) NSNumber *ID;
+@property(nonatomic,strong,readonly) NSString *slug;
 @property(nonatomic,strong,readonly) NSString *title;
 @property(nonatomic,strong,readonly) NSString *authURL;
 @property(nonatomic,strong,readonly) NSString *userURL;

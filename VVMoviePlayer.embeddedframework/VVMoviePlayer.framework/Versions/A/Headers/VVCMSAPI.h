@@ -40,6 +40,11 @@ typedef NS_ENUM(NSInteger, vvCMSAPIError) {
 #define kVVCMSAPIKeySites               @"sites"
 #define kVVCMSAPIKeyEventId             @"id"
 
+// pagination
+#define kVVCMSAPIKeyPagination          @"pagination"
+#define kVVCMSAPIKeyNumPages            @"num_pages"
+#define kVVCMSAPIKeyNumItems            @"num_items"
+
 // user name response keys
 #define kVVCMSAPIKeyUser                @"user"
 #define kVVCMSAPIKeyUserName            @"name"

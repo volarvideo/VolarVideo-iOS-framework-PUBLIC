@@ -81,10 +81,13 @@
  Completion Method for broadcasts list requests
  @param vvapi The instance of the VVAPI used in the
  @param status The status of the broadcasts contained in the didFinishWithArray: parameter.
+ @param page The requested page
+ @param totalPages The total number of pages with the specified results per page
+ @param totalResults The total number of result regardless of the specified results per page
  @param events An array of scheduled streaming events
  @param error An error detailing what went wrong (or nil if no error)
  */
-- (void)VVCMSAPI:(VVCMSAPI *)vvapi requestForBroadcastsOfStatus:(VVCMSBroadcastStatus)status didFinishWithArray:(NSArray *)events error:(NSError *)error;
+- (void)VVCMSAPI:(VVCMSAPI *)vvapi requestForBroadcastsOfStatus:(VVCMSBroadcastStatus)status page:(int)page totalPages:(int)totalPages totalResults:(int)totalResults didFinishWithArray:(NSArray *)broadcasts error:(NSError *)error;
 
 
 @end

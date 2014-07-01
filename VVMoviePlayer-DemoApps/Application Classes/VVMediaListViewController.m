@@ -25,18 +25,7 @@
 
 #define kRowHeight 110.0
 #define kNoResultsRowHeight 424.0
-
-// I don't understand why the inset was originally conceived, however it was the cause
-// of the second part of issue #6 (the blank space below the list of videos). The inset
-// is only used to change the height of tv.contentInset (in viewDidLoad and other places)
-
-// The documentation on UIEdgeInsetsMake was not extremely helpful. Someting about
-// subpixel resampling. It didn't sound related to our table view. So I killed it.
-
-// With fire.
-
-//#define inset -44
-#define inset 0
+#define kResultsPerPage 10
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000
 #define iOS7Code(code, alt) if([[[UIDevice currentDevice]systemVersion]floatValue]>=7){code;}
@@ -47,7 +36,6 @@
 iToast *_VVMediaListViewControllerToast=nil;
 CGRect _VVMediaListViewControllerHeaderFrame;
 BOOL _VVMediaListViewFreshLoad=YES;
-int _VVMediaListViewRefreshedQueued=0;
 UIView *navBarTapView;
 
 @interface VVMediaListViewController ()
@@ -58,44 +46,31 @@ UIView *navBarTapView;
 
 @implementation VVMediaListViewController
 
-@synthesize settingsDictionary, listItems,filteredListItems, moviePlayer, photoItems,toolbar,svpovc,dpcovc;
-
-- (id)initWithApi:(VVCMSAPI*)x {
-    self = [super initWithNibName:NSStringFromClass(self.class) bundle:nil];
-    if (self) {
-        api = x;
-        [self commonInit];
-        [self refreshDataSource:true];
-    }
-    return self;
-}
+@synthesize settingsDictionary,broadcasts,filteredListItems,moviePlayer,photoItems,toolbar,svpovc,dpcovc;
 
 - (id)initWithSiteSlug:(NSString *)siteSlug {
     self = [super initWithNibName:NSStringFromClass(self.class) bundle:nil];
     if (self) {
         api = [VVCMSAPI vvCMSAPI];
-        [self commonInit];
+        api.delegate = self;
+        virginloading = YES;
+        loading = NO;
+        _VVMediaListViewFreshLoad=YES;
+        lastSelectedIndex=-1;
+        currPage=0;
+        numPages=0;
+        numResults=0;
+        appDelegate = (VVAppDelegate*)[[UIApplication sharedApplication] delegate];
+        segCtrl.selectedSegmentIndex = 2;
+        
         NSString *domain = @"vcloud.volarvideo.com";
 #if defined(DEMO_APP)
         domain = [VVDomainList getCurrDomain];
         NSLog(@"domain: %@", domain);
 #endif
         [api authenticationRequestForDomain:domain siteSlug:siteSlug username:nil andPassword:nil];
-//        if ([siteSlug isEqualToString:@"themwc"])
-//            api.siteSlugs = [NSArray arrayWithObjects:@"AFA",@"BOSU",@"CSU",@"Fresno",@"Nevada",@"UNM",@"SDSU",@"SJSU",@"UNLV",@"USU",@"UWYO", nil];
     }
     return self;
-}
-
--(void) commonInit {
-    virginloading = YES;
-    loading = YES;
-    api.delegate = self;
-    _VVMediaListViewFreshLoad=YES;
-    lastSelectedIndex=-1;
-    appDelegate = (VVAppDelegate*)[[UIApplication sharedApplication] delegate];
-    backgroundQueue = dispatch_queue_create("com.ihigh.VVMedialistviewcontroller", NULL);
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setVideoReachability) name:@"reachabilityTested" object:nil];
 }
 
 -(void)VVCMSAPI:(VVCMSAPI *)vvCmsApi authenticationRequestDidFinishWithError:(NSError *)error {
@@ -105,7 +80,8 @@ UIView *navBarTapView;
             [alert show];
             return;
         }
-        [self refreshDataSource:true];
+        self.navigationItem.title = [api currentSite].title;
+        [self getData:1 status:VVCMSBroadcastStatusArchived];
     }
 }
 
@@ -122,22 +98,9 @@ UIView *navBarTapView;
     api.section_id = 0;
 }
 
--(void)VVCMSAPI:(VVCMSAPI *)vvCmsApi requestForPlaylistsPage:(int)page resultsPerPage:(int)resultsPerPage didFinishWithArray:(NSArray *)results error:(NSError *)error {
-    if (vvCmsApi==api) {
-        if (error) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not get playlists" message:error.localizedDescription delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil];
-            [alert show];
-            return;
-        }
-    }
-    playlists = results;
-    api.playlist_id = 0;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    loadingCells = [[NSMutableDictionary alloc] initWithCapacity:100];
     
     // Do any additional setup after loading the view from its nib.
     tv.rowHeight = kRowHeight;
@@ -167,12 +130,14 @@ UIView *navBarTapView;
 
 //    [self useEnhancedBackButton];
     
-    tv.contentInset = UIEdgeInsetsMake(0, 0, -inset, 0);
+    tv.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
 
     audioImage = [UIImage imageNamed:@"iconGenericAudio"];
     schedImage = [UIImage imageNamed:@"scheduledBroadcast"];
     liveImage = [UIImage imageNamed:@"iconLiveBroadcast"];
     archImage = [UIImage imageNamed:@"iconGenericVideo"];
+    
+    footerSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     
     // Thank god for Stack Overflow:
     // http://stackoverflow.com/questions/19081697/ios-7-navigation-bar-hiding-content
@@ -180,7 +145,9 @@ UIView *navBarTapView;
         self.edgesForExtendedLayout = UIRectEdgeNone; //layout adjustements
     }
     
-    [self refreshDataSource:true];
+    // The first load is always done at this point
+    self.spinner.hidden=YES;
+    [self.spinner stopAnimating];
 }
 
 - (void) setupNavbarGestureRecognizer {
@@ -231,7 +198,7 @@ UIView *navBarTapView;
 }
 
 -(void) refreshButtonPress {
-    [self refreshDataSource:false];
+    [self reload];
 }
 
 -(void) makeRefreshButton {
@@ -256,10 +223,8 @@ UIView *navBarTapView;
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super viewDidUnload];
-    loadingCells=nil;
-    backgroundQueue=nil;
     filteredListItems=nil;
-    listItems=nil;
+    broadcasts=nil;
     photoItems=nil;
 }
 
@@ -304,13 +269,12 @@ BOOL _VVMediaListViewControllerSearchToast=NO;
                 frame.size.height = 32;
             }
         toolbar.frame=frame;
-        [segCtrl insertSegmentWithTitle:@"" atIndex:0 animated:NO];
-        [segCtrl insertSegmentWithTitle:@"" atIndex:1 animated:NO];
-        [segCtrl insertSegmentWithTitle:@"" atIndex:2 animated:NO];
+        [segCtrl insertSegmentWithTitle:@"Upcoming" atIndex:0 animated:NO];
+        [segCtrl insertSegmentWithTitle:@"Live" atIndex:1 animated:NO];
+        [segCtrl insertSegmentWithTitle:[NSString stringWithFormat:@"Archived (%d)",numResults] atIndex:2 animated:NO];
+        
         segCtrl.selectedSegmentIndex=2;
     }
-
-    self.navigationItem.title = self.siteName;
     
 	// This iOS7Code is no longer valid and will need to be refactored eventually
 	// Since the search bar is now has edgesForExtendedLayout set (iOS7 property to
@@ -366,36 +330,7 @@ BOOL _VVMediaListViewControllerSearchToast=NO;
     visible=NO;
 }
 
-
--(void) testAndReload {
-    //if (!_VVMediaListViewControllerBackgroundQueue)
-    //    _VVMediaListViewControllerBackgroundQueue = dispatch_queue_create("com.ihigh.B3MainViewController", NULL);
-    //if (!_VVMediaListViewControllerWaitingForReachabilityResult) {
-        //dispatch_async(_VVMediaListViewControllerBackgroundQueue, ^(void) {
-            //[api isReachable];
-            //_VVMediaListViewControllerWaitingForReachabilityResult=NO;
-            //NSLog(@"reachability=%@",[api latestReachabilityResult]?@"YES":@"NO");
-            //[self refreshDataSource];
-        //});
-        //_VVMediaListViewControllerWaitingForReachabilityResult=YES;
-    //}
-}
-
--(void) setVideoReachability {
-    if ([api latestReachabilityResult]!=_VVMediaListViewControllerLastReachableTestResult) {
-        //NSLog(@"willReload");
-        dispatch_async(dispatch_get_main_queue(),^(void) {
-            [self refreshVisibleCells];
-        });
-    } else {
-        //NSLog(@"wontReload");
-    }
-    _VVMediaListViewControllerLastReachableTestResult = [api latestReachabilityResult];
-}
-
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     if (_VVMediaListViewControllerToast)
         [_VVMediaListViewControllerToast hideToast:nil];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -428,7 +363,7 @@ CGPoint _VVMediaListViewControllerPointBeforeRotate;
     _VVMediaListViewControllerPointBeforeRotate = CGPointMake(tv.contentOffset.x, tv.contentOffset.y);
 //    [B3SchoolPage setOrientation:toInterfaceOrientation];
     tv.contentOffset = _VVMediaListViewControllerPointBeforeRotate;
-    tv.contentInset = UIEdgeInsetsMake(0, 0, -inset, 0);
+    tv.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     searchBar.hidden=YES;
     [self setBackButtonOrientation:toInterfaceOrientation];
     CGRect frame = toolbar.frame;
@@ -455,198 +390,100 @@ CGPoint _VVMediaListViewControllerPointBeforeRotate;
     }
 }
 
--(void) doneWithVVSiteListViewController:(id)slvc {
-    [self refreshDataSource:true];
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
-
--(void) refreshDataSource:(BOOL) cleanSlate {
-    _VVMediaListViewRefreshedQueued++;
+-(void) domainDidChange:(id)dl {
+    NSLog(@"domainDidChange");
+    api.delegate = self;
     self.spinner.hidden=NO;
     [self.spinner startAnimating];
-    
-    if (cleanSlate) {
-        api.delegate = self;
-        loading=YES;
-        lastSelectedIndex=-1;
-        live=0;
-        upcoming=0;
-        archived=0;
-        scheduledBroadcasts = [NSMutableArray arrayWithCapacity:5];
-        streamingBroadcasts = [NSMutableArray arrayWithCapacity:5];
-        archivedBroadcasts  = [NSMutableArray arrayWithCapacity:5];
-    }
-    
-    self.siteName = [api currentSite].title;
-    self.navigationItem.title = self.siteName;
-    if (loading) {
-        api.sortDir = vvCMSAPISortAscending;
-        api.sortBy = VVCMSAPISortByDate;
-        [api requestBroadcastsWithStatus:VVCMSBroadcastStatusScheduled page:1 resultsPerPage:50];
-        [api requestBroadcastsWithStatus:VVCMSBroadcastStatusStreaming page:1 resultsPerPage:50];
-        api.sortDir = vvCMSAPISortDescending;
-        [api requestBroadcastsWithStatus:VVCMSBroadcastStatusArchived page:1 resultsPerPage:50];
-        [api requestSectionsPage:1 resultsPerPage:50];
-        [api requestPlaylistsPage:1 resultsPerPage:50];
-    } else {
-        switch (segCtrl.selectedSegmentIndex) {
-            case 0: // upcoming (scheduled)
-                api.sortDir = vvCMSAPISortAscending;
-                api.sortBy = VVCMSAPISortByDate;
-                [api requestBroadcastsWithStatus:VVCMSBroadcastStatusScheduled page:1 resultsPerPage:50];
-                break;
-            case 1: // live
-                api.sortDir = vvCMSAPISortAscending;
-                api.sortBy = VVCMSAPISortByDate;
-                [api requestBroadcastsWithStatus:VVCMSBroadcastStatusStreaming page:1 resultsPerPage:50];
-                break;
-            case 2: // archived
-                api.sortDir = vvCMSAPISortDescending;
-                [api requestBroadcastsWithStatus:VVCMSBroadcastStatusArchived page:1 resultsPerPage:50];
-                break;
-            default:
-                api.sortDir = vvCMSAPISortAscending;
-                api.sortBy = VVCMSAPISortByDate;
-                [api requestBroadcastsWithStatus:VVCMSBroadcastStatusScheduled page:1 resultsPerPage:50];
-                [api requestBroadcastsWithStatus:VVCMSBroadcastStatusStreaming page:1 resultsPerPage:50];
-                api.sortDir = vvCMSAPISortAscending;
-                [api requestBroadcastsWithStatus:VVCMSBroadcastStatusArchived page:1 resultsPerPage:50];
-                break;
-        }
-    }
+    [self getData:1];
 }
 
--(void) VVCMSAPI:(VVCMSAPI *)vvCmsApi requestForBroadcastsOfStatus:(VVCMSBroadcastStatus)status didFinishWithArray:(NSArray *)events error:(NSError *)error {
-    _VVMediaListViewRefreshedQueued--;
-    if (_VVMediaListViewRefreshedQueued<=0) {
-        self.spinner.hidden=YES;
-        [self.spinner stopAnimating];
+-(void) doneWithVVSiteListViewController:(id)slvc {
+    NSLog(@"doneWithVVSiteListViewController");
+    [self.navigationController popToRootViewControllerAnimated:YES];
+    
+    api.delegate = self;
+    self.spinner.hidden=NO;
+    [self.spinner startAnimating];
+    [self getData:1];
+}
+
+-(void) getData:(int)page {
+    VVCMSBroadcastStatus status;
+    if (segCtrl.selectedSegmentIndex == 0)
+        status = VVCMSBroadcastStatusScheduled;
+    else if (segCtrl.selectedSegmentIndex == 1)
+        status = VVCMSBroadcastStatusStreaming;
+    else
+        status = VVCMSBroadcastStatusArchived;
+    [self getData:page status:status];
+}
+
+-(void) getData:(int)page status:(VVCMSBroadcastStatus)status {
+    NSLog(@"getData page=%d", page);
+    loading = YES;
+    
+    if (page > 1) {
+        tv.tableFooterView = footerSpinner;
+        [footerSpinner startAnimating];
     }
-    static BOOL archiveSet=NO,streamingSet=NO,scheduledSet=NO;
+    
+    currPage = page;
+    lastStatusRequested = status;
+    [api requestBroadcastsWithStatus:status page:page resultsPerPage:kResultsPerPage];
+}
+
+-(void) VVCMSAPI:(VVCMSAPI *)vvCmsApi requestForBroadcastsOfStatus:(VVCMSBroadcastStatus)status
+            page:(int)page totalPages:(int)totalPages totalResults:(int)totalResults
+            didFinishWithArray:(NSArray *)events error:(NSError *)error {
+    self.spinner.hidden=YES;
+    [self.spinner stopAnimating];
+    
+    if (appDelegate && virginloading) [appDelegate finishedLoadingBroadcastsWithError:error];
+    virginloading=NO;
+    
     if (!error && ![events isKindOfClass:[NSNull class]]) {
-        switch (status) {
-            case VVCMSBroadcastStatusAll:
-                upcoming=0; live=0; archived=0;
-                scheduledBroadcasts = [NSMutableArray arrayWithCapacity:5];
-                streamingBroadcasts = [NSMutableArray arrayWithCapacity:5];
-                archivedBroadcasts  = [NSMutableArray arrayWithCapacity:5];
-                break;
-            case VVCMSBroadcastStatusScheduled:
-                upcoming=0;
-                scheduledBroadcasts = [NSMutableArray arrayWithCapacity:5];
-                break;
-            case VVCMSBroadcastStatusStreaming:
-                live=0;
-                streamingBroadcasts = [NSMutableArray arrayWithCapacity:5];
-                break;
-            case VVCMSBroadcastStatusArchived:
-                archived=0;
-                archivedBroadcasts  = [NSMutableArray arrayWithCapacity:5];
-                break;
-            case VVCMSBroadcastStatusUnknown:
-                return;
-        }
-        for (VVCMSBroadcast *b in events) {
-            switch (b.status) {
-                case VVCMSBroadcastStatusAll:
-                case VVCMSBroadcastStatusUnknown:
-                    break;
-                case VVCMSBroadcastStatusScheduled:
-                    [scheduledBroadcasts addObject:b];
-                    upcoming++;
-                    break;
-                case VVCMSBroadcastStatusStreaming:
-                    live++;
-                    [streamingBroadcasts addObject:b];
-                    break;
-                case VVCMSBroadcastStatusArchived:
-                    archived++;
-                    [archivedBroadcasts addObject:b];
-                    break;
-            }
-        }
-        BOOL oldState = (archiveSet && streamingSet && scheduledSet);
-        switch (status) {
-            case VVCMSBroadcastStatusAll:
-                archiveSet=YES;
-                streamingSet=YES;
-                scheduledSet=YES;
-                break;
-            case VVCMSBroadcastStatusScheduled:
-                scheduledSet=YES;
-                break;
-            case VVCMSBroadcastStatusStreaming:
-                streamingSet=YES;
-                break;
-            case VVCMSBroadcastStatusArchived:
-                archiveSet=YES;
-                break;
-            case VVCMSBroadcastStatusUnknown:
-                return;
-        }
-        BOOL newState = (archiveSet && streamingSet && scheduledSet);
-        if (oldState != newState) {
-            if (archived)
-                segCtrl.selectedSegmentIndex=2;
-            else if (live)
-                segCtrl.selectedSegmentIndex=1;
-            else
-                segCtrl.selectedSegmentIndex=0;
-        }
-        if (loading) {
-            loading=NO;
-            [archivedBroadcasts reverse];
-            if (appDelegate && virginloading) [appDelegate finishedLoadingBroadcastsWithError:error];
-            virginloading=NO;
-        }
+        [self setpuBroadcasts:events status:status page:page totalPages:totalPages totalResults:totalResults];
     } else {
-        upcoming=0; live=0; archived=0;
-        scheduledBroadcasts=nil;
-        streamingBroadcasts=nil;
-        archivedBroadcasts=nil;
+        broadcasts = nil;
     }
-    [self dataSourceRefreshComplete];
+    loading = NO;
+    if (page > 1) {
+        [footerSpinner stopAnimating];
+        tv.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    }
+    [self checkPagination];
 }
 
--(void) dataSourceRefreshComplete {
+-(void) setpuBroadcasts:(NSArray*)b status:(VVCMSBroadcastStatus)status page:(int)page totalPages:(int)totalPages totalResults:(int)totalResults {
+    NSLog(@"setupBroadcasts page=%d totalPages=%d totalResults=%d", page, totalPages, totalResults);
+    numPages = totalPages;
+    numResults = totalResults;
     toolbar.hidden=NO;
     
-    if (loading)
-        return;
+    if (page == 1) {
+        broadcasts = [b mutableCopy];
+    }
+    else {
+        [broadcasts addObjectsFromArray:b];
+    }
     
+    [segCtrl setTitle:@"Upcoming" forSegmentAtIndex:0];
+    [segCtrl setTitle:@"Live" forSegmentAtIndex:1];
+    [segCtrl setTitle:@"Archived" forSegmentAtIndex:2];
     
     if (segCtrl.selectedSegmentIndex==0) {
-        listItems = scheduledBroadcasts; // upcoming (incomplete)
+        [segCtrl setTitle:[NSString stringWithFormat:@"Upcoming (%d)",totalResults] forSegmentAtIndex:0];
     } else if (segCtrl.selectedSegmentIndex==1) {
-        listItems = streamingBroadcasts; // live (streaming)
+        [segCtrl setTitle:[NSString stringWithFormat:@"Live (%d)",totalResults] forSegmentAtIndex:1];
     } else if (segCtrl.selectedSegmentIndex==2) {
-        listItems = archivedBroadcasts; // archived (complete)
+        [segCtrl setTitle:[NSString stringWithFormat:@"Archived (%d)",totalResults] forSegmentAtIndex:2];
     }
-    //[segCtrl setEnabled:(upcoming>0) forSegmentAtIndex:0];
-    //[segCtrl setEnabled:(live>0) forSegmentAtIndex:1];
-    //[segCtrl setEnabled:(archived>0) forSegmentAtIndex:2];
-    [segCtrl setTitle:[NSString stringWithFormat:@"Upcoming (%d)",upcoming] forSegmentAtIndex:0];
-    [segCtrl setTitle:[NSString stringWithFormat:@"Live (%d)",live] forSegmentAtIndex:1];
-    [segCtrl setTitle:[NSString stringWithFormat:@"Archived (%d)",archived] forSegmentAtIndex:2];
     
-    int index = [segCtrl selectedSegmentIndex];
+//    int index = [segCtrl selectedSegmentIndex];
     
-    if ((index==0 && !upcoming) || (index==1 && !live) || (index==2 && !archived) )
-        lastSelectedIndex=-1;
-    /*
-    if (lastSelectedIndex==-1) {
-        if (live)
-            [segCtrl setSelectedSegmentIndex:1];
-        else if (archived)
-            [segCtrl setSelectedSegmentIndex:2];
-        else if (upcoming)
-            [segCtrl setSelectedSegmentIndex:0];
-        lastSelectedIndex = segCtrl.selectedSegmentIndex;
-    }
-    if (!live && !archived && !upcoming)
-        lastSelectedIndex = -1;
-    */
-
+//    if ((index==0 && !upcoming) || (index==1 && !live) || (index==2 && !archived) )
+//        lastSelectedIndex=-1;
     
     filteredListItems = [NSMutableArray array];
     [tv reloadData];
@@ -658,14 +495,16 @@ CGPoint _VVMediaListViewControllerPointBeforeRotate;
 
 -(void) segCtrlChanged:(UISegmentedControl *)sc {
     NSLog(@"selectedIndex=[%d]",sc.selectedSegmentIndex);
-    [self refreshDataSource:false];
+    self.spinner.hidden=NO;
+    [self.spinner startAnimating];
+    [self getData:1];
 }
 
 
 - (void) reload {
-    [self refreshDataSource:false];
-    [tv reloadData];
-//    [banner redraw];
+    self.spinner.hidden=NO;
+    [self.spinner startAnimating];
+    [self getData:1];
 }
 
 - (void) refreshVisibleCells {
@@ -687,9 +526,23 @@ BOOL _VVMediaListDragging=NO;
 -(void) scrollViewDidScroll:(UIScrollView *)scrollView {
     if (_VVMediaListDragging) {
         if (scrollView.contentOffset.y<10)
-            [tv setContentInset:UIEdgeInsetsMake(0, 0, -inset, 0)];
+            [tv setContentInset:UIEdgeInsetsMake(0, 0, 0, 0)];
         else if (scrollView.contentOffset.y>44)
-            [tv setContentInset:UIEdgeInsetsMake(inset, 0, -inset, 0)];
+            [tv setContentInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+    }
+    
+    [self checkPagination];
+}
+
+-(void) checkPagination {
+    NSArray *visCells = [tv indexPathsForVisibleRows];
+    if (visCells.count) {
+        NSIndexPath *firstPath = [visCells objectAtIndex:0];
+        if (!loading && (broadcasts.count-visCells.count) <= (firstPath.row+kResultsPerPage)) {
+            if (currPage+1 <= numPages) {
+                [self getData:currPage+1 status:lastStatusRequested];
+            }
+        }
     }
 }
 
@@ -705,7 +558,7 @@ BOOL _VVMediaListDragging=NO;
         rows = [filteredListItems count];
     }
     else {
-        rows = [listItems count];
+        rows = [broadcasts count];
     }
     return rows;
 }
@@ -730,9 +583,9 @@ BOOL _VVMediaListDragging=NO;
             return cell;
         broadcast = [filteredListItems objectAtIndex:indexPath.row];
     } else {
-        if (!listItems || [listItems isKindOfClass:[NSNull class]])
+        if (!broadcasts || [broadcasts isKindOfClass:[NSNull class]])
             return cell;
-        broadcast = [listItems objectAtIndex:indexPath.row];
+        broadcast = [broadcasts objectAtIndex:indexPath.row];
     }
 
     
@@ -757,9 +610,21 @@ BOOL _VVMediaListDragging=NO;
     else
         cell.meta1 = nil;
     
-    cell.meta2 = nil;
-
-    UIImage *placeholder;;
+    switch (broadcast.status) {
+    case VVCMSBroadcastStatusStreaming:
+        if (broadcast.isStreaming) {
+            cell.meta2 = @"streaming";
+        }
+        else {
+            cell.meta2 = @"stopped";
+        }
+        break;
+    default:
+        cell.meta2 = nil;
+        break;
+    }
+    
+    UIImage *placeholder;
     if (broadcast.audioOnly)
         placeholder = audioImage;
     else if (segCtrl.selectedSegmentIndex==0)
@@ -879,7 +744,7 @@ VVCMSBroadcast *_VVMediaListViewSelectedBroadcast;
         bcast = [filteredListItems objectAtIndex:indexPath.row];
     }
     else {
-        bcast = [listItems objectAtIndex:indexPath.row];
+        bcast = [broadcasts objectAtIndex:indexPath.row];
     }
     _VVMediaListViewSelectedBroadcast = bcast;
     [self delayedStartVMAP:bcast.vmapURL];
@@ -927,11 +792,6 @@ BOOL   _VVMediaPlayerSkipLockout=NO;
         [self presentModalViewController:domainListView animated:YES];
 }
 
--(void) domainDidChange:(id)dl {
-    [self refreshDataSource:true];
-}
-
-
 #pragma mark -
 #pragma mark Content Filtering
 
@@ -941,7 +801,7 @@ BOOL   _VVMediaPlayerSkipLockout=NO;
     
     NSString *searchString = nil;
     id item;
-    for (item in listItems) {
+    for (item in broadcasts) {
         searchString = [item valueForKey:@"title"];
         if (searchString && ![searchString isKindOfClass:[NSNull class]]) {
             NSRange range = [searchString rangeOfString:searchText options:NSCaseInsensitiveSearch];
@@ -1077,7 +937,7 @@ MBProgressHUD *progressHUD;
         } else
             [filterSegmentControl setTitle:svc.selectedTitle forSegmentAtIndex:2];
         api.section_id = svc.selectedValue;
-        [self refreshDataSource:true];
+        [self getData:1];
         filterSegmentControl.selectedSegmentIndex=-1;
         [self retractSportPicker];
     }
@@ -1224,7 +1084,7 @@ MBProgressHUD *progressHUD;
             api.beforeDate=dpc.dp.date;
             [filterSegmentControl setTitle:dateString forSegmentAtIndex:1];
         }
-        [self refreshDataSource:true];
+        [self getData:1];
         filterSegmentControl.selectedSegmentIndex=-1;
         [self retractDatePicker];
     }
@@ -1239,7 +1099,7 @@ MBProgressHUD *progressHUD;
             api.beforeDate=nil;
             [filterSegmentControl setTitle:@"To Date" forSegmentAtIndex:1];
         }
-        [self refreshDataSource:true];
+        [self getData:1];
         filterSegmentControl.selectedSegmentIndex=-1;
         [self retractDatePicker];
     }

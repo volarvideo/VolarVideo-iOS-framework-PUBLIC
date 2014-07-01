@@ -53,12 +53,12 @@
     meta1 = str;
     lblMeta1.text = meta1;
 }
-/*
+
 - (void) setMeta2:(NSString *)str {
     meta2 = str;
     lblMeta2.text = meta2;
 }
-*/
+
 - (void) setDisabled:(BOOL)disabled {
     UIColor *color = [UIColor blackColor];
     if (disabled)

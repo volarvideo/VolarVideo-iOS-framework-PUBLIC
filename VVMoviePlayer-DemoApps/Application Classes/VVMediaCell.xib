@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1792</int>
-		<string key="IBDocument.SystemVersion">12F45</string>
-		<string key="IBDocument.InterfaceBuilderVersion">4514</string>
-		<string key="IBDocument.AppKitVersion">1187.40</string>
+		<string key="IBDocument.SystemVersion">12F37</string>
+		<string key="IBDocument.InterfaceBuilderVersion">5056</string>
+		<string key="IBDocument.AppKitVersion">1187.39</string>
 		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">3747</string>
+			<string key="NS.object.0">3733</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
@@ -34,7 +34,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUITableViewCell" id="28077083">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">1316</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIView" id="804710355">
@@ -47,6 +47,7 @@
 								<object class="NSPSMatrix" key="NSFrameMatrix"/>
 								<string key="NSFrame">{{146, 88}, {187, 21}}</string>
 								<reference key="NSSuperview" ref="804710355"/>
+								<reference key="NSWindow"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -80,6 +81,7 @@
 								<object class="NSPSMatrix" key="NSFrameMatrix"/>
 								<string key="NSFrame">{{146, 4}, {160, 21}}</string>
 								<reference key="NSSuperview" ref="804710355"/>
+								<reference key="NSWindow"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -106,6 +108,7 @@
 								<object class="NSPSMatrix" key="NSFrameMatrix"/>
 								<string key="NSFrame">{{4, 2}, {139, 104}}</string>
 								<reference key="NSSuperview" ref="804710355"/>
+								<reference key="NSWindow"/>
 								<int key="IBUIContentMode">1</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -116,6 +119,7 @@
 								<object class="NSPSMatrix" key="NSFrameMatrix"/>
 								<string key="NSFrame">{{54, 49}, {30, 21}}</string>
 								<reference key="NSSuperview" ref="804710355"/>
+								<reference key="NSWindow"/>
 								<int key="IBUIContentMode">4</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -124,12 +128,41 @@
 									<string key="NSResourceName">playVideo.png</string>
 								</object>
 							</object>
+							<object class="IBUILabel" id="850365698">
+								<reference key="NSNextResponder" ref="804710355"/>
+								<int key="NSvFlags">1316</int>
+								<string key="NSFrame">{{146, 74}, {114, 21}}</string>
+								<reference key="NSSuperview" ref="804710355"/>
+								<reference key="NSWindow"/>
+								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<string key="NSHuggingPriority">{251, 251}</string>
+								<bool key="IBUIOpaque">NO</bool>
+								<bool key="IBUIClipsSubviews">YES</bool>
+								<int key="IBUIContentMode">7</int>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<string key="IBUIText">Label</string>
+								<reference key="IBUITextColor" ref="350753293"/>
+								<nil key="IBUIHighlightedColor"/>
+								<int key="IBUIBaselineAdjustment">0</int>
+								<object class="IBUIFontDescription" key="IBUIFontDescription">
+									<int key="type">1</int>
+									<double key="pointSize">14</double>
+								</object>
+								<object class="NSFont" key="IBUIFont">
+									<string key="NSName">HelveticaNeue</string>
+									<double key="NSSize">14</double>
+									<int key="NSfFlags">16</int>
+								</object>
+								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
+							</object>
 							<object class="IBUIWebView" id="95015273">
 								<reference key="NSNextResponder" ref="804710355"/>
 								<int key="NSvFlags">1298</int>
 								<object class="NSPSMatrix" key="NSFrameMatrix"/>
-								<string key="NSFrame">{{138, 13}, {181, 83}}</string>
+								<string key="NSFrame">{{138, 13}, {181, 67}}</string>
 								<reference key="NSSuperview" ref="804710355"/>
+								<reference key="NSWindow"/>
 								<object class="NSColor" key="IBUIBackgroundColor" id="692030697">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MCAwAA</bytes>
@@ -140,6 +173,7 @@
 						</array>
 						<string key="NSFrameSize">{320, 109}</string>
 						<reference key="NSSuperview" ref="28077083"/>
+						<reference key="NSWindow"/>
 						<reference key="IBUIBackgroundColor" ref="692030697"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -150,6 +184,8 @@
 				</array>
 				<object class="NSPSMatrix" key="NSFrameMatrix"/>
 				<string key="NSFrameSize">{320, 110}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
 					<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
@@ -203,6 +239,14 @@
 					</object>
 					<string key="id">33</string>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">lblMeta2</string>
+						<reference key="source" ref="28077083"/>
+						<reference key="destination" ref="850365698"/>
+					</object>
+					<string key="id">g4e-lQ-Oh1</string>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -232,6 +276,7 @@
 							<reference ref="301432097"/>
 							<reference ref="813155523"/>
 							<reference ref="95015273"/>
+							<reference ref="850365698"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -258,6 +303,11 @@
 					<object class="IBObjectRecord">
 						<string key="id">32</string>
 						<reference key="object" ref="95015273"/>
+						<reference key="parent" ref="28077083"/>
+					</object>
+					<object class="IBObjectRecord">
+						<string key="id">arS-JW-snW</string>
+						<reference key="object" ref="850365698"/>
 						<reference key="parent" ref="28077083"/>
 					</object>
 				</array>
@@ -288,13 +338,120 @@
 				<string key="9.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<reference key="9.IBUserGuides" ref="0"/>
 				<boolean value="NO" key="9.showNotes"/>
+				<string key="arS-JW-snW.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">B3SearchBar</string>
+					<string key="superclassName">UISearchBar</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/B3SearchBar.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">VVMediaCell</string>
+					<string key="superclassName">UITableViewCell</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="imgPlayVideo">UIImageView</string>
+						<string key="imgThumb">UIImageView</string>
+						<string key="lblMeta1">UILabel</string>
+						<string key="lblMeta2">UILabel</string>
+						<string key="lblTitle">UILabel</string>
+						<string key="wvDescription">UIWebView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="imgPlayVideo">
+							<string key="name">imgPlayVideo</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="imgThumb">
+							<string key="name">imgThumb</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="lblMeta1">
+							<string key="name">lblMeta1</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="lblMeta2">
+							<string key="name">lblMeta2</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="lblTitle">
+							<string key="name">lblTitle</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="wvDescription">
+							<string key="name">wvDescription</string>
+							<string key="candidateClassName">UIWebView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/VVMediaCell.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">VVMediaListViewController</string>
+					<string key="superclassName">UIViewController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">filterSegmentValueChanged:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">filterSegmentValueChanged:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">filterSegmentValueChanged:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="filterSegmentControl">UISegmentedControl</string>
+						<string key="searchBar">B3SearchBar</string>
+						<string key="searchDisplayController">UISearchDisplayController</string>
+						<string key="spinner">UIActivityIndicatorView</string>
+						<string key="toolbar">UIToolbar</string>
+						<string key="tv">UITableView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="filterSegmentControl">
+							<string key="name">filterSegmentControl</string>
+							<string key="candidateClassName">UISegmentedControl</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="searchBar">
+							<string key="name">searchBar</string>
+							<string key="candidateClassName">B3SearchBar</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="searchDisplayController">
+							<string key="name">searchDisplayController</string>
+							<string key="candidateClassName">UISearchDisplayController</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="spinner">
+							<string key="name">spinner</string>
+							<string key="candidateClassName">UIActivityIndicatorView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="toolbar">
+							<string key="name">toolbar</string>
+							<string key="candidateClassName">UIToolbar</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="tv">
+							<string key="name">tv</string>
+							<string key="candidateClassName">UITableView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/VVMediaListViewController.h</string>
+					</object>
+				</object>
+			</array>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<bool key="IBDocument.previouslyAttemptedUpgradeToXcode5">YES</bool>
@@ -308,6 +465,6 @@
 			<string key="NS.key.0">playVideo.png</string>
 			<string key="NS.object.0">{30, 21}</string>
 		</object>
-		<string key="IBCocoaTouchPluginVersion">3747</string>
+		<string key="IBCocoaTouchPluginVersion">3733</string>
 	</data>
 </archive>

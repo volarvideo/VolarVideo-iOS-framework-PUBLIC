@@ -32,6 +32,7 @@ enum VVMediaCellType {
 @interface VVMediaCell : UITableViewCell {
 //    IBOutlet UILabel *lblDescription, *lblMeta1, *lblMeta2;
     IBOutlet UILabel *lblMeta1;
+    IBOutlet UILabel *lblMeta2;
     IBOutlet UILabel *lblTitle;
     IBOutlet UIImageView *imgPlayVideo;
 //    IBOutlet UIButton *btnFavorite;
