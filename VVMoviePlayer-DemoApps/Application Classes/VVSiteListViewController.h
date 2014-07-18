@@ -12,15 +12,17 @@
 
 @protocol VVSiteListViewControllerDelegate <NSObject>
 
--(void) doneWithVVSiteListViewController:(id)slvc;
+-(void) siteSelected:(id)slvc site:(VVCMSSite *)site;
 
 @end
 
-@interface VVSiteListViewController : UIViewController <VVCMSAPIDelegate> {
-    VVCMSAPI *api;
+@interface VVSiteListViewController : UIViewController <VVCMSAPIDelegate, UISearchBarDelegate> {
+    UIActivityIndicatorView *footerSpinner;
+    BOOL loading;
+    int currPage,numPages,numResults;
 }
 
--(id) initWithApi:(VVCMSAPI*)api;
+-(id) initWithDomain:(NSString*)domain;
 
 @property(nonatomic,weak) id <VVSiteListViewControllerDelegate> delegate;
 

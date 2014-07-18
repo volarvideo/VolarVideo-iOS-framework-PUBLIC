@@ -13,13 +13,13 @@
 
 @protocol VVDomainListDelegate <NSObject>
 
--(void) domainDidChange:(id)dl;
+-(void) domainDidChange:(id)dl domain:(NSString*)domain site:(VVCMSSite *)site;
 
 @end
 
 @interface VVDomainList : UIViewController <UITableViewDataSource,UITableViewDelegate, UITextFieldDelegate,VVCMSAPIDelegate,VVSiteListViewControllerDelegate> {
     IBOutlet UITableView *tv;
-    NSMutableArray *domains;
+    NSArray *domains;
     NSInteger currDomain;
     UIAlertView *loginAlertView;
     UITextField *passwordTV;
@@ -27,10 +27,6 @@
     iToast *toast;
     VVSiteListViewController *sitesListController;
 }
-+(NSString*) getCurrDomain;
-+(NSMutableArray*) getDomains;
--(IBAction)addButtonPress:(id)sender;
--(id) initWithApi:(VVCMSAPI*)api;
 @property(nonatomic,weak) id <VVDomainListDelegate> delegate;
 
 

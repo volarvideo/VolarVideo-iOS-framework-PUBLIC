@@ -12,7 +12,9 @@
 #import "VVMediaListViewController.h"
 #import "VVMediaCell.h"
 #import "B3Utils.h"
-//#import "UITableView+PRPSubviewAdditions.h"
+#import "Globals.h"
+#import <VVMoviePlayer/VVCMSSite.h>
+#import "VVUserDefaultsHelper.h"
 #import "PRPAlertView.h"
 
 #import "UIImageView+WebCache.h"
@@ -38,51 +40,87 @@ CGRect _VVMediaListViewControllerHeaderFrame;
 BOOL _VVMediaListViewFreshLoad=YES;
 UIView *navBarTapView;
 
-@interface VVMediaListViewController ()
+@interface VVMediaListViewController () {
+    NSString *domain;
+    NSString *siteSlug;
+    NSTimer *searchTimer;
+    
+    IBOutlet UITableView *tv;
+    IBOutlet B3SearchBar *searchBar;
+    IBOutlet UISegmentedControl *filterSegmentControl;
+    UIActivityIndicatorView *footerSpinner;
+    VVAppDelegate *appDelegate;
+    BOOL visible;
+    NSTimer* myTimer;
+    UIButton *backButton;
+    UISegmentedControl *segCtrl;
+    int lastSelectedIndex;
+    
+    VVCMSAPI *api;
+    
+    UIImage *audioImage,*schedImage,*liveImage,*archImage;
+    
+    NSString *userName,*password;
+    
+    VVPickerViewController *svc;
+    NSArray *sections;
+    VVCMSBroadcastStatus lastStatusRequested;
+    int currPage,numPages,numResults;
+    BOOL virginloading,loading;
+    
+    VVDatePickerViewController *dpc;
+}
 
+@property(nonatomic,assign) enum VVMediaCellType type;
+@property (nonatomic, strong) NSDictionary *settingsDictionary;
+@property (nonatomic, strong) NSMutableArray *broadcasts;
+@property (nonatomic, strong) VVMoviePlayerViewController *moviePlayer;
+@property (nonatomic, strong) IBOutlet UIToolbar *toolbar;
+@property(nonatomic, strong) UIPopoverController *svpovc, *dpcovc;
 @property(nonatomic,strong) IBOutlet UIActivityIndicatorView *spinner;
 
 @end
 
 @implementation VVMediaListViewController
 
-@synthesize settingsDictionary,broadcasts,filteredListItems,moviePlayer,photoItems,toolbar,svpovc,dpcovc;
+@synthesize settingsDictionary,broadcasts,moviePlayer,toolbar,svpovc,dpcovc;
 
-- (id)initWithSiteSlug:(NSString *)siteSlug {
+- (id)init {
     self = [super initWithNibName:NSStringFromClass(self.class) bundle:nil];
     if (self) {
-        api = [VVCMSAPI vvCMSAPI];
-        api.delegate = self;
-        virginloading = YES;
-        loading = NO;
-        _VVMediaListViewFreshLoad=YES;
-        lastSelectedIndex=-1;
-        currPage=0;
-        numPages=0;
-        numResults=0;
-        appDelegate = (VVAppDelegate*)[[UIApplication sharedApplication] delegate];
-        segCtrl.selectedSegmentIndex = 2;
+        [self commonInit];
         
-        NSString *domain = @"vcloud.volarvideo.com";
-#if defined(DEMO_APP)
-        domain = [VVDomainList getCurrDomain];
-        NSLog(@"domain: %@", domain);
-#endif
-        [api authenticationRequestForDomain:domain siteSlug:siteSlug username:nil andPassword:nil];
     }
     return self;
 }
 
--(void)VVCMSAPI:(VVCMSAPI *)vvCmsApi authenticationRequestDidFinishWithError:(NSError *)error {
-    if (vvCmsApi==api) {
-        if (error) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not authenticate" message:error.localizedDescription delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil];
-            [alert show];
-            return;
-        }
-        self.navigationItem.title = [api currentSite].title;
-        [self getData:1 status:VVCMSBroadcastStatusArchived];
+- (id)initWithSiteSlug:(NSString *)s {
+    self = [super initWithNibName:NSStringFromClass(self.class) bundle:nil];
+    if (self) {
+        siteSlug = s;
+        [self commonInit];
     }
+    return self;
+}
+
+-(void) commonInit {
+    virginloading = YES;
+    loading = NO;
+    _VVMediaListViewFreshLoad=YES;
+    lastSelectedIndex=-1;
+    currPage=0;
+    numPages=0;
+    numResults=0;
+    appDelegate = (VVAppDelegate*)[[UIApplication sharedApplication] delegate];
+    segCtrl.selectedSegmentIndex = 2;
+    
+#if defined(DEMO_APP)
+    domain = [VVUserDefaultsHelper getCurrDomain];
+#else
+    domain = @"vcloud.volarvideo.com";
+#endif
+    api = [[VVCMSAPI alloc] initWithDomain:domain apiKey:[Globals getAPIKey:domain]];
+    [self getData:1 status:VVCMSBroadcastStatusArchived];
 }
 
 -(void)VVCMSAPI:(VVCMSAPI *)vvCmsApi requestForSectionsPage:(int)page resultsPerPage:(int)resultsPerPage didFinishWithArray:(NSArray *)results error:(NSError *)error {
@@ -94,8 +132,6 @@ UIView *navBarTapView;
         }
     }
     sections = results;
-    [segCtrl setTitle:@"Sport" forSegmentAtIndex:2];
-    api.section_id = 0;
 }
 
 - (void)viewDidLoad
@@ -125,8 +161,6 @@ UIView *navBarTapView;
     searchBar.showsCustomButton=NO;
 #endif
     searchBar.delegate = self;
-
-    [self.searchDisplayController.searchResultsTableView setRowHeight:kRowHeight];
 
 //    [self useEnhancedBackButton];
     
@@ -223,9 +257,7 @@ UIView *navBarTapView;
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super viewDidUnload];
-    filteredListItems=nil;
     broadcasts=nil;
-    photoItems=nil;
 }
 
 
@@ -233,20 +265,11 @@ BOOL _VVMediaListViewControllerLastReachableTestResult;
 BOOL _VVMediaListViewControllerWaitingForReachabilityResult;
 dispatch_queue_t _VVMediaListViewControllerBackgroundQueue;
 
-- (void) viewWillAppear:(BOOL)animated {
-//    [super viewWillAppear:animated];
-}
-
-BOOL _VVMediaListViewControllerSearchToast=NO;
-
 -(void) viewDidAppear:(BOOL)animated {
     if (moviePlayer.moviePlayer.errorLog)
         NSLog(@"movie.errorLog: %@",moviePlayer.moviePlayer.errorLog);
     visible=YES;
 
-    if (!_VVMediaListViewControllerSearchToast) {
-        [self performSelector:@selector(searchToast) withObject:nil afterDelay:1.0];
-    }
     if (_VVMediaListViewFreshLoad)
         tv.contentOffset = CGPointMake(0, 44);
     _VVMediaListViewFreshLoad=NO;
@@ -302,15 +325,7 @@ BOOL _VVMediaListViewControllerSearchToast=NO;
 }
 
 -(void) dealloc {
-}
-
-
--(void) searchToast {
-    _VVMediaListViewControllerSearchToast = YES;
-    //    NSString *entityName = [[self.settingsDictionary valueForKey:@"Entity"] lowercaseString];
-//    _VVMediaListViewControllerToast = [iToast makeText:@"Drag down to search"];
-//    [[iToastSettings getSharedSettings] setImage:[UIImage imageNamed:@"DownArrow"] forType:iToastTypeCustom];
-//    [_VVMediaListViewControllerToast show:iToastTypeCustom];
+    
 }
 
 -(void) viewWillDisappear:(BOOL)animated {
@@ -384,29 +399,34 @@ CGPoint _VVMediaListViewControllerPointBeforeRotate;
 
 -(void) chooseSite {
     if (visible) {
-        VVSiteListViewController *slc = [[VVSiteListViewController alloc] initWithApi:api];
+        VVSiteListViewController *slc = [[VVSiteListViewController alloc] initWithDomain:domain];
         slc.delegate = self;
         [self.navigationController pushViewController:slc animated:YES];
     }
 }
 
--(void) domainDidChange:(id)dl {
+-(void) domainDidChange:(id)dl domain:(NSString *)d site:(VVCMSSite *)s {
     NSLog(@"domainDidChange");
-    api.delegate = self;
     self.spinner.hidden=NO;
     [self.spinner startAnimating];
+    
+    self.navigationItem.title = s.title;
+    domain = d;
+    siteSlug = s.slug;
+    
+    api = [[VVCMSAPI alloc] initWithDomain:domain apiKey:[Globals getAPIKey:domain]];
     [self getData:1];
 }
 
--(void) doneWithVVSiteListViewController:(id)slvc {
+-(void) siteSelected:(id)slvc site:(VVCMSSite *)site {
     NSLog(@"doneWithVVSiteListViewController");
     [self.navigationController popToRootViewControllerAnimated:YES];
     
-    self.navigationItem.title = [api currentSite].title;
+    self.navigationItem.title = site.title;
     
-    api.delegate = self;
     self.spinner.hidden=NO;
     [self.spinner startAnimating];
+    siteSlug = site.slug;
     [self getData:1];
 }
 
@@ -432,29 +452,40 @@ CGPoint _VVMediaListViewControllerPointBeforeRotate;
     
     currPage = page;
     lastStatusRequested = status;
-    [api requestBroadcastsWithStatus:status page:page resultsPerPage:kResultsPerPage];
+    BroadcastParams *params = [[BroadcastParams alloc] init];
+    if (searchBar.text)
+        params.title = searchBar.text;
+    params.sites = siteSlug;
+    params.status = status;
+    params.page = [[NSNumber alloc] initWithInt:page];
+    params.resultsPerPage = [[NSNumber alloc] initWithInt:kResultsPerPage];
+    [api requestBroadcasts:params usingDelegate:self];
 }
 
--(void) VVCMSAPI:(VVCMSAPI *)vvCmsApi requestForBroadcastsOfStatus:(VVCMSBroadcastStatus)status
-            page:(int)page totalPages:(int)totalPages totalResults:(int)totalResults
-            didFinishWithArray:(NSArray *)events error:(NSError *)error {
-    self.spinner.hidden=YES;
-    [self.spinner stopAnimating];
+- (void)VVCMSAPI:(VVCMSAPI *)vvapi requestForBroadcastsResult:(NSArray *)events
+      withStatus:(VVCMSBroadcastStatus)status page:(int)page totalPages:(int)totalPages
+    totalResults:(int)totalResults error:(NSError *)error {
     
-    if (appDelegate && virginloading) [appDelegate finishedLoadingBroadcastsWithError:error];
-    virginloading=NO;
-    
-    if (!error && ![events isKindOfClass:[NSNull class]]) {
-        [self setpuBroadcasts:events status:status page:page totalPages:totalPages totalResults:totalResults];
-    } else {
-        broadcasts = nil;
-    }
-    loading = NO;
-    if (page > 1) {
-        [footerSpinner stopAnimating];
-        tv.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    }
-    [self checkPagination];
+    dispatch_async(dispatch_get_main_queue(), ^(void){
+        self.spinner.hidden=YES;
+        [self.spinner stopAnimating];
+        
+        if (appDelegate && virginloading) [appDelegate finishedLoadingBroadcastsWithError:error];
+        virginloading=NO;
+        
+        if (!error && ![events isKindOfClass:[NSNull class]]) {
+            [self setpuBroadcasts:events status:status page:page totalPages:totalPages totalResults:totalResults];
+        } else {
+            [broadcasts removeAllObjects];
+            [tv reloadData];
+        }
+        loading = NO;
+        if (page > 1) {
+            [footerSpinner stopAnimating];
+            tv.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+        }
+        [self checkPagination];
+    });
 }
 
 -(void) setpuBroadcasts:(NSArray*)b status:(VVCMSBroadcastStatus)status page:(int)page totalPages:(int)totalPages totalResults:(int)totalResults {
@@ -481,13 +512,7 @@ CGPoint _VVMediaListViewControllerPointBeforeRotate;
     } else if (segCtrl.selectedSegmentIndex==2) {
         [segCtrl setTitle:[NSString stringWithFormat:@"Archived (%d)",totalResults] forSegmentAtIndex:2];
     }
-    
-//    int index = [segCtrl selectedSegmentIndex];
-    
-//    if ((index==0 && !upcoming) || (index==1 && !live) || (index==2 && !archived) )
-//        lastSelectedIndex=-1;
-    
-    filteredListItems = [NSMutableArray array];
+
     [tv reloadData];
 }
 
@@ -554,15 +579,7 @@ BOOL _VVMediaListDragging=NO;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    //if (model) return model.numberOfItems;
-    NSUInteger rows = 0;
-    if (tableView == self.searchDisplayController.searchResultsTableView) {
-        rows = [filteredListItems count];
-    }
-    else {
-        rows = [broadcasts count];
-    }
-    return rows;
+    return [broadcasts count];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -579,20 +596,14 @@ BOOL _VVMediaListDragging=NO;
         cell.backgroundView = [[UIImageView alloc] init];
         ((UIImageView *)cell.backgroundView).image = [UIImage imageNamed:@"Cell Wallpaper.JPG"];
     }
-    VVCMSBroadcast *broadcast;
-    if (tableView == self.searchDisplayController.searchResultsTableView) {
-        if (!filteredListItems || [filteredListItems isKindOfClass:[NSNull class]])
-            return cell;
-        broadcast = [filteredListItems objectAtIndex:indexPath.row];
-    } else {
-        if (!broadcasts || [broadcasts isKindOfClass:[NSNull class]])
-            return cell;
-        broadcast = [broadcasts objectAtIndex:indexPath.row];
-    }
+
+    if (!broadcasts || [broadcasts isKindOfClass:[NSNull class]])
+        return cell;
+    VVCMSBroadcast *broadcast = [broadcasts objectAtIndex:indexPath.row];
 
     
     cell.disabled=NO;
-        cell.disabled = ![api latestReachabilityResult];
+//    cell.disabled = ![api latestReachabilityResult];
     cell.tag = indexPath.row;
     cell.type = VVMediaCellTypeBroadcast;
     
@@ -713,20 +724,15 @@ VVCMSBroadcast *_VVMediaListViewSelectedBroadcast;
 }
 
 -(void) delayedStartVMAP:(NSString*)vmapString {
-    if ([api isReachable]) {
-        moviePlayer = nil;
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerDidChange:) name:VVVmapPlayerDidChangeNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
-        moviePlayer = [[VVMoviePlayerViewController alloc] initWithExtendedVMAPURIString:vmapString];
-        NSLog(@"moviePlayer=[%@]", moviePlayer);
-        if (self.moviePlayer) {
-            moviePlayer.moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
-            return;
-        } else {
-            [self hideHUD];
-        }
-    }
-    else {
+    moviePlayer = nil;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerDidChange:) name:VVVmapPlayerDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
+    moviePlayer = [[VVMoviePlayerViewController alloc] initWithExtendedVMAPURIString:vmapString];
+    NSLog(@"moviePlayer=[%@]", moviePlayer);
+    if (self.moviePlayer) {
+        moviePlayer.moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
+        return;
+    } else {
         [self hideHUD];
     }
 
@@ -739,15 +745,9 @@ VVCMSBroadcast *_VVMediaListViewSelectedBroadcast;
 }
 
 - (void) didSelectRowAtIndexPath:(NSDictionary *)objects {
-    UITableView *tableView = [objects objectForKey:@"tableView"];
+//    UITableView *tableView = [objects objectForKey:@"tableView"];
     NSIndexPath *indexPath = [objects objectForKey:@"indexPath"];
-    VVCMSBroadcast *bcast;
-    if (tableView == self.searchDisplayController.searchResultsTableView) {
-        bcast = [filteredListItems objectAtIndex:indexPath.row];
-    }
-    else {
-        bcast = [broadcasts objectAtIndex:indexPath.row];
-    }
+    VVCMSBroadcast *bcast = [broadcasts objectAtIndex:indexPath.row];
     _VVMediaListViewSelectedBroadcast = bcast;
     [self delayedStartVMAP:bcast.vmapURL];
 }
@@ -771,22 +771,9 @@ VVCMSBroadcast *_VVMediaListViewSelectedBroadcast;
     [appDelegate.navigationController presentVolarMoviePlayerViewControllerAnimated:mpvc];
 }
 
-double _VVMediaPlayerRestartSkip=0;
-BOOL   _VVMediaPlayerSkipLockout=NO;
-
-
-
--(void) requeVideo:(AVPlayerLayer *) playerLayer {
-    _VVMediaPlayerSkipLockout=YES;
-    [self performSelector:@selector(resumePlayingMovie:) withObject:playerLayer afterDelay:5];
-    moviePlayer.moviePlayer.currentPlaybackTime+=_VVMediaPlayerRestartSkip;
-    _VVMediaPlayerRestartSkip=0;
-}
-
-
 -(void) customButtonPressedInSearchBar:(B3SearchBar *)searchBar {    
     VVDomainList *domainListView;
-    domainListView = [[VVDomainList alloc] initWithApi:api];
+    domainListView = [[VVDomainList alloc] init];
     domainListView.delegate = self;
     if (self.navigationController)
         [self.navigationController pushViewController:domainListView animated:YES];
@@ -794,91 +781,20 @@ BOOL   _VVMediaPlayerSkipLockout=NO;
         [self presentModalViewController:domainListView animated:YES];
 }
 
-#pragma mark -
-#pragma mark Content Filtering
-
-- (void)filterContentForSearchText:(NSString*)searchText
-{
-    [filteredListItems removeAllObjects]; // First clear the filtered array.
-    
-    NSString *searchString = nil;
-    id item;
-    for (item in broadcasts) {
-        searchString = [item valueForKey:@"title"];
-        if (searchString && ![searchString isKindOfClass:[NSNull class]]) {
-            NSRange range = [searchString rangeOfString:searchText options:NSCaseInsensitiveSearch];
-            if (range.length > 0) {
-                [filteredListItems addObject:item];
-            } else {
-                searchString = [item valueForKey:@"description"];
-                if (searchString && ![searchString isKindOfClass:[NSNull class]]) {
-                    range = [searchString rangeOfString:searchText options:NSCaseInsensitiveSearch];
-                    if (range.length > 0)
-                        [filteredListItems addObject:item];
-                }
-            }
-        }
-    }
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    NSLog(@"textDidChange");
+    [searchTimer invalidate];
+    searchTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                   target:self
+                                                 selector:@selector(doDelayedSearch:)
+                                                 userInfo:searchText
+                                                  repeats:NO];
 }
 
-
-#pragma mark -
-#pragma mark UISearchDisplayController Delegate Methods
-
-
-
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
-{
-    [self filterContentForSearchText:searchString];
-    
-    // Return YES to cause the search result table view to be reloaded.
-    return YES;
-}
-
-
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
-{
-    //[self filterContentForSearchText:[self.searchDisplayController.searchBar text]];
-    
-    // Return YES to cause the search result table view to be reloaded.
-    return NO;
-}
-
-- (void)searchDisplayController:(UISearchDisplayController *)controller willShowSearchResultsTableView:(UITableView *)aTableView {
-    //NSLog(@"didshowsearchresultstableview");
-    [self setupSearchResultsTableView];
-    
-}
-
-- (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
-    //NSLog(@"");
-    // In iOS 7.0 (and presumably later), the UISearchBar will automatically attach
-    // itself to the navigation controller. The navigation controller will also
-    // automatically hide itself while leaving the search bar visible. Therefore we
-    // don't need to worry about this.
-    if([[[UIDevice currentDevice]systemVersion]floatValue]<7){
-        [self.navigationController setNavigationBarHidden:YES animated:YES];
-    }
-}
-
-- (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller {
-    //NSLog(@"");
-    if([[[UIDevice currentDevice]systemVersion]floatValue]<7){
-        [self.navigationController setNavigationBarHidden:NO animated:YES];
-    }
-}
-
-- (void)setupSearchResultsTableView {
-    self.searchDisplayController.searchResultsTableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Folder Wallpaper.JPG"]];
-    self.searchDisplayController.searchResultsTableView.backgroundColor = [UIColor clearColor];
-    self.searchDisplayController.searchResultsTableView.separatorStyle = tv.separatorStyle;
-    self.searchDisplayController.searchResultsTableView.separatorColor = tv.separatorColor;
-    
-    if ([filteredListItems count] > 0)
-        [self.searchDisplayController.searchResultsTableView setRowHeight:kRowHeight];
-    else {
-        [self.searchDisplayController.searchResultsTableView setRowHeight:kNoResultsRowHeight];
-    }
+-(void)doDelayedSearch:(NSTimer *)t {
+    assert(t == searchTimer);
+    searchTimer = nil;
+    [self getData:1];
 }
 
 MBProgressHUD *progressHUD;
@@ -898,25 +814,6 @@ MBProgressHUD *progressHUD;
     [progressHUD hide:YES];
 }
 
-
--(void) setDomain:(NSString *)domain {
-    [api authenticationRequestForDomain:domain username:userName andPassword:password];
-    
-    
-    // need to replace below logic with an asynchronous wait for the results from the authentication to be used to determine if we're ready to leave the domain switching screen.
-    
-    api.searchTitle=nil;
-    [filterSegmentControl setTitle:@"Sport" forSegmentAtIndex:2];
-}
-
--(void) setUserName:(NSString*) s {
-    userName = s;
-}
-
--(void) setPassword:(NSString *) s {
-    password = s;
-}
-
 -(IBAction) filterSegmentValueChanged:(id)sender {
     if (sender==filterSegmentControl) {
         switch(filterSegmentControl.selectedSegmentIndex) {
@@ -934,14 +831,14 @@ MBProgressHUD *progressHUD;
 
 -(void) doneWithVVPickerViewController:(VVPickerViewController *)vvPCV {
     if (vvPCV==svc) {
-        if ([svc.selectedValue isEqualToString:@"0"]) {
-            [filterSegmentControl setTitle:@"Sport" forSegmentAtIndex:2];
-        } else
-            [filterSegmentControl setTitle:svc.selectedTitle forSegmentAtIndex:2];
-        api.section_id = svc.selectedValue;
-        [self getData:1];
-        filterSegmentControl.selectedSegmentIndex=-1;
-        [self retractSportPicker];
+//        if ([svc.selectedValue isEqualToString:@"0"]) {
+//            [filterSegmentControl setTitle:@"Sport" forSegmentAtIndex:2];
+//        } else
+//            [filterSegmentControl setTitle:svc.selectedTitle forSegmentAtIndex:2];
+//        api.section_id = svc.selectedValue;
+//        [self getData:1];
+//        filterSegmentControl.selectedSegmentIndex=-1;
+//        [self retractSportPicker];
     }
 }
 
@@ -1034,14 +931,14 @@ MBProgressHUD *progressHUD;
     dpc.view.hidden=NO;
     dpc.delegate=self;
     dpc.view.frame=keypadFrame;
-    NSDate *date;
-    if (filterSegmentControl.selectedSegmentIndex==0)
-        date = api.afterDate;
-    else
-        date = api.beforeDate;
-    if (!date)
-        date = [NSDate date];
-    dpc.dp.date = date;
+//    NSDate *date;
+//    if (filterSegmentControl.selectedSegmentIndex==0)
+//        date = api.afterDate;
+//    else
+//        date = api.beforeDate;
+//    if (!date)
+//        date = [NSDate date];
+//    dpc.dp.date = date;
 
 #ifndef TEST
 	[UIView beginAnimations:@"PresentKeypad" context:nil];
@@ -1080,10 +977,10 @@ MBProgressHUD *progressHUD;
     if (dpc==dpvc) {
         NSString *dateString = [self stringFromDate:dpc.dp.date withFormat:@"MM/dd/yy"];
         if (filterSegmentControl.selectedSegmentIndex==0) {
-            api.afterDate=dpc.dp.date;
+//            api.afterDate=dpc.dp.date;
             [filterSegmentControl setTitle:dateString forSegmentAtIndex:0];
         } else {
-            api.beforeDate=dpc.dp.date;
+//            api.beforeDate=dpc.dp.date;
             [filterSegmentControl setTitle:dateString forSegmentAtIndex:1];
         }
         [self getData:1];
@@ -1095,10 +992,10 @@ MBProgressHUD *progressHUD;
 -(void) clearCalledFromVVDatePicker:(VVDatePickerViewController*)dpvc {
     if (dpc==dpvc) {
         if (filterSegmentControl.selectedSegmentIndex==0) {
-            api.afterDate=nil;
+//            api.afterDate=nil;
             [filterSegmentControl setTitle:@"From Date" forSegmentAtIndex:0];
         } else {
-            api.beforeDate=nil;
+//            api.beforeDate=nil;
             [filterSegmentControl setTitle:@"To Date" forSegmentAtIndex:1];
         }
         [self getData:1];

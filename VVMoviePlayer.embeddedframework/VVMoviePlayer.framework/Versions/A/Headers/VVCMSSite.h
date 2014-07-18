@@ -8,18 +8,33 @@
 
 #import <Foundation/Foundation.h>
 
+@interface SiteParams : NSObject
+
+-(NSString*) applyParams:(NSString*)url;
+
+@property(nonatomic,readwrite,strong) NSString *title;
+@property(nonatomic,readwrite,strong) NSString *slug;
+@property(nonatomic,readwrite,strong) NSNumber *ID;
+@property(nonatomic,readwrite,strong) NSNumber *page;
+@property(nonatomic,readwrite,strong) NSNumber *resultsPerPage;
+
+@end
+
+#define kKeyID        @"id"
+#define kKeyTitle     @"title"
+#define kKeySiteSlug  @"slug"
+
 @interface VVCMSSite : NSObject
 
-@property(nonatomic,strong,readonly) NSNumber *ID;
-@property(nonatomic,strong,readonly) NSString *slug;
-@property(nonatomic,strong,readonly) NSString *title;
-@property(nonatomic,strong,readonly) NSString *authURL;
-@property(nonatomic,strong,readonly) NSString *userURL;
-@property(nonatomic,strong,readonly) NSString *broadcastsAll;
-@property(nonatomic,strong,readonly) NSString *broadcastsScheduled;
-@property(nonatomic,strong,readonly) NSString *broadcastsStreaming;
-@property(nonatomic,strong,readonly) NSString *broadcastsArchived;
-
 -(id) initWithDictionary:(NSDictionary*)dict;
+
+/*! VolarVideo ection ID number */
+@property(nonatomic,readonly,strong) NSNumber *ID;
+
+/*! Title of section */
+@property(nonatomic,readonly,strong) NSString *title;
+
+/*! Shortname of section */
+@property(nonatomic,readonly,strong) NSString *slug;
 
 @end

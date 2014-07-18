@@ -18,77 +18,54 @@
 @optional
 
 /*!
- Completion method for initiateDomain
- @param vvCmsApi The VVCMSAPI instance used in the initialDomain: call.
- @param error An error detailing what went wrong (or nil if no error).
- */
-- (void)VVCMSAPI:(VVCMSAPI*)vvCmsApi domainRequestCompleteWithError:(NSError*) error;
-
-/*!
- Completion method for authenticateWithUsername:Password:
- @param vvCmsApi The instance of the VVAPI used in the authenticateWithUsername:Password: call.
+ Completion Method for sites list requests
+ @param vvapi The instance of the VVAPI used in the
+ @param sites An array of VVCMSSite
+ @param page The requested page
+ @param totalPages The total number of pages with the specified results per page
+ @param totalResults The total number of result regardless of the specified results per page
  @param error An error detailing what went wrong (or nil if no error)
  */
-- (void)VVCMSAPI:(VVCMSAPI *)vvCmsApi authenticationRequestDidFinishWithError:(NSError *)error;
-
-/*!
- Completion method for logout
- @param vvCmsApi The instance of the VVAPI used in the logoutRequestDidFinishWithError: call.
- @param error An error detailing what went wrong (or nil if no error)
- */
-- (void)VVCMSAPI:(VVCMSAPI *)vvCmsApi logoutRequestDidFinishWithError:(NSError *)error;
-
-/*!
- Completion method for requestUserName:
- @param vvCmsApi The instance of the VVAPI used in the requestForUserNameComplete:withError: call.
- @param userName The user name.  nil will be return in non-authenticated sessions.
- @param  error An error detailing what went wrong (or nil if no error)
- */
-- (void)VVCMSAPI:(VVCMSAPI *)vvCmsApi requestForUserNameComplete:(NSString*)userName withError:(NSError*)error;
-
-/*!
- Completion method for requestSectionsPage:resultsPerPage:didFinishWithArray:error:
- @param vvCmsApi The instance of the VVAPI used in the requestForUserNameComplete:withError: call.
- @param page The page index returned.  Note that this may be a different value than requested.
- @param resultsPerPage The pagenation control parameter.  Note that this may be a different value than requested.
- @param results An array of NSDictionaries, each dictionary having:
- 
-    - id: the section_id, used in the setSectionIdFilter: and requestSectionsPage:resultsPerPage: methods
-    - title: the title of the section
-    - description: a detailed description (if any) for the section
- 
- @param  error An error detailing what went wrong (or nil if no error)
- */
--(void) VVCMSAPI:(VVCMSAPI *)vvCmsApi requestForSectionsPage:(int)page resultsPerPage:(int)resultsPerPage didFinishWithArray:(NSArray*)results error:(NSError*)error;
-
-/*!
- Completion method for requestPlaylistsPage:resultsPerPage:didFinishWithArray:error:
- @param vvCmsApi The instance of the VVAPI used in the requestForUserNameComplete:withError: call.
- @param page The page index returned.  Note that this may be a different value than requested.
- @param resultsPerPage The pagenation control parameter.  Note that this may be a different value than requested.
- @param results An array of NSDictionaries, each dictionary having:
- 
-    - id: the playlist_id, used in the setPlaylistIdFilter: and requestPlaylistsPage:resultsPerPage: methods
-    - title: the title of the playlist
-    - section_id: id of section that playlist is assigned to
-    - description: a detailed description (if any) for the playlist
- 
- @param  error An error detailing what went wrong (or nil if no error)
- */
--(void) VVCMSAPI:(VVCMSAPI *)vvCmsApi requestForPlaylistsPage:(int)page resultsPerPage:(int)resultsPerPage didFinishWithArray:(NSArray*)results error:(NSError*)error;
+- (void)VVCMSAPI:(VVCMSAPI *)vvapi requestForSitesResult:(NSArray *)sites page:(int)page
+      totalPages:(int)totalPages totalResults:(int)totalResults error:(NSError *)error;
 
 /*!
  Completion Method for broadcasts list requests
  @param vvapi The instance of the VVAPI used in the
+ @param broadcasts An array of VVCMSBroadcast
  @param status The status of the broadcasts contained in the didFinishWithArray: parameter.
  @param page The requested page
  @param totalPages The total number of pages with the specified results per page
  @param totalResults The total number of result regardless of the specified results per page
- @param events An array of scheduled streaming events
  @param error An error detailing what went wrong (or nil if no error)
  */
-- (void)VVCMSAPI:(VVCMSAPI *)vvapi requestForBroadcastsOfStatus:(VVCMSBroadcastStatus)status page:(int)page totalPages:(int)totalPages totalResults:(int)totalResults didFinishWithArray:(NSArray *)broadcasts error:(NSError *)error;
+- (void)VVCMSAPI:(VVCMSAPI *)vvapi requestForBroadcastsResult:(NSArray *)broadcasts
+      withStatus:(VVCMSBroadcastStatus)status page:(int)page totalPages:(int)totalPages
+      totalResults:(int)totalResults error:(NSError *)error;
 
+/*!
+ Completion Method for slips list requests
+ @param vvapi The instance of the VVAPI used in the
+ @param clips An array of VVCMSClip
+ @param page The requested page
+ @param totalPages The total number of pages with the specified results per page
+ @param totalResults The total number of result regardless of the specified results per page
+ @param error An error detailing what went wrong (or nil if no error)
+ */
+- (void)VVCMSAPI:(VVCMSAPI *)vvapi requestForClipsResult:(NSArray *)clips page:(int)page
+      totalPages:(int)totalPages totalResults:(int)totalResults error:(NSError *)error;
+
+/*!
+ Completion Method for sections list requests
+ @param vvapi The instance of the VVAPI used in the
+ @param sections An array of VVCMSSection
+ @param page The requested page
+ @param totalPages The total number of pages with the specified results per page
+ @param totalResults The total number of result regardless of the specified results per page
+ @param error An error detailing what went wrong (or nil if no error)
+ */
+- (void)VVCMSAPI:(VVCMSAPI *)vvapi requestForSectionsResult:(NSArray *)sections page:(int)page
+      totalPages:(int)totalPages totalResults:(int)totalResults error:(NSError *)error;
 
 @end
 

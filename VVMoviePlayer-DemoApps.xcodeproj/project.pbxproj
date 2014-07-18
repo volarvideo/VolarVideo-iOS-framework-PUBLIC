@@ -415,6 +415,7 @@
 		B5CE3862180B330F00084C3A /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5CE3826180B324100084C3A /* MessageUI.framework */; };
 		B5CE3863180B331300084C3A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5CE3824180B323900084C3A /* QuartzCore.framework */; };
 		B5CE3864180B331300084C3A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5CE3824180B323900084C3A /* QuartzCore.framework */; };
+		CE0130B619781CF1001D7585 /* Globals.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0130B519781CF1001D7585 /* Globals.m */; };
 		CE28E8C019391A6C0024B7BB /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = CE28E8B519391A6C0024B7BB /* Default.png */; };
 		CE28E8C119391A6C0024B7BB /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE28E8B619391A6C0024B7BB /* Default@2x.png */; };
 		CE28E8C219391A6C0024B7BB /* DefaultMWC-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE28E8B719391A6C0024B7BB /* DefaultMWC-568h@2x.png */; };
@@ -433,6 +434,7 @@
 		CE28E8EB19391AE90024B7BB /* Icon@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CE28E8DF19391AE10024B7BB /* Icon@2x~ipad.png */; };
 		CE28E8EC19391AE90024B7BB /* Icon~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CE28E8E019391AE10024B7BB /* Icon~ipad.png */; };
 		CE28E8F6193CCC800024B7BB /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE28E8F5193CCC800024B7BB /* libTestFlight.a */; };
+		CE33CE0F19786F3800751934 /* VVUserDefaultsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CE33CE0E19786F3800751934 /* VVUserDefaultsHelper.m */; };
 		CE92150D192A53B500EEE4B0 /* VVPlayBtnDark.png in Resources */ = {isa = PBXBuildFile; fileRef = B504E8D4180BD71000D3FAB1 /* VVPlayBtnDark.png */; };
 		CE92150E192A53D000EEE4B0 /* audioOnly.png in Resources */ = {isa = PBXBuildFile; fileRef = B504E8B9180BD71000D3FAB1 /* audioOnly.png */; };
 		CE92150F192A53D000EEE4B0 /* audioOnly@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B504E8BA180BD71000D3FAB1 /* audioOnly@2x.png */; };
@@ -722,6 +724,8 @@
 		B5CE383E180B32A200084C3A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		B5CE3840180B32AA00084C3A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		B5CE3842180B32B000084C3A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		CE0130B419781CF1001D7585 /* Globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Globals.h; sourceTree = "<group>"; };
+		CE0130B519781CF1001D7585 /* Globals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Globals.m; sourceTree = "<group>"; };
 		CE28E8B519391A6C0024B7BB /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = "VVMoviePlayer-DemoApps/MWC-Resources/Default.png"; sourceTree = SOURCE_ROOT; };
 		CE28E8B619391A6C0024B7BB /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "VVMoviePlayer-DemoApps/MWC-Resources/Default@2x.png"; sourceTree = SOURCE_ROOT; };
 		CE28E8B719391A6C0024B7BB /* DefaultMWC-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "DefaultMWC-568h@2x.png"; path = "VVMoviePlayer-DemoApps/MWC-Resources/DefaultMWC-568h@2x.png"; sourceTree = SOURCE_ROOT; };
@@ -744,6 +748,8 @@
 		CE28E8F2193CCB860024B7BB /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TestFlight+AsyncLogging.h"; path = "../../../../../Downloads/TestFlightSDK3.0.2/TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
 		CE28E8F3193CCB860024B7BB /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TestFlight+ManualSessions.h"; path = "../../../../../Downloads/TestFlightSDK3.0.2/TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
 		CE28E8F5193CCC800024B7BB /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTestFlight.a; path = "VVMoviePlayer-DemoApps/Frameworks/TestFlight/libTestFlight.a"; sourceTree = "<group>"; };
+		CE33CE0D19786F3800751934 /* VVUserDefaultsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VVUserDefaultsHelper.h; sourceTree = "<group>"; };
+		CE33CE0E19786F3800751934 /* VVUserDefaultsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VVUserDefaultsHelper.m; sourceTree = "<group>"; };
 		CEB5C4FE195889290019E05B /* rewind15s.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rewind15s.png; path = VVMoviePlayer.embeddedframework/VVMoviePlayer.framework/Versions/A/Resources/rewind15s.png; sourceTree = SOURCE_ROOT; };
 		CEB5C4FF195889290019E05B /* rewind15s@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "rewind15s@2x.png"; path = "VVMoviePlayer.embeddedframework/VVMoviePlayer.framework/Versions/A/Resources/rewind15s@2x.png"; sourceTree = SOURCE_ROOT; };
 		CEB5C500195889290019E05B /* rewind30s.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rewind30s.png; path = VVMoviePlayer.embeddedframework/VVMoviePlayer.framework/Versions/A/Resources/rewind30s.png; sourceTree = SOURCE_ROOT; };
@@ -1111,10 +1117,14 @@
 			children = (
 				B5CE3675180B2EAE00084C3A /* B3Utils.m */,
 				B5CE3676180B2EAE00084C3A /* B3Utils.h */,
+				CE0130B419781CF1001D7585 /* Globals.h */,
+				CE0130B519781CF1001D7585 /* Globals.m */,
 				B5CE3677180B2EAE00084C3A /* NSArray+Reverse.h */,
 				B5CE3678180B2EAE00084C3A /* NSArray+Reverse.m */,
 				B5CE3679180B2EAE00084C3A /* UIDevice+Resolution.h */,
 				B5CE367A180B2EAE00084C3A /* UIDevice+Resolution.m */,
+				CE33CE0D19786F3800751934 /* VVUserDefaultsHelper.h */,
+				CE33CE0E19786F3800751934 /* VVUserDefaultsHelper.m */,
 			);
 			name = "Supporting Classes";
 			path = "VVMoviePlayer-DemoApps/Supporting Classes";
@@ -1764,6 +1774,7 @@
 				B04DB82A187B54C200CE8BD1 /* VVAppDelegate.m in Sources */,
 				B5CE367C180B2EAE00084C3A /* B3Utils.m in Sources */,
 				B5CE367F180B2EAE00084C3A /* NSArray+Reverse.m in Sources */,
+				CE33CE0F19786F3800751934 /* VVUserDefaultsHelper.m in Sources */,
 				B5CE3682180B2EAE00084C3A /* UIDevice+Resolution.m in Sources */,
 				B5CE36A4180B2EC100084C3A /* B3BadgeButton.m in Sources */,
 				B5CE36A7180B2EC100084C3A /* VVMediaCell.m in Sources */,
@@ -1788,6 +1799,7 @@
 				B5CE371E180B30C700084C3A /* SDWebImagePrefetcher.m in Sources */,
 				B5CE3721180B30C700084C3A /* UIButton+WebCache.m in Sources */,
 				B5CE3724180B30C700084C3A /* UIImageView+WebCache.m in Sources */,
+				CE0130B619781CF1001D7585 /* Globals.m in Sources */,
 				B5CE372A180B30F000084C3A /* iToast.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

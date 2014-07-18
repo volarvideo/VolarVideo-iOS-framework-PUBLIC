@@ -14,13 +14,8 @@
 #import "VVMediaListViewController.h"
 #import "B3NavigationController.h"
 #import "B3Utils.h"
+#import "VVUserDefaultsHelper.h"
 #import "VVSplashViewController.h"
-
-#if defined MWC_APP
-#define kSite @"themwc"
-#else
-#define kSite @"volar"
-#endif
 
 @implementation VVAppDelegate
 
@@ -60,7 +55,11 @@
     [self.window makeKeyAndVisible];
     // Override point for customization after application launch.
     
-    listViewController = [[VVMediaListViewController alloc] initWithSiteSlug:kSite];
+    NSString *slug = @"themwc";
+#if defined DEMO_APP
+    slug = [VVUserDefaultsHelper getCurrSite];
+#endif
+    listViewController = [[VVMediaListViewController alloc] initWithSiteSlug:slug];
     
     return YES;
 }
@@ -86,23 +85,25 @@
     
     
 - (void) finishedLoadingBroadcastsWithError:(NSError *)error {
-    if (error) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not connect" message:error.localizedDescription delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil];
-        [alert show];
-        return;
-    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^(void){
+        if (error) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not connect" message:[error.userInfo objectForKey:kKeyErrorMessage] delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil];
+            [alert show];
+    //        return;
+        }
     
 #if !defined VOLAR_PLAYER
-    self.navigationController = [[B3NavigationController alloc]initWithRootViewController:(UIViewController*)listViewController];
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-    self.window.rootViewController = self.navigationController;
-    [self.window makeKeyAndVisible];
-    if (vmapString) {
-        [listViewController startVMAP:vmapString];
-        vmapString=nil;
-    }
-    
+        self.navigationController = [[B3NavigationController alloc]initWithRootViewController:(UIViewController*)listViewController];
+        self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+        self.window.rootViewController = self.navigationController;
+        [self.window makeKeyAndVisible];
+        if (vmapString) {
+            [listViewController startVMAP:vmapString];
+            vmapString=nil;
+        }
 #endif
+    });
 }
     
 - (void)applicationWillResignActive:(UIApplication *)application {

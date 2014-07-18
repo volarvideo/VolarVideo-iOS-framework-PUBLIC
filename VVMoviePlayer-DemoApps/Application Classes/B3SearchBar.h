@@ -22,7 +22,6 @@
 
 @property (nonatomic, assign) BOOL showsCustomButton;
 @property (nonatomic, strong) NSString *customButtonTitle;
-@property (nonatomic, unsafe_unretained) id<B3SearchBarDelegate> delegate;
 
 @end
 

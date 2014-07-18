@@ -8,11 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-/*!
- Properties of a VolarVideo broadcast.  
- 
- 
- */
 #ifdef NS_ENUM
 typedef NS_ENUM(NSInteger, VVCMSBroadcastStatus) {
     VVCMSBroadcastStatusUnknown,
@@ -23,107 +18,101 @@ typedef NS_ENUM(NSInteger, VVCMSBroadcastStatus) {
 } ;
 #endif
 
-@interface VVCMSBroadcast : NSObject {
-}
-/*!
- @name CMS index
- */
-/*!
- VolarVideo broadcast ID number
- */
-@property(nonatomic,strong) NSNumber *ID;
+@interface BroadcastParams : NSObject
 
-/*!
- @name meta data
- */
-/*!
- Title of broadcast
- */
-@property(nonatomic,strong) NSString *title;
+-(NSString*) applyParams:(NSString*)url;
 
-/*!
- Description of broadcast
- */
-@property(nonatomic,strong) NSString *description;
+@property(nonatomic,readwrite,assign) VVCMSBroadcastStatus status;
+@property(nonatomic,readwrite,strong) NSString *sites;
+@property(nonatomic,readwrite,strong) NSString *title;
+@property(nonatomic,readwrite,strong) NSNumber *ID;
+@property(nonatomic,readwrite,strong) NSNumber *sectionID;
+@property(nonatomic,readwrite,strong) NSDate *after;
+@property(nonatomic,readwrite,strong) NSDate *before;
+@property(nonatomic,readwrite,strong) NSNumber *page;
+@property(nonatomic,readwrite,strong) NSNumber *resultsPerPage;
+@property(nonatomic,readwrite,strong) NSString *sortBy;
+@property(nonatomic,readwrite,strong) NSString *sortDir;
 
-/*!
- @name Stream Status
- */
-/*!
- Status of broadcast, one of the following VVCMSBroadcastsStatus values:
- 
-     VVCMSBroadcastStatusUnknown,
-     VVCMSBroadcastStatusScheduled,
-     VVCMSBroadcastStatusStreaming,
-     VVCMSBroadcastStatusArchived,
-     VVCMSBroadcastStatusAll
- 
- 
- */
-@property(nonatomic,assign) VVCMSBroadcastStatus status;
+@end
 
-/*!
- String representation of URL where a thumbnail version of the broadcast's Poster can be found.
- */
-@property(nonatomic,strong) NSString *thumbnailURL;
+#define kKeyBroadcastStatus           @"status"
+#define kKeyBroadcastStatusScheduled  @"scheduled"
+#define kKeyBroadcastStatusStreaming  @"streaming"
+#define kKeyBroadcastStatusStopped    @"stopped"
+#define kKeyBroadcastStatusArchived   @"archived"
+#define kKeyBroadcastID               @"id"
+#define kKeyBroadcastTitle            @"title"
+#define kKeyBroadcastDescr            @"description"
+#define kKeyBroadcastURL              @"vmap"
+#define kKeyBroadcastVMAPURL          @"vmap"
+#define kKeyBroadcastThumbURL         @"thumbnail"
+#define kKeyBroadcastStartDate        @"start_date"
+#define kKeyBroadcastEditDate         @"edit_date"
+#define kKeyBroadcastRating           @"rating"
+#define kKeyBroadcastAudioOnly        @"audioOnly"
+#define kKeyBroadcastProgress         @"progress"
+#define kKeyBroadcastAuthorDict       @"author"
+#define kKeyAuthorDictName            @"full_name"
+#define kKeyBroadcastIsStreaming      @"isStreaming"
 
-/*!
- Date at which the broadcast is (was) scheduled to start.
- */
-@property(nonatomic,strong) NSDate *startDate;
+@interface VVCMSBroadcast : NSObject
 
-/*!
- @name Touch times
- */
-/*!
- Last date at which the broadcast or its meta data was changed.
- */
-@property(nonatomic,strong) NSDate *editDate;
+-(id) initWithDictionary:(NSDictionary*)dict;
 
-/*!
- @name Broadcast rating
- */
+/*! VolarVideo broadcast ID number */
+@property(nonatomic,readonly,strong) NSNumber *ID;
+
+/*! Title of broadcast */
+@property(nonatomic,readonly,strong) NSString *title;
+
+/*! Description of broadcast */
+@property(nonatomic,readonly,strong) NSString *description;
+
+/*! Stream Status */
+@property(nonatomic,readonly,assign) VVCMSBroadcastStatus status;
+
+/*! URL where a thumbnail version of the broadcast's Poster can be found */
+@property(nonatomic,readonly,strong) NSString *thumbnailURL;
+
+/*! Date at which the broadcast is (was) scheduled to start */
+@property(nonatomic,readonly,strong) NSDate *startDate;
+
+/*! Last date at which the broadcast or its meta data was changed */
+@property(nonatomic,readonly,strong) NSDate *editDate;
+
 /*!
  Average rating of this broadcast
  
  #### Availability
  NOT YET AVAILABLE
  */
-@property(nonatomic,assign) double rating;
+@property(nonatomic,readonly,assign) double rating;
+
+/*! YES if broadcast is only available as an audio stream */
+@property(nonatomic,readonly,assign) BOOL audioOnly;
 
 /*!
- YES if broadcast is only available as an audio stream.
- */
-@property(nonatomic,assign) BOOL audioOnly;
-
-/*!
- @name Viewer metrics
- */
-/*!
- The last known viewing position in the broadcast for the currently authenticated user.
+ The last known viewing position in the broadcast for the currently authenticated user
  
  #### Availability
  NOT YET AVAILABLE
  */
-@property(nonatomic,assign) double progress;
+@property(nonatomic,readonly,assign) double progress;
 
-/*!
- The content creator / owner.
- */
-@property(nonatomic,strong) NSString *authorName;
+/*! The content creator / owner */
+@property(nonatomic,readonly,strong) NSString *authorName;
 
-/*!
- YES if the broadcast is live streaming.
- */
-@property(nonatomic,assign) BOOL isStreaming;
+/*! YES if the broadcast is live streaming */
+@property(nonatomic,readonly,assign) BOOL isStreaming;
 
-/*!
- @name Endpoints for content
- */
+/*! URL where the iframe embed can be found */
+@property(nonatomic,readonly,strong) NSString *embedURL;
+
 /*!
  String representing URL of VolarExtended VMAP of broadcast.  Pass this string to [VVMoviePlayerViewController initWithExtendedVMAPURIString:], [VVMoviePlayerViewController initAndStartWithExtendedVMAPURIString:], [VVMoviePlayerController initWithExtendedVMAPURIString:], or [VVMoviePlayerController initAndStartWithExtendedVMAPURIString:] to initialize a VolarVideo broadcast for playback as a movie.
  */
-@property(nonatomic,strong) NSString *vmapURL;
+@property(nonatomic,readonly,strong) NSString *vmapURL;
 
 
 @end

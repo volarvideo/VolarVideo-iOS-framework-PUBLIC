@@ -13,7 +13,7 @@
 
 #define inset 5
 
-@synthesize delegate,customButtonTitle,showsCustomButton;
+@synthesize customButtonTitle,showsCustomButton;
 
 -(id)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
@@ -58,9 +58,9 @@
 }
 
 -(void) setDelegate:(id<B3SearchBarDelegate>)d {
-    delegate=d;
-    if ([delegate respondsToSelector:@selector(customButtonPressedInSearchBar:)])
-        [customBtn addTarget:delegate action:@selector(customButtonPressedInSearchBar:) forControlEvents:UIControlEventTouchUpInside];
+    [super setDelegate:d];
+    if ([self.delegate respondsToSelector:@selector(customButtonPressedInSearchBar:)])
+        [customBtn addTarget:self.delegate action:@selector(customButtonPressedInSearchBar:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 -(void) setCustomButtonTitle:(NSString *)title {
