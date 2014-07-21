@@ -9,11 +9,11 @@
 #ifndef mobileapidev_VVPickerViewDelegate_h
 #define mobileapidev_VVPickerViewDelegate_h
 
-@class VVPickerViewController;
+@class VVSectionPickerViewController;
 
-@protocol VVPickerViewDelegate <NSObject>
+@protocol VVSectionPickerViewDelegate <NSObject>
 @required
--(void) doneWithVVPickerViewController:(VVPickerViewController*)vvPCV;
+-(void) doneWithVVPickerViewController:(VVSectionPickerViewController*)vvPCV;
 @end
 
 

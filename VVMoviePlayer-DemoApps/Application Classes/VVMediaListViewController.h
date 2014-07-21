@@ -17,7 +17,7 @@
 #import "VVSiteListViewController.h"
 
 #import <VVMoviePlayer/VVMoviePlayerViewController.h>
-#import "VVPickerViewController.h"
+#import "VVSectionPickerViewController.h"
 #import "VVDatePickerDelegate.h"
 #import "VVDatePickerViewController.h"
 
@@ -25,7 +25,7 @@
 @interface VVMediaListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate,
     UISearchBarDelegate, UINavigationBarDelegate, B3SearchBarDelegate, \
     UIAlertViewDelegate, VVCMSAPIDelegate, VVSiteListViewControllerDelegate, \
-    VVDomainListDelegate, VVPickerViewDelegate, UIPopoverControllerDelegate,
+    VVDomainListDelegate, VVSectionPickerViewDelegate, UIPopoverControllerDelegate,
     VVDatePickerDelegate> {
 }
 

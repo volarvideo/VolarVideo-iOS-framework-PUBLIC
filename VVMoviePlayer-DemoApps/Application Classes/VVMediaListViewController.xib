@@ -44,12 +44,12 @@
                     <items/>
                 </toolbar>
                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" id="47">
-                    <rect key="frame" x="5" y="443" width="310" height="30"/>
+                    <rect key="frame" x="5" y="443" width="310" height="29"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <segments>
                         <segment title="From Date"/>
                         <segment title="To Date"/>
-                        <segment title="Sport"/>
+                        <segment title="Section"/>
                     </segments>
                     <color key="tintColor" white="0.25" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>

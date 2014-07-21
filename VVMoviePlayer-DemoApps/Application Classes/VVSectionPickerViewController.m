@@ -5,18 +5,14 @@
 //  Copyright 2013 VolarVideo. All rights reserved.
 //
 
-//#import "os3.h"
-#import "VVPickerViewController.h"
-
-//static NSMutableArray *svcBarItems;
+#import "VVSectionPickerViewController.h"
 
 
-@implementation VVPickerViewController
+@implementation VVSectionPickerViewController
 
 @synthesize pv;
 @synthesize viewDelegate;
-@synthesize dataDictionaries,titleKey,valueKey,selectedTitle,selectedValue;
-
+@synthesize sections,selectedSection;
 
 
 - (void)viewDidLoad {
@@ -31,10 +27,6 @@
 	pv.exclusiveTouch=NO;
 }
 
-
-
-
-
 #pragma mark Table view methods
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
@@ -44,18 +36,19 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    if (dataDictionaries!=nil)
-        return [dataDictionaries count];
-    return 0;
+    return [sections count] + 1;
 }
 
 
 // Customize the appearance of table view cells.
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)subRow forComponent:(NSInteger)component {
-    NSString *title = nil;
-    if (dataDictionaries!=nil)
-        title = [[dataDictionaries objectAtIndex:subRow] objectForKey:titleKey];
-	return title;
+    if (subRow == 0)
+        return @"none";
+    if (sections) {
+        VVCMSSection *section = [sections objectAtIndex:subRow-1];
+        return section.title;
+    }
+	return nil;
 }
 
 
@@ -69,8 +62,10 @@
 }
 
 -(IBAction) svcDone: (id) sender {
-    selectedValue = [[dataDictionaries objectAtIndex:currentSelectedIndex] objectForKey:valueKey];
-    selectedTitle = [[dataDictionaries objectAtIndex:currentSelectedIndex] objectForKey:titleKey];
+    if (currentSelectedIndex == 0)
+        selectedSection = nil;
+    else
+        selectedSection = [sections objectAtIndex:currentSelectedIndex-1];
     [viewDelegate doneWithVVPickerViewController:self];
 }
 

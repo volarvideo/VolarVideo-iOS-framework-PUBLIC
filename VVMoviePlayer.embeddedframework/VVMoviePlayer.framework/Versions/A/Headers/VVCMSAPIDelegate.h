@@ -12,13 +12,13 @@
 @class VVCMSAPI;
 
 /*!
- @discussion Completion handlers for asynchronous VVCMSAPI calls.
+ \brief Response handlers for asynchronous VVCMSAPI calls.
  */
 @protocol VVCMSAPIDelegate <NSObject>
 @optional
 
 /*!
- Completion Method for sites list requests
+ Completion method for sites list requests
  @param vvapi The instance of the VVAPI used in the
  @param sites An array of VVCMSSite
  @param page The requested page
@@ -30,7 +30,7 @@
       totalPages:(int)totalPages totalResults:(int)totalResults error:(NSError *)error;
 
 /*!
- Completion Method for broadcasts list requests
+ Completion method for broadcasts list requests
  @param vvapi The instance of the VVAPI used in the
  @param broadcasts An array of VVCMSBroadcast
  @param status The status of the broadcasts contained in the didFinishWithArray: parameter.
@@ -44,7 +44,7 @@
       totalResults:(int)totalResults error:(NSError *)error;
 
 /*!
- Completion Method for slips list requests
+ Completion method for slips list requests
  @param vvapi The instance of the VVAPI used in the
  @param clips An array of VVCMSClip
  @param page The requested page
@@ -56,7 +56,7 @@
       totalPages:(int)totalPages totalResults:(int)totalResults error:(NSError *)error;
 
 /*!
- Completion Method for sections list requests
+ Completion method for sections list requests
  @param vvapi The instance of the VVAPI used in the
  @param sections An array of VVCMSSection
  @param page The requested page

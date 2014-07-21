@@ -75,7 +75,7 @@ typedef NS_ENUM(NSInteger, VVCMSAPISortDirection) {
      */
     vvCMSAPISortDescending=0,
     vvCMSAPISortAscending=1
-} ;
+};
 #endif
 
 /**

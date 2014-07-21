@@ -12,6 +12,7 @@
 
 -(NSString*) applyParams:(NSString*)url;
 
+@property(nonatomic,readwrite,strong) NSString *sites;
 @property(nonatomic,readwrite,strong) NSString *title;
 @property(nonatomic,readwrite,strong) NSNumber *ID;
 @property(nonatomic,readwrite,strong) NSNumber *page;
@@ -26,7 +27,7 @@
 
 -(id) initWithDictionary:(NSDictionary*)dict;
 
-/*! VolarVideo ection ID number */
+/*! VolarVideo section ID number */
 @property(nonatomic,readonly,strong) NSNumber *ID;
 
 /*! Title of section */

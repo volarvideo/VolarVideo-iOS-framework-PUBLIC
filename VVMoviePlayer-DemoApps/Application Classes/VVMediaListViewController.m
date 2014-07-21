@@ -45,34 +45,32 @@ UIView *navBarTapView;
     NSString *siteSlug;
     NSTimer *searchTimer;
     
-    IBOutlet UITableView *tv;
+    VVCMSAPI *api;
     IBOutlet B3SearchBar *searchBar;
     IBOutlet UISegmentedControl *filterSegmentControl;
+    NSDate *fromDate, *toDate;
+    VVCMSBroadcastStatus lastStatusRequested;
+    int currPage,numPages,numResults;
+    BOOL virginloading,loading;
+    UISegmentedControl *segCtrl;
+    int lastSelectedIndex;
+    
+    IBOutlet UITableView *tv;
     UIActivityIndicatorView *footerSpinner;
     VVAppDelegate *appDelegate;
     BOOL visible;
     NSTimer* myTimer;
     UIButton *backButton;
-    UISegmentedControl *segCtrl;
-    int lastSelectedIndex;
-    
-    VVCMSAPI *api;
     
     UIImage *audioImage,*schedImage,*liveImage,*archImage;
     
     NSString *userName,*password;
     
-    VVPickerViewController *svc;
-    NSArray *sections;
-    VVCMSBroadcastStatus lastStatusRequested;
-    int currPage,numPages,numResults;
-    BOOL virginloading,loading;
-    
+    VVSectionPickerViewController *svc;
     VVDatePickerViewController *dpc;
+    NSMutableArray *sections;
 }
 
-@property(nonatomic,assign) enum VVMediaCellType type;
-@property (nonatomic, strong) NSDictionary *settingsDictionary;
 @property (nonatomic, strong) NSMutableArray *broadcasts;
 @property (nonatomic, strong) VVMoviePlayerViewController *moviePlayer;
 @property (nonatomic, strong) IBOutlet UIToolbar *toolbar;
@@ -83,7 +81,7 @@ UIView *navBarTapView;
 
 @implementation VVMediaListViewController
 
-@synthesize settingsDictionary,broadcasts,moviePlayer,toolbar,svpovc,dpcovc;
+@synthesize broadcasts,moviePlayer,toolbar,svpovc,dpcovc;
 
 - (id)init {
     self = [super initWithNibName:NSStringFromClass(self.class) bundle:nil];
@@ -111,7 +109,10 @@ UIView *navBarTapView;
     currPage=0;
     numPages=0;
     numResults=0;
+    sections = [[NSMutableArray alloc] initWithCapacity:5];
     appDelegate = (VVAppDelegate*)[[UIApplication sharedApplication] delegate];
+    fromDate=nil;
+    toDate=nil;
     segCtrl.selectedSegmentIndex = 2;
     
 #if defined(DEMO_APP)
@@ -120,18 +121,8 @@ UIView *navBarTapView;
     domain = @"vcloud.volarvideo.com";
 #endif
     api = [[VVCMSAPI alloc] initWithDomain:domain apiKey:[Globals getAPIKey:domain]];
-    [self getData:1 status:VVCMSBroadcastStatusArchived];
-}
-
--(void)VVCMSAPI:(VVCMSAPI *)vvCmsApi requestForSectionsPage:(int)page resultsPerPage:(int)resultsPerPage didFinishWithArray:(NSArray *)results error:(NSError *)error {
-    if (vvCmsApi==api) {
-        if (error) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not get sections" message:error.localizedDescription delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil];
-            [alert show];
-            return;
-        }
-    }
-    sections = results;
+    [self getSections:1];
+    [self getBroadcasts:1 status:VVCMSBroadcastStatusArchived];
 }
 
 - (void)viewDidLoad
@@ -415,7 +406,7 @@ CGPoint _VVMediaListViewControllerPointBeforeRotate;
     siteSlug = s.slug;
     
     api = [[VVCMSAPI alloc] initWithDomain:domain apiKey:[Globals getAPIKey:domain]];
-    [self getData:1];
+    [self getBroadcasts:1];
 }
 
 -(void) siteSelected:(id)slvc site:(VVCMSSite *)site {
@@ -427,10 +418,10 @@ CGPoint _VVMediaListViewControllerPointBeforeRotate;
     self.spinner.hidden=NO;
     [self.spinner startAnimating];
     siteSlug = site.slug;
-    [self getData:1];
+    [self getBroadcasts:1];
 }
 
--(void) getData:(int)page {
+-(void) getBroadcasts:(int)page {
     VVCMSBroadcastStatus status;
     if (segCtrl.selectedSegmentIndex == 0)
         status = VVCMSBroadcastStatusScheduled;
@@ -438,11 +429,11 @@ CGPoint _VVMediaListViewControllerPointBeforeRotate;
         status = VVCMSBroadcastStatusStreaming;
     else
         status = VVCMSBroadcastStatusArchived;
-    [self getData:page status:status];
+    [self getBroadcasts:page status:status];
 }
 
--(void) getData:(int)page status:(VVCMSBroadcastStatus)status {
-    NSLog(@"getData page=%d", page);
+-(void) getBroadcasts:(int)page status:(VVCMSBroadcastStatus)status {
+    NSLog(@"getBroadcasts page=%d", page);
     loading = YES;
     
     if (page > 1) {
@@ -457,9 +448,41 @@ CGPoint _VVMediaListViewControllerPointBeforeRotate;
         params.title = searchBar.text;
     params.sites = siteSlug;
     params.status = status;
+    if ([svc selectedSection])
+        params.sectionID = [svc selectedSection].ID;
+    if (fromDate)
+        params.after = fromDate;
+    if (toDate)
+        params.before = toDate;
     params.page = [[NSNumber alloc] initWithInt:page];
     params.resultsPerPage = [[NSNumber alloc] initWithInt:kResultsPerPage];
     [api requestBroadcasts:params usingDelegate:self];
+}
+
+-(void) getSections:(int)page {
+    NSLog(@"getSections:%d", page);
+    SectionParams *params = [[SectionParams alloc] init];
+    params.sites = siteSlug;
+    params.page = [[NSNumber alloc] initWithInt:page];
+    params.resultsPerPage = [[NSNumber alloc] initWithInt:kResultsPerPage];
+    [api requestSections:params usingDelegate:self];
+}
+
+- (void)VVCMSAPI:(VVCMSAPI *)vvapi requestForSectionsResult:(NSArray *)results page:(int)page
+      totalPages:(int)totalPages totalResults:(int)totalResults error:(NSError *)error {
+    
+    dispatch_async(dispatch_get_main_queue(), ^(void){
+        if (error) {
+            NSLog(@"Failed to get sections");
+            return;
+        }
+        
+        [sections addObjectsFromArray:results];
+        
+        if (page+1 <= totalPages) {
+            [self getSections:page+1];
+        }
+    });
 }
 
 - (void)VVCMSAPI:(VVCMSAPI *)vvapi requestForBroadcastsResult:(NSArray *)events
@@ -484,7 +507,7 @@ CGPoint _VVMediaListViewControllerPointBeforeRotate;
             [footerSpinner stopAnimating];
             tv.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
         }
-        [self checkPagination];
+        [self checkBroadcastPagination];
     });
 }
 
@@ -524,14 +547,14 @@ CGPoint _VVMediaListViewControllerPointBeforeRotate;
     NSLog(@"selectedIndex=[%d]",sc.selectedSegmentIndex);
     self.spinner.hidden=NO;
     [self.spinner startAnimating];
-    [self getData:1];
+    [self getBroadcasts:1];
 }
 
 
 - (void) reload {
     self.spinner.hidden=NO;
     [self.spinner startAnimating];
-    [self getData:1];
+    [self getBroadcasts:1];
 }
 
 - (void) refreshVisibleCells {
@@ -558,16 +581,16 @@ BOOL _VVMediaListDragging=NO;
             [tv setContentInset:UIEdgeInsetsMake(0, 0, 0, 0)];
     }
     
-    [self checkPagination];
+    [self checkBroadcastPagination];
 }
 
--(void) checkPagination {
+-(void) checkBroadcastPagination {
     NSArray *visCells = [tv indexPathsForVisibleRows];
     if (visCells.count) {
         NSIndexPath *firstPath = [visCells objectAtIndex:0];
         if (!loading && (broadcasts.count-visCells.count) <= (firstPath.row+kResultsPerPage)) {
             if (currPage+1 <= numPages) {
-                [self getData:currPage+1 status:lastStatusRequested];
+                [self getBroadcasts:currPage+1 status:lastStatusRequested];
             }
         }
     }
@@ -728,11 +751,7 @@ VVCMSBroadcast *_VVMediaListViewSelectedBroadcast;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerDidChange:) name:VVVmapPlayerDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
     moviePlayer = [[VVMoviePlayerViewController alloc] initWithExtendedVMAPURIString:vmapString];
-    NSLog(@"moviePlayer=[%@]", moviePlayer);
-    if (self.moviePlayer) {
-        moviePlayer.moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
-        return;
-    } else {
+    if (!self.moviePlayer) {
         [self hideHUD];
     }
 
@@ -753,22 +772,18 @@ VVCMSBroadcast *_VVMediaListViewSelectedBroadcast;
 }
 
 -(void) playerDidChange:(NSNotification*)notification {
-    NSLog(@"playerDidChange");
-    if ([moviePlayer.moviePlayer loadState] == MPMovieLoadStatePlayable)
-        [self launchMovie:moviePlayer];
-    else
+    // Movie player changed and is ready to play
+    if ([moviePlayer.moviePlayer loadState] == MPMovieLoadStatePlayable) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:VVVmapPlayerDidChangeNotification object:nil];
+        
+        // Hide hud and push view controller
         [self hideHUD];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:VVVmapPlayerDidChangeNotification object:nil];
+        [appDelegate.navigationController presentVolarMoviePlayerViewControllerAnimated:moviePlayer];
+    }
 }
 
 -(void) playbackFinished:(NSNotification*)notification {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
-}
-
--(void) launchMovie:(VVMoviePlayerViewController *)mpvc {
-    NSLog(@"launchMovie");
-    [self hideHUD];
-    [appDelegate.navigationController presentVolarMoviePlayerViewControllerAnimated:mpvc];
 }
 
 -(void) customButtonPressedInSearchBar:(B3SearchBar *)searchBar {    
@@ -794,7 +809,7 @@ VVCMSBroadcast *_VVMediaListViewSelectedBroadcast;
 -(void)doDelayedSearch:(NSTimer *)t {
     assert(t == searchTimer);
     searchTimer = nil;
-    [self getData:1];
+    [self getBroadcasts:1];
 }
 
 MBProgressHUD *progressHUD;
@@ -821,33 +836,31 @@ MBProgressHUD *progressHUD;
             case 1: // To Date
                 [self displayDatePicker];
                 break;
-            case 2: // Sport
-                NSLog(@"sport");
-                [self displaySportPicker];
+            case 2: // Section
+                [self displaySectionPicker];
                 break;
         }
     }
 }
 
--(void) doneWithVVPickerViewController:(VVPickerViewController *)vvPCV {
+-(void) doneWithVVPickerViewController:(VVSectionPickerViewController *)vvPCV {
     if (vvPCV==svc) {
-//        if ([svc.selectedValue isEqualToString:@"0"]) {
-//            [filterSegmentControl setTitle:@"Sport" forSegmentAtIndex:2];
-//        } else
-//            [filterSegmentControl setTitle:svc.selectedTitle forSegmentAtIndex:2];
-//        api.section_id = svc.selectedValue;
-//        [self getData:1];
-//        filterSegmentControl.selectedSegmentIndex=-1;
-//        [self retractSportPicker];
+        if (![svc selectedSection]) {
+            [filterSegmentControl setTitle:@"Section" forSegmentAtIndex:2];
+        } else
+            [filterSegmentControl setTitle:svc.selectedSection.title forSegmentAtIndex:2];
+        [self getBroadcasts:1];
+        filterSegmentControl.selectedSegmentIndex=-1;
+        [self retractSectionPicker];
     }
 }
 
--(void) displaySportPicker {
+-(void) displaySectionPicker {
 	CGRect keypadFrame;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         keypadFrame = CGRectMake(0, 0, 320, 260);
         if (svc==nil) {
-            svc = [[VVPickerViewController alloc] initWithNibName:nil bundle:nil];
+            svc = [[VVSectionPickerViewController alloc] initWithNibName:nil bundle:nil];
             svc.contentSizeForViewInPopover = keypadFrame.size;
         }
         if (svpovc==nil) {
@@ -856,18 +869,13 @@ MBProgressHUD *progressHUD;
                 svpovc.delegate = self;
         }
     } else {
-        //      keypadFrame = CGRectMake(0, Global_windowHeight,        320, 260);
         keypadFrame = CGRectMake(0, self.view.frame.size.height,320, 260);
         if (svc==nil) {
-            svc = [[VVPickerViewController alloc] initWithNibName:nil bundle:nil];
+            svc = [[VVSectionPickerViewController alloc] initWithNibName:nil bundle:nil];
             [self.view.window addSubview:svc.view];
         }
     }
-    svc.titleKey=@"title";
-    svc.valueKey=@"id";
-    NSDictionary *sportDict = [NSDictionary dictionaryWithObjectsAndKeys:@"- none -",@"title",@"0",@"id", nil];
-    NSArray *baseArray = [NSArray arrayWithObject:sportDict];
-    svc.dataDictionaries = [baseArray arrayByAddingObjectsFromArray:sections];
+    svc.sections = [NSArray arrayWithArray:sections];
     svc.viewDelegate = self;
     [svc.pv reloadAllComponents];
     
@@ -892,7 +900,7 @@ MBProgressHUD *progressHUD;
 #endif
 }
 
--(void) retractSportPicker {
+-(void) retractSectionPicker {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         [svpovc dismissPopoverAnimated:YES];
     } else {
@@ -977,13 +985,13 @@ MBProgressHUD *progressHUD;
     if (dpc==dpvc) {
         NSString *dateString = [self stringFromDate:dpc.dp.date withFormat:@"MM/dd/yy"];
         if (filterSegmentControl.selectedSegmentIndex==0) {
-//            api.afterDate=dpc.dp.date;
+            fromDate = dpc.dp.date;
             [filterSegmentControl setTitle:dateString forSegmentAtIndex:0];
         } else {
-//            api.beforeDate=dpc.dp.date;
+            toDate = dpc.dp.date;
             [filterSegmentControl setTitle:dateString forSegmentAtIndex:1];
         }
-        [self getData:1];
+        [self getBroadcasts:1];
         filterSegmentControl.selectedSegmentIndex=-1;
         [self retractDatePicker];
     }
@@ -992,13 +1000,13 @@ MBProgressHUD *progressHUD;
 -(void) clearCalledFromVVDatePicker:(VVDatePickerViewController*)dpvc {
     if (dpc==dpvc) {
         if (filterSegmentControl.selectedSegmentIndex==0) {
-//            api.afterDate=nil;
+            fromDate=nil;
             [filterSegmentControl setTitle:@"From Date" forSegmentAtIndex:0];
         } else {
-//            api.beforeDate=nil;
+            toDate=nil;
             [filterSegmentControl setTitle:@"To Date" forSegmentAtIndex:1];
         }
-        [self getData:1];
+        [self getBroadcasts:1];
         filterSegmentControl.selectedSegmentIndex=-1;
         [self retractDatePicker];
     }

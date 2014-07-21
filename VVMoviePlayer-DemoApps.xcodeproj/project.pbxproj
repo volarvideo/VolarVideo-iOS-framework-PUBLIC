@@ -301,12 +301,12 @@
 		B5CE36CA180B2EC100084C3A /* VVSplashViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5CE369A180B2EC100084C3A /* VVSplashViewController.xib */; };
 		B5CE36CB180B2EC100084C3A /* VVSplashViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5CE369A180B2EC100084C3A /* VVSplashViewController.xib */; };
 		B5CE36CC180B2EC100084C3A /* VVSplashViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5CE369A180B2EC100084C3A /* VVSplashViewController.xib */; };
-		B5CE36CD180B2EC100084C3A /* VVPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5CE369D180B2EC100084C3A /* VVPickerViewController.m */; };
-		B5CE36CE180B2EC100084C3A /* VVPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5CE369D180B2EC100084C3A /* VVPickerViewController.m */; };
-		B5CE36CF180B2EC100084C3A /* VVPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5CE369D180B2EC100084C3A /* VVPickerViewController.m */; };
-		B5CE36D0180B2EC100084C3A /* VVPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5CE369E180B2EC100084C3A /* VVPickerViewController.xib */; };
-		B5CE36D1180B2EC100084C3A /* VVPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5CE369E180B2EC100084C3A /* VVPickerViewController.xib */; };
-		B5CE36D2180B2EC100084C3A /* VVPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5CE369E180B2EC100084C3A /* VVPickerViewController.xib */; };
+		B5CE36CD180B2EC100084C3A /* VVSectionPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5CE369D180B2EC100084C3A /* VVSectionPickerViewController.m */; };
+		B5CE36CE180B2EC100084C3A /* VVSectionPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5CE369D180B2EC100084C3A /* VVSectionPickerViewController.m */; };
+		B5CE36CF180B2EC100084C3A /* VVSectionPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5CE369D180B2EC100084C3A /* VVSectionPickerViewController.m */; };
+		B5CE36D0180B2EC100084C3A /* VVSectionPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5CE369E180B2EC100084C3A /* VVSectionPickerViewController.xib */; };
+		B5CE36D1180B2EC100084C3A /* VVSectionPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5CE369E180B2EC100084C3A /* VVSectionPickerViewController.xib */; };
+		B5CE36D2180B2EC100084C3A /* VVSectionPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5CE369E180B2EC100084C3A /* VVSectionPickerViewController.xib */; };
 		B5CE36D3180B2EC100084C3A /* VVDatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5CE36A1180B2EC100084C3A /* VVDatePickerViewController.m */; };
 		B5CE36D4180B2EC100084C3A /* VVDatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5CE36A1180B2EC100084C3A /* VVDatePickerViewController.m */; };
 		B5CE36D5180B2EC100084C3A /* VVDatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5CE36A1180B2EC100084C3A /* VVDatePickerViewController.m */; };
@@ -435,6 +435,8 @@
 		CE28E8EC19391AE90024B7BB /* Icon~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CE28E8E019391AE10024B7BB /* Icon~ipad.png */; };
 		CE28E8F6193CCC800024B7BB /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE28E8F5193CCC800024B7BB /* libTestFlight.a */; };
 		CE33CE0F19786F3800751934 /* VVUserDefaultsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CE33CE0E19786F3800751934 /* VVUserDefaultsHelper.m */; };
+		CE33CE14197D4CD600751934 /* Globals.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0130B519781CF1001D7585 /* Globals.m */; };
+		CE33CE15197D4CDA00751934 /* VVUserDefaultsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CE33CE0E19786F3800751934 /* VVUserDefaultsHelper.m */; };
 		CE92150D192A53B500EEE4B0 /* VVPlayBtnDark.png in Resources */ = {isa = PBXBuildFile; fileRef = B504E8D4180BD71000D3FAB1 /* VVPlayBtnDark.png */; };
 		CE92150E192A53D000EEE4B0 /* audioOnly.png in Resources */ = {isa = PBXBuildFile; fileRef = B504E8B9180BD71000D3FAB1 /* audioOnly.png */; };
 		CE92150F192A53D000EEE4B0 /* audioOnly@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B504E8BA180BD71000D3FAB1 /* audioOnly@2x.png */; };
@@ -652,10 +654,10 @@
 		B5CE3698180B2EC100084C3A /* VVSplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VVSplashViewController.h; sourceTree = "<group>"; };
 		B5CE3699180B2EC100084C3A /* VVSplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VVSplashViewController.m; sourceTree = "<group>"; };
 		B5CE369A180B2EC100084C3A /* VVSplashViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VVSplashViewController.xib; sourceTree = "<group>"; };
-		B5CE369B180B2EC100084C3A /* VVPickerViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VVPickerViewDelegate.h; sourceTree = "<group>"; };
-		B5CE369C180B2EC100084C3A /* VVPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VVPickerViewController.h; sourceTree = "<group>"; };
-		B5CE369D180B2EC100084C3A /* VVPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VVPickerViewController.m; sourceTree = "<group>"; };
-		B5CE369E180B2EC100084C3A /* VVPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VVPickerViewController.xib; sourceTree = "<group>"; };
+		B5CE369B180B2EC100084C3A /* VVSectionPickerViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VVSectionPickerViewDelegate.h; sourceTree = "<group>"; };
+		B5CE369C180B2EC100084C3A /* VVSectionPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VVSectionPickerViewController.h; sourceTree = "<group>"; };
+		B5CE369D180B2EC100084C3A /* VVSectionPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VVSectionPickerViewController.m; sourceTree = "<group>"; };
+		B5CE369E180B2EC100084C3A /* VVSectionPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VVSectionPickerViewController.xib; sourceTree = "<group>"; };
 		B5CE369F180B2EC100084C3A /* VVDatePickerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VVDatePickerDelegate.h; sourceTree = "<group>"; };
 		B5CE36A0180B2EC100084C3A /* VVDatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VVDatePickerViewController.h; sourceTree = "<group>"; };
 		B5CE36A1180B2EC100084C3A /* VVDatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VVDatePickerViewController.m; sourceTree = "<group>"; };
@@ -1154,10 +1156,10 @@
 				B5CE3698180B2EC100084C3A /* VVSplashViewController.h */,
 				B5CE3699180B2EC100084C3A /* VVSplashViewController.m */,
 				B5CE369A180B2EC100084C3A /* VVSplashViewController.xib */,
-				B5CE369B180B2EC100084C3A /* VVPickerViewDelegate.h */,
-				B5CE369C180B2EC100084C3A /* VVPickerViewController.h */,
-				B5CE369D180B2EC100084C3A /* VVPickerViewController.m */,
-				B5CE369E180B2EC100084C3A /* VVPickerViewController.xib */,
+				B5CE369B180B2EC100084C3A /* VVSectionPickerViewDelegate.h */,
+				B5CE369C180B2EC100084C3A /* VVSectionPickerViewController.h */,
+				B5CE369D180B2EC100084C3A /* VVSectionPickerViewController.m */,
+				B5CE369E180B2EC100084C3A /* VVSectionPickerViewController.xib */,
 				B5CE369F180B2EC100084C3A /* VVDatePickerDelegate.h */,
 				B5CE36A0180B2EC100084C3A /* VVDatePickerViewController.h */,
 				B5CE36A1180B2EC100084C3A /* VVDatePickerViewController.m */,
@@ -1479,7 +1481,7 @@
 				CEB5C512195889290019E05B /* slowmoActive.png in Resources */,
 				B504E8E9180BD71000D3FAB1 /* inline-pause.png in Resources */,
 				B5CE36CA180B2EC100084C3A /* VVSplashViewController.xib in Resources */,
-				B5CE36D0180B2EC100084C3A /* VVPickerViewController.xib in Resources */,
+				B5CE36D0180B2EC100084C3A /* VVSectionPickerViewController.xib in Resources */,
 				B5CE36D6180B2EC100084C3A /* VVDatePickerViewController.xib in Resources */,
 				B504E90D180BD71000D3FAB1 /* VVScaleDownBtnLight@2x.png in Resources */,
 				B5CE373B180B311700084C3A /* Default-568h@2x.png in Resources */,
@@ -1638,7 +1640,7 @@
 				B5CE36BF180B2EC100084C3A /* VVDomainList.xib in Resources */,
 				B5CE36C5180B2EC100084C3A /* VVSiteListViewController.xib in Resources */,
 				B5CE36CB180B2EC100084C3A /* VVSplashViewController.xib in Resources */,
-				B5CE36D1180B2EC100084C3A /* VVPickerViewController.xib in Resources */,
+				B5CE36D1180B2EC100084C3A /* VVSectionPickerViewController.xib in Resources */,
 				CEB5C50D195889290019E05B /* rewind30s@2x.png in Resources */,
 				CEB5C511195889290019E05B /* slowmo@2x.png in Resources */,
 				B5CE36D7180B2EC100084C3A /* VVDatePickerViewController.xib in Resources */,
@@ -1722,7 +1724,7 @@
 				B5CE36C0180B2EC100084C3A /* VVDomainList.xib in Resources */,
 				B5CE36C6180B2EC100084C3A /* VVSiteListViewController.xib in Resources */,
 				B5CE36CC180B2EC100084C3A /* VVSplashViewController.xib in Resources */,
-				B5CE36D2180B2EC100084C3A /* VVPickerViewController.xib in Resources */,
+				B5CE36D2180B2EC100084C3A /* VVSectionPickerViewController.xib in Resources */,
 				B5CE36D8180B2EC100084C3A /* VVDatePickerViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1738,6 +1740,7 @@
 				B5CE34DF180B2D1C00084C3A /* VVAppDelegate.m in Sources */,
 				B5CE367B180B2EAE00084C3A /* B3Utils.m in Sources */,
 				B5CE367E180B2EAE00084C3A /* NSArray+Reverse.m in Sources */,
+				CE33CE15197D4CDA00751934 /* VVUserDefaultsHelper.m in Sources */,
 				B5CE3681180B2EAE00084C3A /* UIDevice+Resolution.m in Sources */,
 				B5CE36A3180B2EC100084C3A /* B3BadgeButton.m in Sources */,
 				B5CE36A6180B2EC100084C3A /* VVMediaCell.m in Sources */,
@@ -1747,7 +1750,7 @@
 				B5CE36BB180B2EC100084C3A /* VVDomainList.m in Sources */,
 				B5CE36C1180B2EC100084C3A /* VVSiteListViewController.m in Sources */,
 				B5CE36C7180B2EC100084C3A /* VVSplashViewController.m in Sources */,
-				B5CE36CD180B2EC100084C3A /* VVPickerViewController.m in Sources */,
+				B5CE36CD180B2EC100084C3A /* VVSectionPickerViewController.m in Sources */,
 				B5CE36D3180B2EC100084C3A /* VVDatePickerViewController.m in Sources */,
 				B5CE36E2180B309100084C3A /* JSONKit.m in Sources */,
 				B5CE36E7180B30A300084C3A /* PRPAlertView.m in Sources */,
@@ -1762,6 +1765,7 @@
 				B5CE371D180B30C700084C3A /* SDWebImagePrefetcher.m in Sources */,
 				B5CE3720180B30C700084C3A /* UIButton+WebCache.m in Sources */,
 				B5CE3723180B30C700084C3A /* UIImageView+WebCache.m in Sources */,
+				CE33CE14197D4CD600751934 /* Globals.m in Sources */,
 				B5CE3729180B30F000084C3A /* iToast.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1784,7 +1788,7 @@
 				B5CE36BC180B2EC100084C3A /* VVDomainList.m in Sources */,
 				B5CE36C2180B2EC100084C3A /* VVSiteListViewController.m in Sources */,
 				B5CE36C8180B2EC100084C3A /* VVSplashViewController.m in Sources */,
-				B5CE36CE180B2EC100084C3A /* VVPickerViewController.m in Sources */,
+				B5CE36CE180B2EC100084C3A /* VVSectionPickerViewController.m in Sources */,
 				B5CE36D4180B2EC100084C3A /* VVDatePickerViewController.m in Sources */,
 				B5CE36E3180B309100084C3A /* JSONKit.m in Sources */,
 				B5CE36E8180B30A300084C3A /* PRPAlertView.m in Sources */,
@@ -1821,7 +1825,7 @@
 				B5CE36BD180B2EC100084C3A /* VVDomainList.m in Sources */,
 				B5CE36C3180B2EC100084C3A /* VVSiteListViewController.m in Sources */,
 				B5CE36C9180B2EC100084C3A /* VVSplashViewController.m in Sources */,
-				B5CE36CF180B2EC100084C3A /* VVPickerViewController.m in Sources */,
+				B5CE36CF180B2EC100084C3A /* VVSectionPickerViewController.m in Sources */,
 				B5CE36D5180B2EC100084C3A /* VVDatePickerViewController.m in Sources */,
 				B5CE36E4180B309100084C3A /* JSONKit.m in Sources */,
 				B5CE36E9180B30A300084C3A /* PRPAlertView.m in Sources */,
@@ -1959,7 +1963,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				VALID_ARCHS = "arm64 armv7 armv7s";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
