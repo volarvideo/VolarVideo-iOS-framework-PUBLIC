@@ -16,11 +16,7 @@
 
 @end
 
-@interface VVSiteListViewController : UIViewController <VVCMSAPIDelegate, UISearchBarDelegate> {
-    UIActivityIndicatorView *footerSpinner;
-    BOOL loading;
-    int currPage,numPages,numResults;
-}
+@interface VVSiteListViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,VVCMSAPIDelegate,UISearchBarDelegate>
 
 -(id) initWithDomain:(NSString*)domain;
 

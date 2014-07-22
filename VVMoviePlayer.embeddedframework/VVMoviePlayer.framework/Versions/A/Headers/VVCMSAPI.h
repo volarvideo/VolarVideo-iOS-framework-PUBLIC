@@ -29,7 +29,7 @@ typedef NS_ENUM(NSInteger, vvCMSAPIError) {
 #endif
 
 // hard coded endpoint
-#define kInfoIndex             @"api/mobile/info/index"
+#define kInfoIndex             @"api/player/info/index"
 
 // pagination
 #define kKeyPagination         @"pagination"

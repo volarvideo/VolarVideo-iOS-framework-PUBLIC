@@ -17,6 +17,9 @@
 @interface VVSiteListViewController () {
     VVCMSAPI *api;
     NSMutableArray *sites;
+    UIActivityIndicatorView *footerSpinner;
+    int currPage,numPages,numResults;
+    BOOL _loading;
     NSTimer *searchTimer;
 }
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
@@ -34,7 +37,7 @@
         currPage=0;
         numPages=0;
         numResults=0;
-        loading = false;
+        _loading = false;
         sites = [[NSMutableArray alloc] initWithCapacity:25];
         api = [[VVCMSAPI alloc] initWithDomain:domain apiKey:[Globals getAPIKey:domain]];
     }
@@ -48,13 +51,8 @@
 }
 
 -(void) getData:(int) page {
-    loading = YES;
-    
-    if (page > 1) {
-        _tv.tableFooterView = footerSpinner;
-        [footerSpinner startAnimating];
-    }
     currPage = page;
+    [self setLoading:YES];
     
     SiteParams *params = [[SiteParams alloc] init];
     if (_searchBar.text)
@@ -62,6 +60,19 @@
     params.page = [NSNumber numberWithInt:page];
     params.resultsPerPage = [NSNumber numberWithInt:kResultsPerPage];
     [api requestSites:params usingDelegate:self];
+}
+
+-(void) setLoading:(BOOL)l {
+    _loading = l;
+    
+    if (l) {
+        _tv.tableFooterView = footerSpinner;
+        [footerSpinner startAnimating];
+    }
+    else {
+        [footerSpinner stopAnimating];
+        _tv.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    }
 }
 
 -(void) scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -72,7 +83,7 @@
     NSArray *visCells = [_tv indexPathsForVisibleRows];
     if (visCells.count) {
         NSIndexPath *firstPath = [visCells objectAtIndex:0];
-        if (!loading && (sites.count-visCells.count) <= (firstPath.row+kResultsPerPage)) {
+        if (!_loading && (sites.count-visCells.count) <= (firstPath.row+kResultsPerPage)) {
             if (currPage+1 <= numPages) {
                 [self getData:currPage+1];
             }
@@ -115,12 +126,6 @@
     [self getData:1];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)VVCMSAPI:(VVCMSAPI *)vvapi requestForSitesResult:(NSArray *)s page:(int)page
       totalPages:(int)totalPages totalResults:(int)totalResults error:(NSError *)error {
     NSLog(@"requestForSitesResult page:%d totalPages:%d error:%@", page, totalPages, error);
@@ -139,11 +144,7 @@
 
         [self.tv reloadData];
         
-        loading = NO;
-        if (page > 1) {
-            [footerSpinner stopAnimating];
-            self.tv.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-        }
+        [self setLoading:NO];
         [self checkPagination];
     });
 }

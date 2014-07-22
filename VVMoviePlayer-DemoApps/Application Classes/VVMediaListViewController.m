@@ -51,7 +51,7 @@ UIView *navBarTapView;
     NSDate *fromDate, *toDate;
     VVCMSBroadcastStatus lastStatusRequested;
     int currPage,numPages,numResults;
-    BOOL virginloading,loading;
+    BOOL virginloading,_loading;
     UISegmentedControl *segCtrl;
     int lastSelectedIndex;
     
@@ -103,7 +103,7 @@ UIView *navBarTapView;
 
 -(void) commonInit {
     virginloading = YES;
-    loading = NO;
+    _loading = NO;
     _VVMediaListViewFreshLoad=YES;
     lastSelectedIndex=-1;
     currPage=0;
@@ -434,14 +434,9 @@ CGPoint _VVMediaListViewControllerPointBeforeRotate;
 
 -(void) getBroadcasts:(int)page status:(VVCMSBroadcastStatus)status {
     NSLog(@"getBroadcasts page=%d", page);
-    loading = YES;
-    
-    if (page > 1) {
-        tv.tableFooterView = footerSpinner;
-        [footerSpinner startAnimating];
-    }
-    
     currPage = page;
+    [self setLoading:YES];
+    
     lastStatusRequested = status;
     BroadcastParams *params = [[BroadcastParams alloc] init];
     if (searchBar.text)
@@ -502,11 +497,8 @@ CGPoint _VVMediaListViewControllerPointBeforeRotate;
             [broadcasts removeAllObjects];
             [tv reloadData];
         }
-        loading = NO;
-        if (page > 1) {
-            [footerSpinner stopAnimating];
-            tv.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-        }
+        
+        [self setLoading:NO];
         [self checkBroadcastPagination];
     });
 }
@@ -573,6 +565,19 @@ BOOL _VVMediaListDragging=NO;
     _VVMediaListDragging=YES;
 }
 
+-(void) setLoading:(BOOL)l {
+    _loading = l;
+    
+    if (l) {
+        tv.tableFooterView = footerSpinner;
+        [footerSpinner startAnimating];
+    }
+    else {
+        [footerSpinner stopAnimating];
+        tv.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    }
+}
+
 -(void) scrollViewDidScroll:(UIScrollView *)scrollView {
     if (_VVMediaListDragging) {
         if (scrollView.contentOffset.y<10)
@@ -588,7 +593,7 @@ BOOL _VVMediaListDragging=NO;
     NSArray *visCells = [tv indexPathsForVisibleRows];
     if (visCells.count) {
         NSIndexPath *firstPath = [visCells objectAtIndex:0];
-        if (!loading && (broadcasts.count-visCells.count) <= (firstPath.row+kResultsPerPage)) {
+        if (!_loading && (broadcasts.count-visCells.count) <= (firstPath.row+kResultsPerPage)) {
             if (currPage+1 <= numPages) {
                 [self getBroadcasts:currPage+1 status:lastStatusRequested];
             }
