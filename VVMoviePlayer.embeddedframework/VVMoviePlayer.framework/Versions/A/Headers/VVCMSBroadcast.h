@@ -13,6 +13,8 @@ typedef NS_ENUM(NSInteger, VVCMSBroadcastStatus) {
     VVCMSBroadcastStatusUnknown,
     VVCMSBroadcastStatusScheduled,
     VVCMSBroadcastStatusStreaming,
+    VVCMSBroadcastStatusStopped,
+    VVCMSBroadcastStatusTest,
     VVCMSBroadcastStatusArchived,
     VVCMSBroadcastStatusAll    // used for requests to CMS, never returned
 } ;
@@ -40,6 +42,7 @@ typedef NS_ENUM(NSInteger, VVCMSBroadcastStatus) {
 #define kKeyBroadcastStatusScheduled  @"scheduled"
 #define kKeyBroadcastStatusStreaming  @"streaming"
 #define kKeyBroadcastStatusStopped    @"stopped"
+#define kKeyBroadcastStatusTest       @"test"
 #define kKeyBroadcastStatusArchived   @"archived"
 #define kKeyBroadcastID               @"id"
 #define kKeyBroadcastTitle            @"title"

@@ -16,14 +16,16 @@
 #import "B3Utils.h"
 #import "VVUserDefaultsHelper.h"
 #import "VVSplashViewController.h"
+#import <VVMoviePlayer/UIViewController+VVMoviePlayerViewController.h>
 
-@implementation VVAppDelegate
+@implementation VVAppDelegate {
+    VVMoviePlayerViewController *moviePlayer;
+}
 
 @synthesize managedObjectContext = __managedObjectContext;
 @synthesize managedObjectModel = __managedObjectModel;
 @synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
 @synthesize navigationController = _navigationController;
-@synthesize moviePlayer;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
@@ -70,19 +72,18 @@
     if (moviePlayer) {
         [moviePlayer startVMAP:[url description]];
         vmapString=nil;
-        return YES;
 #else
     if (listViewController) {
+        [self.navigationController dismissVolarMoviePlayerViewControllerAnimated];
         [listViewController startVMAP:[url description]];
         vmapString=nil;
-        return YES;
 #endif
     } else {
         NSLog(@"DOH!!!!");
-        return YES;
     }
+        
+    return YES;
 }
-    
     
 - (void) finishedLoadingBroadcastsWithError:(NSError *)error {
     

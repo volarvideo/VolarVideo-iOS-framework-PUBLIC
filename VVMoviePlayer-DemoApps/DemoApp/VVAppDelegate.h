@@ -26,7 +26,6 @@
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 @property (strong, nonatomic) UINavigationController *navigationController;
-@property (nonatomic, strong) VVMoviePlayerViewController *moviePlayer;
 
 -(void) finishedLoadingBroadcastsWithError:(NSError *)error;
 

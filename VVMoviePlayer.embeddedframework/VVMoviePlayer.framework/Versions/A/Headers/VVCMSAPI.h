@@ -30,6 +30,7 @@ typedef NS_ENUM(NSInteger, vvCMSAPIError) {
 
 // hard coded endpoint
 #define kInfoIndex             @"api/player/info/index"
+#define kAuthLogin             @"api/auth/login"
 
 // pagination
 #define kKeyPagination         @"pagination"
@@ -105,11 +106,15 @@ typedef NS_ENUM(NSInteger, VVCMSAPISortDirection) {
 - (id)initWithDomain:(NSString*)domain apiKey:(NSString*)apiKey;
 
 /*!
- This method should be called when you are finished with an instance of
- VVCMSAPI.  This will prevent any unfinished request from calling
- their delegate methods and ignore future requests.
+ Creates a new VVCMSAPI for the provided domain and user credentials
  */
-- (void)shutdown;
+- (id)initWithDomain:(NSString*)domain username:(NSString*)uname password:(NSString*)pwd;
+
+/*!
+ Once the instance of VVCMSAPI has verified the provided credentials, the
+ delegate's checkCredendtialsComplete method will be called
+ */
+- (void) checkCredentialsUsingDelegate:(id<VVCMSAPIDelegate>)delegate;
 
 /*!
  @name Request data with search parameters

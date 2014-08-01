@@ -45,6 +45,8 @@ UIView *navBarTapView;
     NSString *siteSlug;
     NSTimer *searchTimer;
     
+    VVMoviePlayerViewController *moviePlayer;
+    
     VVCMSAPI *api;
     IBOutlet B3SearchBar *searchBar;
     IBOutlet UISegmentedControl *filterSegmentControl;
@@ -72,7 +74,6 @@ UIView *navBarTapView;
 }
 
 @property (nonatomic, strong) NSMutableArray *broadcasts;
-@property (nonatomic, strong) VVMoviePlayerViewController *moviePlayer;
 @property (nonatomic, strong) IBOutlet UIToolbar *toolbar;
 @property(nonatomic, strong) UIPopoverController *svpovc, *dpcovc;
 @property(nonatomic,strong) IBOutlet UIActivityIndicatorView *spinner;
@@ -81,7 +82,7 @@ UIView *navBarTapView;
 
 @implementation VVMediaListViewController
 
-@synthesize broadcasts,moviePlayer,toolbar,svpovc,dpcovc;
+@synthesize broadcasts,toolbar,svpovc,dpcovc;
 
 - (id)init {
     self = [super initWithNibName:NSStringFromClass(self.class) bundle:nil];
@@ -215,10 +216,9 @@ UIView *navBarTapView;
 -(void) backButtonPress {
     if (_VVMediaListViewControllerToast)
         [_VVMediaListViewControllerToast hideToast:nil];
-//    [APIDataLoader showHUDWithMessage:@"Returning..."];
     [self performSelector:@selector(popViewController) withObject:nil afterDelay:0.1];
-    if (self.moviePlayer) {
-        self.moviePlayer=nil;
+    if (moviePlayer) {
+        moviePlayer=nil;
     }
 }
 
@@ -752,11 +752,15 @@ VVCMSBroadcast *_VVMediaListViewSelectedBroadcast;
 }
 
 -(void) delayedStartVMAP:(NSString*)vmapString {
-    moviePlayer = nil;
+    if (moviePlayer) {
+        moviePlayer=nil;
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:VVVmapPlayerDidChangeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
+    }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerDidChange:) name:VVVmapPlayerDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
     moviePlayer = [[VVMoviePlayerViewController alloc] initWithExtendedVMAPURIString:vmapString];
-    if (!self.moviePlayer) {
+    if (!moviePlayer) {
         [self hideHUD];
     }
 
